@@ -23,9 +23,8 @@ struct PhysicsCategories {
 
 class Level00: SKScene, SKPhysicsContactDelegate {
     
+    //Bottone che apre il menu di pausa
     let pauseButton = SKSpriteNode(imageNamed: "Pause")
-
-    let goBackLabel = SKLabelNode(text: "Go Back")
     
     //Definisco i nodi che creano la stanza di gioco
     let room = SKSpriteNode(imageNamed: "Level0-Room1")
@@ -34,9 +33,16 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let topBarrier = SKSpriteNode(imageNamed: "Level0-Room1-TopBarrier")
     let leftBarrier = SKSpriteNode(imageNamed: "Level0-Room1-LeftBarrier")
     let lowerDoor = SKSpriteNode(imageNamed: "Level0-Room1-LowerDoor")
-    var tappedObject: Bool = false
+    let wardrobe = SKSpriteNode(imageNamed: "Level0-Room1-Wardrobe")
+    let wardrobeCollider = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeCollider")
+    let wardrobeTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeTransparencyCollider")
+    let wardrobeShadow = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeShadow")
     
-    let gameArea: CGRect
+    
+    let box2andShadow = SKSpriteNode(imageNamed: "Level0-Room1-Box2AndShadow")
+    let box2Single = SKSpriteNode(imageNamed: "Level0-Room1-Box2part2")
+    let box2Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box2Collider")
+    let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Box2TransparencyCollider")
     
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
@@ -45,16 +51,24 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let characterAvatar = SKSpriteNode(imageNamed: "Character")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
     
-    let object = SKSpriteNode(imageNamed: "PlayerBox")
-    
-    
+    //Variabili usate per il movimento del personaggio
     var move: Bool = false
     var moveSingle: Bool = false
     var location = CGPoint.zero
     
+    //Variabili usate per gestire le collisioni con gli oggetti della stanza
+    var wardrobeCollided: Bool = false
+    var box2Collided: Bool = false
+    
+    //Camera di gioco
     let cameraNode = SKCameraNode()
     
+    //Variabili per testare delle cose DA CANCELLARE IN SEGUITO
     let squareTest1 = SKShapeNode(rectOf: CGSize(width: 100,height: 100))
+    var tappedObject: Bool = false
+    let object = SKSpriteNode(imageNamed: "PlayerBox")
+    
+    let gameArea: CGRect
     
     override init(size: CGSize) {
       let playableHeight = size.width
@@ -79,6 +93,14 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(topBarrier)
         addChild(leftBarrier)
         addChild(lowerDoor)
+        addChild(wardrobe)
+        addChild(wardrobeCollider)
+        addChild(wardrobeShadow)
+        addChild(wardrobeTransparencyCollider)
+        addChild(box2andShadow)
+        addChild(box2Single)
+        addChild(box2Collider)
+        addChild(box2TransparencyCollider)
         
 //        worldGroup.addChild(room)
 //        worldGroup.addChild(rightBarrier)
@@ -93,19 +115,19 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(characterFeetCollider)
 
         
-        object.xScale = 0.2
-        object.yScale = 0.2
-        object.zPosition = 4
-        object.position = CGPoint(x: size.width * 0.4, y: size.height * 0.4)
-        object.physicsBody = SKPhysicsBody(texture: object.texture!, size: object.size)
-        object.physicsBody?.affectedByGravity = false
-        object.physicsBody?.restitution = 0
-        object.physicsBody?.allowsRotation = false
-        object.physicsBody?.isDynamic = false
-        object.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        object.name = "tappedObject"
-      
-        addChild(object)
+        //Testing interazione con gli oggetti, DA CANCELLARE IN SEGUITO
+//        object.xScale = 0.2
+//        object.yScale = 0.2
+//        object.zPosition = 4
+//        object.position = CGPoint(x: size.width * 0.4, y: size.height * 0.4)
+//        object.physicsBody = SKPhysicsBody(texture: object.texture!, size: object.size)
+//        object.physicsBody?.affectedByGravity = false
+//        object.physicsBody?.restitution = 0
+//        object.physicsBody?.allowsRotation = false
+//        object.physicsBody?.isDynamic = false
+//        object.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+//        object.name = "tappedObject"
+//        addChild(object)
         
         //Aggiungo la camera di gioco
         addChild(cameraNode)
@@ -120,6 +142,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
         
+        
+        //Testing della trasparenza dietro un ogetto, DA CANCELLARE IN SEGUITO
         //        squareTest1.position = CGPoint(x: size.width*0.8,y: size.height*0.3)
         //        squareTest1.fillColor = .black
         //        squareTest1.strokeColor = .black
@@ -260,7 +284,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //Vado poi a centrare la camera sul personaggio
         cameraNode.position = characterAvatar.position
         
-//        checkCollisions()
+        //Funzione che controlla le intersezioni tra gli oggetti
+        checkCollisions()
         
     
     }
@@ -272,9 +297,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         //Se la collisione che si è verificata ha come protagonisti il personaggio e la porta sul lato inferiore della stanza allora avvia la transizione alla nuova stanza
         if(contactA == "player" || contactB == "player"){
-            print("Contact")
             if(contactA == "lowerDoor" || contactB == "lowerDoor"){
-                print("Collision between the two")
                 //TO DO: transizione verso la nuova stanza
                 let room2 = Level00_2(size: size)
                 view?.presentScene(room2)
@@ -283,22 +306,31 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     }
     
     func checkCollisions(){
-//        if(characterFeetCollider.frame.intersects(self.squareTest1.frame)){
-//            print("Intersection")
-////            squareTest1.zPosition = 5
-////            player.zPosition = 10
-//            print(squareTest1.position.x)
-//            print(characterAvatar.position.x)
-//            if(squareTest1.position.x > characterAvatar.position.x){
-//                squareTest1.alpha = 0.2
-//            } else {
-//                squareTest1.alpha = 1
-//                characterAvatar.zPosition = 10
-//            }
-//
-//        } else {
-//            squareTest1.alpha = 1
-//        }
+        //Verifico se ci sono state collisioni tra il personaggio e il collider che gestisce la trasparenza dell'armadio
+        if(characterFeetCollider.frame.intersects(self.wardrobeTransparencyCollider.frame)){
+            wardrobeCollided = true
+            wardrobe.alpha = 0.3
+            characterAvatar.alpha = 0.85
+        } else {
+            //Quando la collisione finisce resetto i valori di trasparenza, uso la variabile wadrobeCollided così non eseguo sempre queste azioni, ma solamente se c'è stata una modifica a questi valori in precedenza, se quindi il personaggio è andato dietro all'armadio e ora ne sta uscendo
+            if(wardrobeCollided){
+                wardrobeCollided = false
+                wardrobe.alpha = 1
+                characterAvatar.alpha = 1
+            }
+        }
+        
+        if(characterFeetCollider.frame.intersects(self.box2TransparencyCollider.frame)){
+            box2Collided = true
+            box2Single.alpha = 0.3
+            characterAvatar.alpha = 0.85
+        } else {
+            if(box2Collided){
+               box2Collided = false
+                box2Single.alpha = 1
+                characterAvatar.alpha = 1
+            }
+        }
     }
     
     //Funzione per creare definire le impostazioni dei nodi della stanza
@@ -370,6 +402,54 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         lowerDoor.physicsBody?.isDynamic = false
         lowerDoor.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
         lowerDoor.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        //Impostazioni riguardanti il guardaroba ed il suo collider
+        wardrobeCollider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        wardrobeCollider.xScale = 0.4
+        wardrobeCollider.yScale = 0.4
+        wardrobeCollider.alpha = 0.01
+        wardrobeCollider.physicsBody = SKPhysicsBody(texture: wardrobeCollider.texture!, size: wardrobeCollider.size)
+        wardrobeCollider.physicsBody?.affectedByGravity = false
+        wardrobeCollider.physicsBody?.restitution = 0
+        wardrobeCollider.physicsBody?.allowsRotation = false
+        wardrobeCollider.physicsBody?.isDynamic = false
+        wardrobeCollider.zPosition = 3
+        wardrobe.position = CGPoint(x: size.width*1.05, y: size.height*0.42)
+        wardrobe.xScale = 0.4
+        wardrobe.yScale = 0.4
+        wardrobe.zPosition = 3
+        wardrobeShadow.position = CGPoint(x: size.width*1.05, y: size.height*0.42)
+        wardrobeShadow.xScale = 0.4
+        wardrobeShadow.yScale = 0.4
+        wardrobeShadow.zPosition = 3
+        wardrobeTransparencyCollider.position = CGPoint(x: size.width*0.93, y: size.height*0.33)
+        wardrobeTransparencyCollider.xScale = 0.4
+        wardrobeTransparencyCollider.yScale = 0.4
+        wardrobeTransparencyCollider.zPosition = 3
+        wardrobeTransparencyCollider.alpha = 0.01
+        //Impostazioni riguardanti le scatole in alto
+        box2andShadow.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        box2andShadow.xScale = 0.4
+        box2andShadow.yScale = 0.4
+        box2andShadow.zPosition = 3
+        box2Single.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        box2Single.xScale = 0.4
+        box2Single.yScale = 0.4
+        box2Single.zPosition = 3
+        box2Collider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        box2Collider.xScale = 0.4
+        box2Collider.yScale = 0.4
+        box2Collider.alpha = 0.01
+        box2Collider.physicsBody = SKPhysicsBody(texture: box2Collider.texture!, size: box2Collider.size)
+        box2Collider.physicsBody?.affectedByGravity = false
+        box2Collider.physicsBody?.restitution = 0
+        box2Collider.physicsBody?.allowsRotation = false
+        box2Collider.physicsBody?.isDynamic = false
+        box2Collider.zPosition = 3
+        box2TransparencyCollider.position = CGPoint(x: size.width*0.37, y: size.height*0.41)
+        box2TransparencyCollider.xScale = 0.4
+        box2TransparencyCollider.yScale = 0.4
+        box2TransparencyCollider.zPosition = 3
+        box2TransparencyCollider.alpha = 1
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
         characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
