@@ -33,6 +33,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     
     var WorldGroup = SKSpriteNode()
     
+    var tappedObject: Bool = false
+    var moveSingle: Bool = false
+    var move: Bool = false
+    var location = CGPoint.zero
+    
+    
     let cameraNode = SKCameraNode()
     
     let gameArea: CGRect
@@ -51,6 +57,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     
     
     override func didMove(to view: SKView) {
+        roomSetUp()
         addChild(room)
         addChild(doorLF)
         addChild(doorRT)
@@ -78,5 +85,265 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
         
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard let touch = touches.first else{
+            return
+        }
+        let touchLocation = touch.location(in: self)
+        let touchedNode = atPoint(touchLocation)
+        
+        if(touchedNode.name == "goToMenu"){
+            musicHandler.instance.stopLevelBackgroundMusic()
+            let gameScene = GameScene(size: size)
+            view?.presentScene(gameScene)
+        }
+        
+        if(touchedNode.name == "pause"){
+            self.isPaused = true
+            if(PauseMenuHandler.instance.firstSet == false){
+                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
+                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
+                PauseMenuHandler.instance.languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
+                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
+                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
+            }
+            PauseMenuHandler.instance.initializeNodeSettings()
+            cameraNode.addChild(PauseMenuHandler.instance.pauseSquare)
+            cameraNode.addChild(PauseMenuHandler.instance.backgroundPause)
+            cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            cameraNode.addChild(PauseMenuHandler.instance.closePauseMenu)
+            cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
+            cameraNode.addChild(PauseMenuHandler.instance.languageButton)
+        }
+        
+        if(touchedNode.name == "volumeOff"){
+            if(musicHandler.instance.mutedMusic == false){
+                PauseMenuHandler.instance.volumeOnButton.alpha = 0.5
+                PauseMenuHandler.instance.volumeOffButton.alpha = 1
+                musicHandler.instance.muteBackgroundMusic()
+            }
+        }
+        
+        if(touchedNode.name == "volumeOn"){
+            if(musicHandler.instance.mutedMusic == true){
+                PauseMenuHandler.instance.volumeOnButton.alpha = 1
+                PauseMenuHandler.instance.volumeOffButton.alpha = 0.5
+                musicHandler.instance.unmuteBackgroundMusic()
+            }
+        }
+        if(touchedNode.name == "closePause"){
+            PauseMenuHandler.instance.languageButton.removeFromParent()
+            PauseMenuHandler.instance.backgroundPause.removeFromParent()
+            PauseMenuHandler.instance.pauseSquare.removeFromParent()
+            PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+            PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            PauseMenuHandler.instance.goBackToMenu.removeFromParent()
+            PauseMenuHandler.instance.closePauseMenu.removeFromParent()
+            self.isPaused = false
+        }
+        
+        if(touchLocation != characterFeetCollider.position){
+            location = touchLocation
+            moveSingle = true
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        moveSingle = false
+        move = true
+        for touch in touches {
+            location = touch.location(in: self)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        move = false
+        moveSingle = false
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        if(move || moveSingle){
+            if(location.x > characterFeetCollider.position.x) {
+                characterFeetCollider.position.x += 0.8
+                if(location.y > characterFeetCollider.position.y){
+                    characterFeetCollider.position.y += 0.8
+                    
+                } else if(location.y < characterFeetCollider.position.y){
+                    characterFeetCollider.position.y -= 0.8
+                }
+            } else if (location.x < characterFeetCollider.position.x){
+                characterFeetCollider.position.x -= 0.8
+                if(location.y > characterFeetCollider.position.y){
+                    characterFeetCollider.position.y += 0.8
+                    
+                } else if(location.y < characterFeetCollider.position.y){
+                    characterFeetCollider.position.y -= 0.8
+                }
+            } else if (location.y > characterFeetCollider.position.y){
+                characterFeetCollider.position.y += 0.8
+            } else if (location.y < characterFeetCollider.position.y){
+                characterFeetCollider.position.y -= 0.8
+            }
+        }
+        characterAvatar.position = characterFeetCollider.position
+        cameraNode.position = characterAvatar.position
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let contactA = contact.bodyA.node?.name
+        let contactB = contact.bodyB.node?.name
+        
+       
+        if(contactA == "player" || contactB == "player"){
+            if(contactA == "doorColliderTopRT" || contactB == "doorColliderTopRT"){
+                let room4 = Level00_4(size: size)
+                view?.presentScene(room4)
+                if(contactA == "doorColliderTopLF" || contactB == "doorColliderTopLF"){
+                    let room2 = Level00_2(size: size)
+                    view?.presentScene(room2)
+                }
+            }
+        }
+    }
+    
+    
+    
+    func roomSetUp(){
+        room.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        room.xScale = 0.4
+        room.yScale = 0.4
+        room.zPosition = -1
+        
+        barrierDownRT.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierDownRT.xScale = 0.4
+        barrierDownRT.yScale = 0.4
+        barrierDownRT.physicsBody = SKPhysicsBody(texture: barrierDownRT.texture!, size: barrierDownRT.size)
+        barrierDownRT.physicsBody?.affectedByGravity = false
+        barrierDownRT.physicsBody?.restitution = 0
+        barrierDownRT.physicsBody?.allowsRotation = false
+        barrierDownRT.physicsBody?.isDynamic = false
+        barrierDownRT.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrierDownRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrierDownRT.alpha = 0.01
+        barrierDownRT.name = "outerBarrier"
+        
+        barrierDownLF.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierDownLF.xScale = 0.4
+        barrierDownLF.yScale = 0.4
+        barrierDownLF.physicsBody = SKPhysicsBody(texture: barrierDownLF.texture!, size: barrierDownLF.size)
+        barrierDownLF.physicsBody?.affectedByGravity = false
+        barrierDownLF.physicsBody?.restitution = 0
+        barrierDownLF.physicsBody?.allowsRotation = false
+        barrierDownLF.physicsBody?.isDynamic = false
+        barrierDownLF.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrierDownLF.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrierDownLF.alpha = 0.01
+        barrierDownLF.name = "outerBarrier"
+        
+        barrierTopRT.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierTopRT.xScale = 0.4
+        barrierTopRT.yScale = 0.4
+        barrierTopRT.physicsBody = SKPhysicsBody(texture: barrierTopRT.texture!, size: barrierTopRT.size)
+        barrierTopRT.physicsBody?.affectedByGravity = false
+        barrierTopRT.physicsBody?.restitution = 0
+        barrierTopRT.physicsBody?.allowsRotation = false
+        barrierTopRT.physicsBody?.isDynamic = false
+        barrierTopRT.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrierTopRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrierTopRT.alpha = 0.01
+        barrierTopRT.name = "outerBarrier"
+        
+        barrierTopLF.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierTopLF.xScale = 0.4
+        barrierTopLF.yScale = 0.4
+        barrierTopLF.physicsBody = SKPhysicsBody(texture: barrierTopLF.texture!, size: barrierTopLF.size)
+        barrierTopLF.physicsBody?.affectedByGravity = false
+        barrierTopLF.physicsBody?.restitution = 0
+        barrierTopLF.physicsBody?.allowsRotation = false
+        barrierTopLF.physicsBody?.isDynamic = false
+        barrierTopLF.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrierTopLF.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrierTopLF.alpha = 0.01
+        barrierTopLF.name = "outerBarrier"
+        
+        characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
+        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
+        characterAvatar.xScale = 0.5
+        characterAvatar.yScale = 0.5
+        characterAvatar.zPosition = 5
+        characterAvatar.name = "player"
+        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        characterFeetCollider.xScale = 0.5
+        characterFeetCollider.yScale = 0.5
+        characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
+        characterFeetCollider.physicsBody?.affectedByGravity = false
+        characterFeetCollider.physicsBody?.restitution = 0
+        characterFeetCollider.physicsBody?.allowsRotation = false
+        characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
+        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
+        characterFeetCollider.name = "player"
+        
+        pauseButton.name = "pause"
+        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
+        pauseButton.zPosition = 20
+        pauseButton.xScale = 0.2
+        pauseButton.yScale = 0.2
+        
+        doorColliderTopRT.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
+        doorColliderTopRT.name = "doorColliderTopRT"
+        doorColliderTopRT.alpha = 0.01
+        doorColliderTopRT.xScale = 0.4
+        doorColliderTopRT.yScale = 0.4
+        doorColliderTopRT.physicsBody = SKPhysicsBody(texture: doorColliderTopRT.texture!, size: doorColliderTopRT.size)
+        doorColliderTopRT.physicsBody?.affectedByGravity = false
+        doorColliderTopRT.physicsBody?.restitution = 0
+        doorColliderTopRT.physicsBody?.allowsRotation = false
+        doorColliderTopRT.physicsBody?.isDynamic = false
+        doorColliderTopRT.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
+        doorColliderTopRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        
+        doorColliderTopLF.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
+        doorColliderTopLF.name = "doorColliderTopLF"
+        doorColliderTopLF.alpha = 0.01
+        doorColliderTopLF.xScale = 0.4
+        doorColliderTopLF.yScale = 0.4
+        doorColliderTopLF.physicsBody = SKPhysicsBody(texture: doorColliderTopLF.texture!, size: doorColliderTopLF.size)
+        doorColliderTopLF.physicsBody?.affectedByGravity = false
+        doorColliderTopLF.physicsBody?.restitution = 0
+        doorColliderTopLF.physicsBody?.allowsRotation = false
+        doorColliderTopLF.physicsBody?.isDynamic = false
+        doorColliderTopLF.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
+        doorColliderTopLF.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        
+
+        doorRT.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
+        doorRT.name = "doorRT"
+        doorRT.alpha = 0.01
+        doorRT.xScale = 0.4
+        doorRT.yScale = 0.4
+        
+        doorLF.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
+        doorLF.name = "doorLF"
+        doorLF.alpha = 0.01
+        doorLF.xScale = 0.4
+        doorLF.yScale = 0.4
+ 
+        armachair.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        armachair.xScale = 0.4
+        armachair.yScale = 0.4
+        armachair.zPosition = 3
+        
+        lamp.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        lamp.xScale = 0.4
+        lamp.yScale = 0.4
+        lamp.zPosition = 3
+        
+        books.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        books.xScale = 0.4
+        books.yScale = 0.4
+        books.zPosition = 3
     }
 }

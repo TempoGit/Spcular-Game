@@ -6,3 +6,10 @@
 //
 
 import Foundation
+import SpriteKit
+
+
+
+class Level00_4: SKScene, SKPhysicsContactDelegate{
+    
+}
