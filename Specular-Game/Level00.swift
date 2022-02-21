@@ -17,57 +17,36 @@ import AVFoundation
 struct PhysicsCategories {
     static let Player : UInt32 = 0x1 << 0
     static let MapEdge : UInt32 = 0x1 << 1
+    static let LowerDoor : UInt32 = 0x1 << 2
 //    static let Redball : UInt32 = 0x1 << 2
 }
 
 class Level00: SKScene, SKPhysicsContactDelegate {
     
-    
-    let closePauseMenu = SKLabelNode(text: "Close pause menu")
-    let goBackToMenu = SKLabelNode(text: "Go back to main menu")
-    let languageButton = SKLabelNode(text: "Language Button")
-    let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
-    let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
-    let backgroundPause = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-    let pauseSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.7, height: UIScreen.main.bounds.size.height*0.4))
-    
     let pauseButton = SKSpriteNode(imageNamed: "Pause")
-//    var backgroundMusicPlayer: AVAudioPlayer!
 
     let goBackLabel = SKLabelNode(text: "Go Back")
     
-    let room1 = SKSpriteNode(imageNamed: "Room 1")
-    
-    let barrier1 = SKSpriteNode(imageNamed: "BarrierRight")
-    let barrier2 = SKSpriteNode(imageNamed: "BarrierDown")
-    let barrier3 = SKSpriteNode(imageNamed: "BarrierUp")
-    let barrier4 = SKSpriteNode(imageNamed: "BarrierLeft")
-//    let lowerDoor = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.04, height: UIScreen.main.bounds.size.height*0.1))
-    let lowerDoor = SKSpriteNode(imageNamed: "Lower")
-    let music = SKAction.playSoundFileNamed("academy", waitForCompletion: false)
+    //Definisco i nodi che creano la stanza di gioco
+    let room = SKSpriteNode(imageNamed: "Level0-Room1")
+    let rightBarrier = SKSpriteNode(imageNamed: "Level0-Room1-RightBarrier")
+    let lowerBarrier = SKSpriteNode(imageNamed: "Level0-Room1-LowerBarrier")
+    let topBarrier = SKSpriteNode(imageNamed: "Level0-Room1-TopBarrier")
+    let leftBarrier = SKSpriteNode(imageNamed: "Level0-Room1-LeftBarrier")
+    let lowerDoor = SKSpriteNode(imageNamed: "Level0-Room1-LowerDoor")
     var tappedObject: Bool = false
     
     let gameArea: CGRect
     
-    override init(size: CGSize) {
-      let playableHeight = size.width
-      let playableMargin = (size.height-playableHeight)/2.0
-        gameArea = CGRect(x: 0, y: playableMargin,
-                                width: size.width,
-                                height: playableHeight)
-          super.init(size: size)
-        }
-        required init(coder aDecoder: NSCoder) {
-          fatalError("init(coder:) has not been implemented")
-        }
-    
-    
+    //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
     
-    let object = SKSpriteNode(imageNamed: "PlayerBox")
-    let player = SKSpriteNode()
+    //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
     let characterAvatar = SKSpriteNode(imageNamed: "Character")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
+    
+    let object = SKSpriteNode(imageNamed: "PlayerBox")
+    
     
     var move: Bool = false
     var moveSingle: Bool = false
@@ -77,114 +56,43 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     
     let squareTest1 = SKShapeNode(rectOf: CGSize(width: 100,height: 100))
     
+    override init(size: CGSize) {
+      let playableHeight = size.width
+      let playableMargin = (size.height-playableHeight)/2.0
+        gameArea = CGRect(x: 0, y: playableMargin,
+                                width: size.width,
+                                height: playableHeight)
+          super.init(size: size)
+    }
+        required init(coder aDecoder: NSCoder) {
+          fatalError("init(coder:) has not been implemented")
+    }
+    
     override func didMove(to view: SKView) {
-        room1.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        room1.xScale = 0.8
-        room1.yScale = 0.8
-//        room1.zPosition = 1
-        
-        
-//        lowerDoor.position = CGPoint(x: size.width*0.24, y:size.height*0.2)
-        lowerDoor.position = CGPoint(x: size.width*0.17, y: size.height*0.2)
-        lowerDoor.name = "lowerDoor"
-        lowerDoor.alpha = 0.01
-//        lowerDoor.fillColor = .black
-//        lowerDoor.strokeColor = .black
-//        lowerDoor.zRotation = 3.14 * 55 / 180
-        lowerDoor.xScale = 0.8
-        lowerDoor.yScale = 0.8
-        barrier1.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        barrier1.xScale = 0.8
-        barrier1.yScale = 0.8
-        barrier1.physicsBody = SKPhysicsBody(texture: barrier1.texture!, size: barrier1.size)
-        barrier1.physicsBody?.affectedByGravity = false
-        barrier1.physicsBody?.restitution = 0
-        barrier1.physicsBody?.allowsRotation = false
-        barrier1.physicsBody?.isDynamic = false
-        barrier1.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrier1.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrier1.alpha = 0.01
-        barrier1.name = "outerBarrier"
-        barrier2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        barrier2.xScale = 0.8
-        barrier2.yScale = 0.8
-        barrier2.physicsBody = SKPhysicsBody(texture: barrier2.texture!, size: barrier2.size)
-        barrier2.physicsBody?.affectedByGravity = false
-        barrier2.physicsBody?.restitution = 0
-        barrier2.physicsBody?.allowsRotation = false
-        barrier2.physicsBody?.isDynamic = false
-        barrier2.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrier2.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrier2.alpha = 0.01
-        barrier2.name = "outerBarrier"
-        barrier3.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        barrier3.xScale = 0.8
-        barrier3.yScale = 0.8
-        barrier3.physicsBody = SKPhysicsBody(texture: barrier3.texture!, size: barrier3.size)
-        barrier3.physicsBody?.affectedByGravity = false
-        barrier3.physicsBody?.restitution = 0
-        barrier3.physicsBody?.allowsRotation = false
-        barrier3.physicsBody?.isDynamic = false
-        barrier3.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrier3.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrier3.alpha = 0.01
-        barrier3.name = "outerBarrier"
-        barrier4.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        barrier4.xScale = 0.8
-        barrier4.yScale = 0.8
-        barrier4.physicsBody = SKPhysicsBody(texture: barrier4.texture!, size: barrier4.size)
-        barrier4.physicsBody?.affectedByGravity = false
-        barrier4.physicsBody?.restitution = 0
-        barrier4.physicsBody?.allowsRotation = false
-        barrier4.physicsBody?.isDynamic = false
-        barrier4.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrier4.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrier4.alpha = 0.01
-        barrier4.name = "outerBarrier"
+        //Per non imputtanire troppo il codice, metto le impostazioni più lunghe in un'altra funzione definita sempre nella classe e la richiamo qui, così almeno sembra un po' più pulito
+        roomSetup()
 
-        
-        worldGroup.addChild(room1)
-        worldGroup.addChild(barrier1)
-        worldGroup.addChild(barrier2)
-        worldGroup.addChild(barrier3)
-        worldGroup.addChild(barrier4)
-     
-//        worldGroup.addChild(lowerDoor)
-        addChild(worldGroup)
+        //Inserisco poi gli oggetti effettivamente nella scena
+        addChild(room)
+        addChild(rightBarrier)
+        addChild(lowerBarrier)
+        addChild(topBarrier)
+        addChild(leftBarrier)
         addChild(lowerDoor)
         
-        characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
-        characterAvatar.xScale = 0.5
-        characterAvatar.yScale = 0.5
-        characterAvatar.zPosition = 5
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
-        characterFeetCollider.xScale = 0.5
-        characterFeetCollider.yScale = 0.5
-        characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
-        characterFeetCollider.physicsBody?.affectedByGravity = false
-        characterFeetCollider.physicsBody?.restitution = 0
-        characterFeetCollider.physicsBody?.allowsRotation = false
-//        characterFeetCollider.physicsBody?.isDynamic = false
-        characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
-        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
+//        worldGroup.addChild(room)
+//        worldGroup.addChild(rightBarrier)
+//        worldGroup.addChild(lowerBarrier)
+//        worldGroup.addChild(topBarrier)
+//        worldGroup.addChild(leftBarrier)
+//        worldGroup.addChild(lowerDoor)
+        
+//        addChild(worldGroup)
+        
         addChild(characterAvatar)
         addChild(characterFeetCollider)
+
         
-//        player.addChild(characterFeetCollider)
-//        player.addChild(characterAvatar)
-//        player.addChild(characterFeetCollider)
-        player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
-//        player.xScale = 0.12
-//        player.yScale = 0.12
-//        player.physicsBody = SKPhysicsBody(texture: player.texture!, size: player.size)
-//        player.physicsBody?.affectedByGravity = false
-//        player.physicsBody?.restitution = 0
-//        player.physicsBody?.allowsRotation = false
-//        player.physicsBody?.isDynamic = false
-//        player.physicsBody?.categoryBitMask = PhysicsCategories.Player
-//        player.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
-//        object.physicsBody = SKPhysicsBody(texture: object.texture!, size: object.size)
         object.xScale = 0.2
         object.yScale = 0.2
         object.zPosition = 4
@@ -194,45 +102,38 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         object.physicsBody?.restitution = 0
         object.physicsBody?.allowsRotation = false
         object.physicsBody?.isDynamic = false
-//        object.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
         object.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         object.name = "tappedObject"
       
         addChild(object)
-        player.name = "playerName"
-//        player.zPosition = 3
-        addChild(player)
         
+        //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
-        cameraNode.position = characterAvatar.position
-
-        
-        pauseButton.name = "pause"
-        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
-        pauseButton.zPosition = 20
-        pauseButton.xScale = 0.2
-        pauseButton.yScale = 0.2
+        //Aggiungo il bottonr per aprire il menu di pausa alla camera di gioco
         cameraNode.addChild(pauseButton)
         
-        squareTest1.position = CGPoint(x: size.width*0.8,y: size.height*0.3)
-        squareTest1.fillColor = .black
-        squareTest1.strokeColor = .black
-        squareTest1.name = "posa"
-        addChild(squareTest1)
         
+        //Avvio la musica del livello
         musicHandler.instance.playBackgroundMusic()
         
+        //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
         
+        //        squareTest1.position = CGPoint(x: size.width*0.8,y: size.height*0.3)
+        //        squareTest1.fillColor = .black
+        //        squareTest1.strokeColor = .black
+        //        squareTest1.name = "posa"
+        //        addChild(squareTest1)
     }
     
-    
+    //Funzione che rileva il tocco
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard let touch = touches.first else {
             return
         }
         
+        //Ricavo la posizione sullo schermo del tocco e di eventuali nodi toccati
         let touchLocation = touch.location(in: self)
         let touchedNode = atPoint(touchLocation)
 
@@ -246,81 +147,62 @@ class Level00: SKScene, SKPhysicsContactDelegate {
        
         }
         
+        //Se scelgo dal menu di pausa di tornare indietro, fermo la musica del livello e torno al menu principale
         if(touchedNode.name == "goToMenu"){
             musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
         }
+        //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
+        //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
         if(touchedNode.name == "pause"){
             self.isPaused = true
-            closePauseMenu.zPosition = 102
-            closePauseMenu.fontSize = 26
-            closePauseMenu.fontColor = .white
-            closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
-            closePauseMenu.name = "closePause"
-            goBackToMenu.zPosition = 102
-            goBackToMenu.fontSize = 26
-            goBackToMenu.fontColor = .white
-            goBackToMenu.name = "goToMenu"
-            goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
-            languageButton.zPosition = 102
-            languageButton.fontSize = 26
-            languageButton.fontColor = .white
-            languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
-            volumeOffButton.xScale = 0.2
-            volumeOffButton.yScale = 0.2
-            volumeOffButton.name = "volumeOff"
-            volumeOffButton.zPosition = 102
-            volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
-            volumeOnButton.xScale = 0.2
-            volumeOnButton.yScale = 0.2
-            volumeOnButton.name = "volumeOn"
-            volumeOnButton.zPosition = 102
-            volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
-            if(musicHandler.instance.mutedMusic){
-                volumeOnButton.alpha = 0.5
-                volumeOffButton.alpha = 1
-            } else if(!musicHandler.instance.mutedMusic) {
-                volumeOnButton.alpha = 1
-                volumeOffButton.alpha = 0.5
+            if(PauseMenuHandler.instance.firstSet == false){
+                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
+                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
+                PauseMenuHandler.instance.languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
+                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
+                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
             }
-            pauseSquare.fillColor = .black
-            pauseSquare.strokeColor = .black
-            pauseSquare.zPosition = 101
-            backgroundPause.fillColor = .black
-            backgroundPause.strokeColor = .black
-            backgroundPause.alpha = 0.6
-            backgroundPause.zPosition = 100
-            backgroundPause.name = "closePause"
-            cameraNode.addChild(pauseSquare)
-            cameraNode.addChild(backgroundPause)
-            cameraNode.addChild(volumeOnButton)
-            cameraNode.addChild(volumeOffButton)
-            cameraNode.addChild(closePauseMenu)
-            cameraNode.addChild(goBackToMenu)
-            cameraNode.addChild(languageButton)
+            PauseMenuHandler.instance.initializeNodeSettings()
+            cameraNode.addChild(PauseMenuHandler.instance.pauseSquare)
+            cameraNode.addChild(PauseMenuHandler.instance.backgroundPause)
+            cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            cameraNode.addChild(PauseMenuHandler.instance.closePauseMenu)
+            cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
+            cameraNode.addChild(PauseMenuHandler.instance.languageButton)
         }
+        //Se clicco il botton per disattivare il volume e la musica non è già disattivata allora quello che faccio è impostare la trasparenza per i bottoni della musica nel menu di pausa e dopodichè chiamo la funzione sulla classe musicHandler che si occupa di disattivare il volume della musica
         if(touchedNode.name == "volumeOff"){
-            volumeOnButton.alpha = 0.5
-            volumeOffButton.alpha = 1
-            musicHandler.instance.muteBackgroundMusic()
+            if(musicHandler.instance.mutedMusic == false){
+                PauseMenuHandler.instance.volumeOnButton.alpha = 0.5
+                PauseMenuHandler.instance.volumeOffButton.alpha = 1
+                musicHandler.instance.muteBackgroundMusic()
+            }
         }
+        //Se clicco il bottone per attivare il volume e la musica non è già attivata allora quello che faccio è impostare la trasparenza per i bottoni della musica nel menu di apusa e dopodichè chiamo la funzione sulla classe musicHandler che si occupa di attivare il volume della musica
         if(touchedNode.name == "volumeOn"){
-            volumeOnButton.alpha = 1
-            volumeOffButton.alpha = 0.5
-            musicHandler.instance.unmuteBackgroundMusic()
+            if(musicHandler.instance.mutedMusic == true){
+                PauseMenuHandler.instance.volumeOnButton.alpha = 1
+                PauseMenuHandler.instance.volumeOffButton.alpha = 0.5
+                musicHandler.instance.unmuteBackgroundMusic()
+            }
         }
+        //Se clicco il bottone per chiudere il menu di pausa rimuovo tutti gli oggetti che compongono il menu di pausa dal cameraNode e rimuovo la pausa dalla scena di gioco
         if(touchedNode.name == "closePause"){
-            languageButton.removeFromParent()
-            backgroundPause.removeFromParent()
-            pauseSquare.removeFromParent()
-            volumeOnButton.removeFromParent()
-            volumeOffButton.removeFromParent()
-            goBackToMenu.removeFromParent()
-            closePauseMenu.removeFromParent()
+            PauseMenuHandler.instance.languageButton.removeFromParent()
+            PauseMenuHandler.instance.backgroundPause.removeFromParent()
+            PauseMenuHandler.instance.pauseSquare.removeFromParent()
+            PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+            PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            PauseMenuHandler.instance.goBackToMenu.removeFromParent()
+            PauseMenuHandler.instance.closePauseMenu.removeFromParent()
             self.isPaused = false
         }
-        if(touchLocation != player.position){
+        //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
+        //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
+        if(touchLocation != characterFeetCollider.position){
             location = touchLocation
             moveSingle = true
         }
@@ -328,8 +210,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        player.removeAllActions()
         tappedObject = true
+        
+        //Per fare la transizione dal tocco singolo al tocco continuo, quando viene rilevato il tocco continuo, imposto la variabile moveSingle a false, in modo che il movimento col semplice tap si interrompa e poi metto la variabile move a true, così facendo avvio il movimento del personaggio col tocco continuo dello schermo
+        //Tengo continuamente traccia di dove sto toccando lo schermo tramite il for ed assegnando il valore della posizione del tocco alla variabile "location", così facendo posso usare il valore del tocco anche al di fuori di questa funzione, in particolare lo uso nella funzione di "update"
         moveSingle = false
         move = true
         for touch in touches {
@@ -338,15 +222,16 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
         move = false
         moveSingle = false
-
-       
     }
     
     override func update(_ currentTime: TimeInterval) {
         
-        
+        //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
+        //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
+        //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(move || moveSingle){
             if(location.x > characterFeetCollider.position.x) {
                 characterFeetCollider.position.x += 0.8
@@ -370,38 +255,144 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 characterFeetCollider.position.y -= 0.8
             }
         }
+        //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
         characterAvatar.position = characterFeetCollider.position
+        //Vado poi a centrare la camera sul personaggio
         cameraNode.position = characterAvatar.position
-        checkCollisions()
+        
+//        checkCollisions()
         
     
     }
     
-    func checkCollisions(){
-        if(characterFeetCollider.frame.intersects(self.squareTest1.frame)){
-            print("Intersection")
-//            squareTest1.zPosition = 5
-//            player.zPosition = 10
-            print(squareTest1.position.x)
-            print(characterAvatar.position.x)
-            if(squareTest1.position.x > characterAvatar.position.x){
-                squareTest1.alpha = 0.2
-            } else {
-                squareTest1.alpha = 1
-                characterAvatar.zPosition = 10
+    //Funzione che controlla le collisioni tra i nodi che hanno physics object come proprietà
+    func didBegin(_ contact: SKPhysicsContact) {
+        let contactA = contact.bodyA.node?.name
+        let contactB = contact.bodyB.node?.name
+        
+        //Se la collisione che si è verificata ha come protagonisti il personaggio e la porta sul lato inferiore della stanza allora avvia la transizione alla nuova stanza
+        if(contactA == "player" || contactB == "player"){
+            print("Contact")
+            if(contactA == "lowerDoor" || contactB == "lowerDoor"){
+                print("Collision between the two")
+                //TO DO: transizione verso la nuova stanza
+                let room2 = Level00_2(size: size)
+                view?.presentScene(room2)
             }
-            
-        } else {
-            squareTest1.alpha = 1
         }
-        
-        if(characterFeetCollider.frame.intersects(lowerDoor.frame)){
-            print(lowerDoor.position)
-            print(characterFeetCollider.position)
-            print("Collision")
-            let newRoom = Level00_2(size: size)
-            view?.presentScene(newRoom)
-        }
-        
+    }
+    
+    func checkCollisions(){
+//        if(characterFeetCollider.frame.intersects(self.squareTest1.frame)){
+//            print("Intersection")
+////            squareTest1.zPosition = 5
+////            player.zPosition = 10
+//            print(squareTest1.position.x)
+//            print(characterAvatar.position.x)
+//            if(squareTest1.position.x > characterAvatar.position.x){
+//                squareTest1.alpha = 0.2
+//            } else {
+//                squareTest1.alpha = 1
+//                characterAvatar.zPosition = 10
+//            }
+//
+//        } else {
+//            squareTest1.alpha = 1
+//        }
+    }
+    
+    //Funzione per creare definire le impostazioni dei nodi della stanza
+    func roomSetup(){
+        //Impostazioni relativa alla stanza in quanto background
+        room.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        room.xScale = 0.4
+        room.yScale = 0.4
+        room.zPosition = 1
+        //Impostazioni relative alle barriere che creano i confini della stanza
+        rightBarrier.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        rightBarrier.xScale = 0.4
+        rightBarrier.yScale = 0.4
+        rightBarrier.physicsBody = SKPhysicsBody(texture: rightBarrier.texture!, size: rightBarrier.size)
+        rightBarrier.physicsBody?.affectedByGravity = false
+        rightBarrier.physicsBody?.restitution = 0
+        rightBarrier.physicsBody?.allowsRotation = false
+        rightBarrier.physicsBody?.isDynamic = false
+        rightBarrier.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        rightBarrier.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        rightBarrier.alpha = 0.01
+        rightBarrier.name = "outerBarrier"
+        lowerBarrier.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        lowerBarrier.xScale = 0.4
+        lowerBarrier.yScale = 0.4
+        lowerBarrier.physicsBody = SKPhysicsBody(texture: lowerBarrier.texture!, size: lowerBarrier.size)
+        lowerBarrier.physicsBody?.affectedByGravity = false
+        lowerBarrier.physicsBody?.restitution = 0
+        lowerBarrier.physicsBody?.allowsRotation = false
+        lowerBarrier.physicsBody?.isDynamic = false
+        lowerBarrier.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        lowerBarrier.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        lowerBarrier.alpha = 0.01
+        lowerBarrier.name = "outerBarrier"
+        topBarrier.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        topBarrier.xScale = 0.4
+        topBarrier.yScale = 0.4
+        topBarrier.physicsBody = SKPhysicsBody(texture: topBarrier.texture!, size: topBarrier.size)
+        topBarrier.physicsBody?.affectedByGravity = false
+        topBarrier.physicsBody?.restitution = 0
+        topBarrier.physicsBody?.allowsRotation = false
+        topBarrier.physicsBody?.isDynamic = false
+        topBarrier.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        topBarrier.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        topBarrier.alpha = 0.01
+        topBarrier.name = "outerBarrier"
+        leftBarrier.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        leftBarrier.xScale = 0.4
+        leftBarrier.yScale = 0.4
+        leftBarrier.physicsBody = SKPhysicsBody(texture: leftBarrier.texture!, size: leftBarrier.size)
+        leftBarrier.physicsBody?.affectedByGravity = false
+        leftBarrier.physicsBody?.restitution = 0
+        leftBarrier.physicsBody?.allowsRotation = false
+        leftBarrier.physicsBody?.isDynamic = false
+        leftBarrier.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        leftBarrier.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        leftBarrier.alpha = 0.01
+        leftBarrier.name = "outerBarrier"
+        //Imposto il collider per il cambio stanza della porta in basso
+        lowerDoor.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
+        lowerDoor.name = "lowerDoor"
+        lowerDoor.alpha = 0.01
+        lowerDoor.xScale = 0.4
+        lowerDoor.yScale = 0.4
+        lowerDoor.physicsBody = SKPhysicsBody(texture: lowerDoor.texture!, size: lowerDoor.size)
+        lowerDoor.physicsBody?.affectedByGravity = false
+        lowerDoor.physicsBody?.restitution = 0
+        lowerDoor.physicsBody?.allowsRotation = false
+        lowerDoor.physicsBody?.isDynamic = false
+        lowerDoor.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
+        lowerDoor.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
+        characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
+        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
+        characterAvatar.xScale = 0.5
+        characterAvatar.yScale = 0.5
+        characterAvatar.zPosition = 5
+        characterAvatar.name = "player"
+        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        characterFeetCollider.xScale = 0.5
+        characterFeetCollider.yScale = 0.5
+        characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
+        characterFeetCollider.physicsBody?.affectedByGravity = false
+        characterFeetCollider.physicsBody?.restitution = 0
+        characterFeetCollider.physicsBody?.allowsRotation = false
+        characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
+        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
+        characterFeetCollider.name = "player"
+        //TO DO: Far partire il personaggio da vicino alla porta in alto
+        //Impostazioni riguardanti il bottone che apre il menu di pausa
+        pauseButton.name = "pause"
+        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
+        pauseButton.zPosition = 20
+        pauseButton.xScale = 0.2
+        pauseButton.yScale = 0.2
     }
 }

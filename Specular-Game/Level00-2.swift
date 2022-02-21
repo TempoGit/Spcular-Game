@@ -152,71 +152,40 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         }
         if(touchedNode.name == "pause"){
             self.isPaused = true
-            closePauseMenu.zPosition = 102
-            closePauseMenu.fontSize = 26
-            closePauseMenu.fontColor = .white
-            closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
-            closePauseMenu.name = "closePause"
-            goBackToMenu.zPosition = 102
-            goBackToMenu.fontSize = 26
-            goBackToMenu.fontColor = .white
-            goBackToMenu.name = "goToMenu"
-            goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
-            languageButton.zPosition = 102
-            languageButton.fontSize = 26
-            languageButton.fontColor = .white
-            languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
-            volumeOffButton.xScale = 0.2
-            volumeOffButton.yScale = 0.2
-            volumeOffButton.name = "volumeOff"
-            volumeOffButton.zPosition = 102
-            volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
-            volumeOnButton.xScale = 0.2
-            volumeOnButton.yScale = 0.2
-            volumeOnButton.name = "volumeOn"
-            volumeOnButton.zPosition = 102
-            volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
-            if(musicHandler.instance.mutedMusic){
-                volumeOnButton.alpha = 0.5
-                volumeOffButton.alpha = 1
-            } else if(!musicHandler.instance.mutedMusic) {
-                volumeOnButton.alpha = 1
-                volumeOffButton.alpha = 0.5
+            if(PauseMenuHandler.instance.firstSet == false){
+                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
+                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
+                PauseMenuHandler.instance.languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
+                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
+                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
             }
-            pauseSquare.fillColor = .black
-            pauseSquare.strokeColor = .black
-            pauseSquare.zPosition = 101
-            backgroundPause.fillColor = .black
-            backgroundPause.strokeColor = .black
-            backgroundPause.alpha = 0.6
-            backgroundPause.zPosition = 100
-            backgroundPause.name = "closePause"
-            cameraNode.addChild(pauseSquare)
-            cameraNode.addChild(backgroundPause)
-            cameraNode.addChild(volumeOnButton)
-            cameraNode.addChild(volumeOffButton)
-            cameraNode.addChild(closePauseMenu)
-            cameraNode.addChild(goBackToMenu)
-            cameraNode.addChild(languageButton)
+            PauseMenuHandler.instance.initializeNodeSettings()
+            cameraNode.addChild(PauseMenuHandler.instance.pauseSquare)
+            cameraNode.addChild(PauseMenuHandler.instance.backgroundPause)
+            cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            cameraNode.addChild(PauseMenuHandler.instance.closePauseMenu)
+            cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
+            cameraNode.addChild(PauseMenuHandler.instance.languageButton)
         }
         if(touchedNode.name == "volumeOff"){
-            volumeOnButton.alpha = 0.5
-            volumeOffButton.alpha = 1
+            PauseMenuHandler.instance.volumeOnButton.alpha = 0.5
+            PauseMenuHandler.instance.volumeOffButton.alpha = 1
             musicHandler.instance.muteBackgroundMusic()
         }
         if(touchedNode.name == "volumeOn"){
-            volumeOnButton.alpha = 1
-            volumeOffButton.alpha = 0.5
+            PauseMenuHandler.instance.volumeOnButton.alpha = 1
+            PauseMenuHandler.instance.volumeOffButton.alpha = 0.5
             musicHandler.instance.unmuteBackgroundMusic()
         }
         if(touchedNode.name == "closePause"){
-            languageButton.removeFromParent()
-            backgroundPause.removeFromParent()
-            pauseSquare.removeFromParent()
-            volumeOnButton.removeFromParent()
-            volumeOffButton.removeFromParent()
-            goBackToMenu.removeFromParent()
-            closePauseMenu.removeFromParent()
+            PauseMenuHandler.instance.languageButton.removeFromParent()
+            PauseMenuHandler.instance.backgroundPause.removeFromParent()
+            PauseMenuHandler.instance.pauseSquare.removeFromParent()
+            PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+            PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            PauseMenuHandler.instance.goBackToMenu.removeFromParent()
+            PauseMenuHandler.instance.closePauseMenu.removeFromParent()
             self.isPaused = false
         }
     }
