@@ -87,7 +87,8 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
-        
+     
+        previousRoom = "Room3"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -257,13 +258,10 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         
        
         if(contactA == "player" || contactB == "player"){
-            print("Collisione")
             if(contactA == "doorColliderTopRT" || contactB == "doorColliderTopRT"){
                 let room4 = Level00_4(size: size)
                 view?.presentScene(room4)
-                
             } else if(contactA == "doorColliderTopLF" || contactB == "doorColliderTopLF"){
-                print("Porta a sx")
                 let room2 = Level00_2(size: size)
                 view?.presentScene(room2)
             }
@@ -331,12 +329,15 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         barrierTopLF.name = "outerBarrier"
         
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        if(previousRoom == "Room2"){
+            characterFeetCollider.position = CGPoint(x: size.width*0,y: size.height*0.35)
+        }else {
+            characterFeetCollider.position = CGPoint(x: size.width*1.18,y: size.height*0.27)
+        }
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)

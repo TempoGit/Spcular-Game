@@ -16,6 +16,8 @@ import SwiftUI
 let walkingAnimationFrames: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
 let walkingAnimation: SKAction = SKAction.animate(with: walkingAnimationFrames, timePerFrame: 0.2)
 
+var previousRoom: String = "Room1"
+
 
 struct PhysicsCategories {
     static let Player : UInt32 = 0x1 << 0
@@ -146,6 +148,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
+        
+        previousRoom = "Room1"
     }
     
     //Funzione che rileva il tocco
@@ -557,12 +561,16 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         box1TransparencyColliderRight.alpha = 0.01
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        if(previousRoom == "Room2"){
+            characterFeetCollider.position = CGPoint(x: size.width*0.27,y: size.height*0.15)
+        } else {
+            characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        }
+        characterFeetCollider.position = CGPoint(x: size.width*0.62,y: size.height*0.38)
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)

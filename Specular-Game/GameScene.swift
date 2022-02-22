@@ -7,21 +7,11 @@
 
 
 
-/*
-
- 
-            GIGGINO GRANDE GRANDE
-            
-            Piccolo piccolo
- 
- 
- */
-
 import SpriteKit
 import GameplayKit
 import SwiftUI
 
-//Changed
+
 
 class GameScene: SKScene {
     

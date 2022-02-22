@@ -64,130 +64,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
-        room2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        room2.xScale = 0.4
-        room2.yScale = 0.4
-        
-        lamp.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
-        lamp.xScale = 0.4
-        lamp.yScale = 0.4
-        
-        bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
-        bookshelf.xScale = 0.4
-        bookshelf.yScale = 0.4
-        
-        door.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
-        door.xScale = 0.4
-        door.yScale = 0.4
-        door.zPosition = 7
-        
-        
-        characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*1.1,y: size.height*0.24)
-        characterAvatar.name = "player"
-        characterAvatar.xScale = 0.5
-        characterAvatar.yScale = 0.5
-        characterAvatar.zPosition = 8
-        
-        characterFeetCollider.position = CGPoint(x: size.width*1.1,y: size.height*0.25)
-        characterFeetCollider.name = "player"
-        characterFeetCollider.xScale = 0.5
-        characterFeetCollider.yScale = 0.5
-        characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
-        characterFeetCollider.physicsBody?.affectedByGravity = false
-        characterFeetCollider.physicsBody?.restitution = 0
-        characterFeetCollider.physicsBody?.allowsRotation = false
-        characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
-        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.LowerDoor
-        player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
-        
-        barrieraPortaSu.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-//        barrieraGIU.zRotation = 0
-        barrieraPortaSu.name = "PortaSu"
-        barrieraPortaSu.xScale = 0.4
-        barrieraPortaSu.yScale = 0.4
-        barrieraPortaSu.physicsBody = SKPhysicsBody(texture: barrieraPortaSu.texture!, size: barrieraPortaSu.size)
-        barrieraPortaSu.physicsBody?.affectedByGravity = false
-        barrieraPortaSu.physicsBody?.restitution = 0
-        barrieraPortaSu.physicsBody?.allowsRotation = false
-        barrieraPortaSu.physicsBody?.isDynamic = false
-        barrieraPortaSu.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
-        barrieraPortaSu.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraPortaSu.alpha = 0.01
-        
-        barrieraPortaDx.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-//        barrieraGIU.zRotation = 0
-        barrieraPortaDx.name = "PortaDx"
-        barrieraPortaDx.xScale = 0.4
-        barrieraPortaDx.yScale = 0.4
-        barrieraPortaDx.physicsBody = SKPhysicsBody(texture: barrieraPortaDx.texture!, size: barrieraPortaDx.size)
-        barrieraPortaDx.physicsBody?.affectedByGravity = false
-        barrieraPortaDx.physicsBody?.restitution = 0
-        barrieraPortaDx.physicsBody?.allowsRotation = false
-        barrieraPortaDx.physicsBody?.isDynamic = false
-        barrieraPortaDx.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
-        barrieraPortaDx.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraPortaDx.alpha = 0.01
-        
-        barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-//        barrieraGIU.zRotation = 0
-        barrieraGIU.xScale = 0.4
-        barrieraGIU.yScale = 0.4
-        barrieraGIU.physicsBody = SKPhysicsBody(texture: barrieraGIU.texture!, size: barrieraGIU.size)
-        barrieraGIU.physicsBody?.affectedByGravity = false
-        barrieraGIU.physicsBody?.restitution = 0
-        barrieraGIU.physicsBody?.allowsRotation = false
-        barrieraGIU.physicsBody?.isDynamic = false
-        barrieraGIU.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrieraGIU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraGIU.alpha = 0.01
-        barrieraGIU.name = "outerBarrier"
-//
-        barrieraDX.position = CGPoint(x: size.width/2, y: size.height/2)
-        barrieraDX.xScale = 0.4
-        barrieraDX.yScale = 0.4
-        barrieraDX.physicsBody = SKPhysicsBody(texture: barrieraDX.texture!, size: barrieraDX.size)
-        barrieraDX.physicsBody?.affectedByGravity = false
-        barrieraDX.physicsBody?.restitution = 0
-        barrieraDX.physicsBody?.allowsRotation = false
-        barrieraDX.physicsBody?.isDynamic = false
-        barrieraDX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrieraDX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraDX.alpha = 0.01
-        barrieraDX.name = "outerBarrier"
-        
-        barrieraSX.position = CGPoint(x: size.width / 2, y: size.height / 2)
-        barrieraSX.xScale = 0.4
-        barrieraSX.yScale = 0.4
-        barrieraSX.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
-        barrieraSX.physicsBody?.affectedByGravity = false
-        barrieraSX.physicsBody?.restitution = 0
-        barrieraSX.physicsBody?.allowsRotation = false
-        barrieraSX.physicsBody?.isDynamic = false
-        barrieraSX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrieraSX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraSX.alpha = 0.01
-        barrieraSX.name = "outerBarrier"
-        
-        barrieraSU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        barrieraSU.xScale = 0.4
-        barrieraSU.yScale = 0.4
-        barrieraSU.physicsBody = SKPhysicsBody(texture: barrieraSU.texture!, size: barrieraSU.size)
-        barrieraSU.physicsBody?.affectedByGravity = false
-        barrieraSU.physicsBody?.restitution = 0
-        barrieraSU.physicsBody?.allowsRotation = false
-        barrieraSU.physicsBody?.isDynamic = false
-        barrieraSU.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrieraSU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraSU.alpha = 0.01
-        barrieraSU.name = "outerBarrier"
-        
-        pauseButton.name = "pause"
-        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
-        pauseButton.zPosition = 20
-        pauseButton.xScale = 0.2
-        pauseButton.yScale = 0.2
-        cameraNode.addChild(pauseButton)
+        roomSetup()
         
         
         worldGroup.addChild(room2)
@@ -210,6 +87,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
+        
+        previousRoom = "Room2"
     }
     
     
@@ -389,7 +268,135 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     
     func roomSetup(){
+        room2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        room2.xScale = 0.4
+        room2.yScale = 0.4
         
+        lamp.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        lamp.xScale = 0.4
+        lamp.yScale = 0.4
+        
+        bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        bookshelf.xScale = 0.4
+        bookshelf.yScale = 0.4
+        
+        door.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        door.xScale = 0.4
+        door.yScale = 0.4
+        door.zPosition = 7
+        
+        
+        characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
+        characterAvatar.name = "player"
+        characterAvatar.xScale = 0.5
+        characterAvatar.yScale = 0.5
+        characterAvatar.zPosition = 8
+        
+        if(previousRoom == "Room1"){
+            characterFeetCollider.position = CGPoint(x: size.width*1.1,y: size.height*0.25)
+        } else {
+            characterFeetCollider.position = CGPoint(x: size.width*0.86, y: size.height*0.13)
+        }
+        
+        
+        characterFeetCollider.name = "player"
+        characterFeetCollider.xScale = 0.5
+        characterFeetCollider.yScale = 0.5
+        characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
+        characterFeetCollider.physicsBody?.affectedByGravity = false
+        characterFeetCollider.physicsBody?.restitution = 0
+        characterFeetCollider.physicsBody?.allowsRotation = false
+        characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
+        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.LowerDoor
+        player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
+        
+        barrieraPortaSu.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
+//        barrieraGIU.zRotation = 0
+        barrieraPortaSu.name = "PortaSu"
+        barrieraPortaSu.xScale = 0.4
+        barrieraPortaSu.yScale = 0.4
+        barrieraPortaSu.physicsBody = SKPhysicsBody(texture: barrieraPortaSu.texture!, size: barrieraPortaSu.size)
+        barrieraPortaSu.physicsBody?.affectedByGravity = false
+        barrieraPortaSu.physicsBody?.restitution = 0
+        barrieraPortaSu.physicsBody?.allowsRotation = false
+        barrieraPortaSu.physicsBody?.isDynamic = false
+        barrieraPortaSu.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
+        barrieraPortaSu.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraPortaSu.alpha = 0.01
+        
+        barrieraPortaDx.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
+//        barrieraGIU.zRotation = 0
+        barrieraPortaDx.name = "PortaDx"
+        barrieraPortaDx.xScale = 0.4
+        barrieraPortaDx.yScale = 0.4
+        barrieraPortaDx.physicsBody = SKPhysicsBody(texture: barrieraPortaDx.texture!, size: barrieraPortaDx.size)
+        barrieraPortaDx.physicsBody?.affectedByGravity = false
+        barrieraPortaDx.physicsBody?.restitution = 0
+        barrieraPortaDx.physicsBody?.allowsRotation = false
+        barrieraPortaDx.physicsBody?.isDynamic = false
+        barrieraPortaDx.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
+        barrieraPortaDx.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraPortaDx.alpha = 0.01
+        
+        barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
+//        barrieraGIU.zRotation = 0
+        barrieraGIU.xScale = 0.4
+        barrieraGIU.yScale = 0.4
+        barrieraGIU.physicsBody = SKPhysicsBody(texture: barrieraGIU.texture!, size: barrieraGIU.size)
+        barrieraGIU.physicsBody?.affectedByGravity = false
+        barrieraGIU.physicsBody?.restitution = 0
+        barrieraGIU.physicsBody?.allowsRotation = false
+        barrieraGIU.physicsBody?.isDynamic = false
+        barrieraGIU.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraGIU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraGIU.alpha = 0.01
+        barrieraGIU.name = "outerBarrier"
+//
+        barrieraDX.position = CGPoint(x: size.width/2, y: size.height/2)
+        barrieraDX.xScale = 0.4
+        barrieraDX.yScale = 0.4
+        barrieraDX.physicsBody = SKPhysicsBody(texture: barrieraDX.texture!, size: barrieraDX.size)
+        barrieraDX.physicsBody?.affectedByGravity = false
+        barrieraDX.physicsBody?.restitution = 0
+        barrieraDX.physicsBody?.allowsRotation = false
+        barrieraDX.physicsBody?.isDynamic = false
+        barrieraDX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraDX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraDX.alpha = 0.01
+        barrieraDX.name = "outerBarrier"
+        
+        barrieraSX.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        barrieraSX.xScale = 0.4
+        barrieraSX.yScale = 0.4
+        barrieraSX.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
+        barrieraSX.physicsBody?.affectedByGravity = false
+        barrieraSX.physicsBody?.restitution = 0
+        barrieraSX.physicsBody?.allowsRotation = false
+        barrieraSX.physicsBody?.isDynamic = false
+        barrieraSX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraSX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraSX.alpha = 0.01
+        barrieraSX.name = "outerBarrier"
+        
+        barrieraSU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        barrieraSU.xScale = 0.4
+        barrieraSU.yScale = 0.4
+        barrieraSU.physicsBody = SKPhysicsBody(texture: barrieraSU.texture!, size: barrieraSU.size)
+        barrieraSU.physicsBody?.affectedByGravity = false
+        barrieraSU.physicsBody?.restitution = 0
+        barrieraSU.physicsBody?.allowsRotation = false
+        barrieraSU.physicsBody?.isDynamic = false
+        barrieraSU.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraSU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraSU.alpha = 0.01
+        barrieraSU.name = "outerBarrier"
+        
+        pauseButton.name = "pause"
+        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
+        pauseButton.zPosition = 20
+        pauseButton.xScale = 0.2
+        pauseButton.yScale = 0.2
+        cameraNode.addChild(pauseButton)
     }
     
     

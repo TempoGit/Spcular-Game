@@ -112,6 +112,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         
         self.scene?.physicsWorld.contactDelegate = self
+        
+        previousRoom = "Room4"
     }
     
     //Funzione che rileva il tocco
@@ -270,12 +272,16 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Se la collisione che si è verificata ha come protagonisti il personaggio e la porta sul lato inferiore della stanza allora avvia la transizione alla nuova stanza
         if(contactA == "player" || contactB == "player"){
             if(contactA == "lowerDoor" || contactB == "lowerDoor"){
-                print("Lower")
+//                print("Lower")
                 //TO DO: transizione verso la nuova stanza, stanza precedente
+                let nextRoom = Level00_3(size: size)
+                view?.presentScene(nextRoom)
                 
             } else if(contactA == "rightDoor" || contactB == "rightDoor"){
-                print("Right")
+//                print("Right")
                 //TO DO: transizione verso la nuova stanza, sgabuzzino
+                let nextRoom = Level00_5(size: size)
+                view?.presentScene(nextRoom)
                     
             }
         }
@@ -333,12 +339,15 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 //                openClose.name = "cassettone"
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        if(previousRoom == "Room3"){
+            characterFeetCollider.position = CGPoint(x: size.width*0.25,y: size.height*0.13)
+        } else {
+            characterFeetCollider.position = CGPoint(x: size.width*0.89,y: size.height*0.13)
+        }
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)

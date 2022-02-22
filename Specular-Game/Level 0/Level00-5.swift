@@ -78,6 +78,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         
         
         self.scene?.physicsWorld.contactDelegate = self
+        
+        previousRoom = "Room5"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -258,12 +260,11 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     func roomSetUp(){
 //        setup character
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        characterFeetCollider.position = CGPoint(x: size.width*0,y: size.height*0.2)
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
