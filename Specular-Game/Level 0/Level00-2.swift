@@ -2,7 +2,7 @@
 //  Level00-2.swift
 //  Specular-Game
 //
-//  3331412399
+
 //
 //  Created by Salvatore Manna on 18/02/22.
 //
@@ -365,5 +365,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     
 }
+
 
 
