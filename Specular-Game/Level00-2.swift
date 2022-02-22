@@ -1,4 +1,4 @@
-//
+
 //  Level00-2.swift
 //  Specular-Game
 //
@@ -19,7 +19,10 @@ struct PhysicsCategories1 {
 class Level00_2: SKScene, SKPhysicsContactDelegate {
 
     
-    let room2 = SKSpriteNode(imageNamed: "Room2")
+    let room2 = SKSpriteNode(imageNamed: "Level0-Room2")
+    let lamp = SKSpriteNode(imageNamed: "Level0-Room2-Lamp")
+    let bookshelf = SKSpriteNode(imageNamed: "Level0-Room2-bookshelf")
+    let door = SKSpriteNode(imageNamed: "Level0-Room2-DoorOpen")
     let characterAvatar = SKSpriteNode(imageNamed: "Character")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
     let player = SKSpriteNode()
@@ -56,16 +59,28 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         room2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        room2.xScale = 0.8
-        room2.yScale = 0.8
+        room2.xScale = 0.4
+        room2.yScale = 0.4
         
+        lamp.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        lamp.xScale = 0.4
+        lamp.yScale = 0.4
+        
+        bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        bookshelf.xScale = 0.4
+        bookshelf.yScale = 0.4
+        
+        door.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        door.xScale = 0.4
+        door.yScale = 0.4
+        door.zPosition = 7
         
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
+        characterAvatar.position = CGPoint(x: size.width*1.1,y: size.height*0.24)
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
-        characterAvatar.zPosition = 5
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        characterAvatar.zPosition = 8
+        characterFeetCollider.position = CGPoint(x: size.width*1.1,y: size.height*0.25)
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
@@ -76,6 +91,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
         player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
+
         
         barrieraSX.position = CGPoint(x: size.width/2, y: size.height/2)
         barrieraSX.xScale = 0.8
@@ -121,6 +137,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         
         worldGroup.addChild(room2)
+        worldGroup.addChild(lamp)
+        worldGroup.addChild(bookshelf)
+        worldGroup.addChild(door)
         worldGroup.addChild(barrieraDX)
         worldGroup.addChild(barrieraSX)
         addChild(worldGroup)
@@ -258,4 +277,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             print("Collision")
         }
     }
+    
 }
+
