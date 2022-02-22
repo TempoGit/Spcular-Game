@@ -145,7 +145,7 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
-            let startGameScene = Level00_5(size: size)
+            let startGameScene = Level00(size: size)
             view?.presentScene(startGameScene)
         }
         if(touchedNode.name == "volumeOff"){
