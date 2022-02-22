@@ -83,11 +83,7 @@
 				4A2A3BBD27BFEBDA0061788A /* GameScene.swift */,
 				4A2A3BBF27BFEBDA0061788A /* GameViewController.swift */,
 				4A87769827C3A3BB002B966F /* PauseMenuHandler.swift */,
-				4A2A3BCE27BFEC230061788A /* Level00.swift */,
-				4A2A3BD027BFEC2B0061788A /* Level00-2.swift */,
-				52FF066E27C3D57D0041C232 /* Level00-3.swift */,
-				52FF067027C3D5920041C232 /* Level00-4.swift */,
-				4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */,
+				4A7B1D3D27C4EE9B0084F509 /* Level 0 */,
 				4A2A3BD227BFEC330061788A /* Music.swift */,
 				4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */,
 				4A2A3BC127BFEBDA0061788A /* Main.storyboard */,
@@ -96,6 +92,18 @@
 				4A2A3BD427BFEC5F0061788A /* academy.wav */,
 			);
 			path = "Specular-Game";
+			sourceTree = "<group>";
+		};
+		4A7B1D3D27C4EE9B0084F509 /* Level 0 */ = {
+			isa = PBXGroup;
+			children = (
+				4A2A3BCE27BFEC230061788A /* Level00.swift */,
+				4A2A3BD027BFEC2B0061788A /* Level00-2.swift */,
+				52FF066E27C3D57D0041C232 /* Level00-3.swift */,
+				52FF067027C3D5920041C232 /* Level00-4.swift */,
+				4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */,
+			);
+			path = "Level 0";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
