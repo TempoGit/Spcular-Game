@@ -19,6 +19,7 @@
 		4A2A3BD127BFEC2B0061788A /* Level00-2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD027BFEC2B0061788A /* Level00-2.swift */; };
 		4A2A3BD327BFEC330061788A /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD227BFEC330061788A /* Music.swift */; };
 		4A2A3BD527BFEC5F0061788A /* academy.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD427BFEC5F0061788A /* academy.wav */; };
+		4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */; };
 		4A87769727C3A38B002B966F /* LevelSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */; };
 		4A87769927C3A3BB002B966F /* PauseMenuHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A87769827C3A3BB002B966F /* PauseMenuHandler.swift */; };
 		52FF066F27C3D57D0041C232 /* Level00-3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF066E27C3D57D0041C232 /* Level00-3.swift */; };
@@ -39,6 +40,7 @@
 		4A2A3BD027BFEC2B0061788A /* Level00-2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-2.swift"; sourceTree = "<group>"; };
 		4A2A3BD227BFEC330061788A /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		4A2A3BD427BFEC5F0061788A /* academy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = academy.wav; sourceTree = "<group>"; };
+		4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-5.swift"; sourceTree = "<group>"; };
 		4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectionScreen.swift; sourceTree = "<group>"; };
 		4A87769827C3A3BB002B966F /* PauseMenuHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseMenuHandler.swift; sourceTree = "<group>"; };
 		52FF066E27C3D57D0041C232 /* Level00-3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-3.swift"; sourceTree = "<group>"; };
@@ -85,6 +87,7 @@
 				4A2A3BD027BFEC2B0061788A /* Level00-2.swift */,
 				52FF066E27C3D57D0041C232 /* Level00-3.swift */,
 				52FF067027C3D5920041C232 /* Level00-4.swift */,
+				4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */,
 				4A2A3BD227BFEC330061788A /* Music.swift */,
 				4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */,
 				4A2A3BC127BFEBDA0061788A /* Main.storyboard */,
@@ -169,6 +172,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */,
 				4A2A3BCF27BFEC230061788A /* Level00.swift in Sources */,
 				4A2A3BBE27BFEBDA0061788A /* GameScene.swift in Sources */,
 				4A87769927C3A3BB002B966F /* PauseMenuHandler.swift in Sources */,
