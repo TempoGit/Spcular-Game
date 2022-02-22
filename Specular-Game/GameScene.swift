@@ -19,10 +19,13 @@
 
 import SpriteKit
 import GameplayKit
+import SwiftUI
 
 //Changed
 
 class GameScene: SKScene {
+    
+    @AppStorage("language") var language: String = "English"
     
     let startGameLabel = SKLabelNode(text: "Start Game")
     
@@ -40,6 +43,9 @@ class GameScene: SKScene {
     
     let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
     let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
+    
+    let italianFlag = SKSpriteNode(imageNamed: "ItalyFlag")
+    let ukFlag = SKSpriteNode(imageNamed: "UkFlag")
     
     override func didMove(to view: SKView) {
         backgroundScreen.size.width = size.width
@@ -79,13 +85,13 @@ class GameScene: SKScene {
         volumeOnButton.xScale = 0.2
         volumeOnButton.yScale = 0.2
         volumeOnButton.name = "volumeOn"
-        volumeOnButton.position = CGPoint(x: size.width*0.3,y: size.height*0.9 )
+        volumeOnButton.position = CGPoint(x: size.width*0.15,y: size.height*0.9 )
         
         
         volumeOffButton.xScale = 0.2
         volumeOffButton.yScale = 0.2
         volumeOffButton.name = "volumeOff"
-        volumeOffButton.position = CGPoint(x: size.width*0.6,y: size.height*0.9 )
+        volumeOffButton.position = CGPoint(x: size.width*0.38,y: size.height*0.9 )
         
         if(musicHandler.instance.mutedMusic){
             volumeOnButton.alpha = 0.5
@@ -94,6 +100,24 @@ class GameScene: SKScene {
             volumeOnButton.alpha = 1
             volumeOffButton.alpha = 0.5
         }
+        
+        italianFlag.xScale = 0.08
+        italianFlag.yScale = 0.06
+        italianFlag.name = "italianFlag"
+        italianFlag.position = CGPoint(x: size.width*0.9, y: size.height*0.9)
+        
+        ukFlag.xScale = 0.08
+        ukFlag.yScale = 0.06
+        ukFlag.name = "ukFlag"
+        ukFlag.position = CGPoint(x: size.width*0.7, y: size.height*0.9)
+        
+        if(language == "English"){
+            italianFlag.alpha = 0.5
+        } else if (language == "Italiano"){
+            ukFlag.alpha = 0.5
+        }
+        
+        
         addChild(volumeOnButton)
         addChild(volumeOffButton)
         
@@ -103,7 +127,10 @@ class GameScene: SKScene {
         addChild(gameTitle)
         addChild(gameTitleMirrored)
         addChild(playButton)
-
+        addChild(italianFlag)
+        addChild(ukFlag)
+        
+        
         musicHandler.instance.playBackgroundMusicMenu()
     }
     
@@ -118,7 +145,7 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
-            let startGameScene = Level00(size: size)
+            let startGameScene = Level00_2(size: size)
             view?.presentScene(startGameScene)
         }
         if(touchedNode.name == "volumeOff"){

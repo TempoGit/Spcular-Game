@@ -35,6 +35,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let leftBarrier = SKSpriteNode(imageNamed: "Level0-Room4-LeftBarrier")
     let curtain = SKSpriteNode(imageNamed: "Level0-Room4-Curtain")
     let furniture = SKSpriteNode(imageNamed: "Level0-Room4-Furniture")
+//    let furniture = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureClosedSingle")
+    let furnitureInteractionCollider = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
     let box = SKSpriteNode(imageNamed: "Level0-Room4-Box")
     let furnitureCollider = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureCollider")
     let boxCollider = SKSpriteNode(imageNamed: "Level0-Room4-BoxCollider")
@@ -87,6 +89,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         addChild(curtain)
         addChild(box)
         addChild(furniture)
+        addChild(furnitureInteractionCollider)
         addChild(furnitureCollider)
         addChild(boxCollider)
         addChild(lowerDoor)
@@ -174,11 +177,10 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Se tocco il cassettone si apre, se ritocco si chiude, TO DO: Aggiungere una condizione che permette di aprire e chiudere il cassettone solamente se si è nelle vicinanz del cassettone
         if(touchedNode.name == "furniture"){
             if(!open){
-                print("Open")
                 open = true
+//                furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpenSingle")))
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpen")))
             } else if (open){
-                print("Close")
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
                 open = false
             }
@@ -384,11 +386,18 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         boxCollider.physicsBody?.isDynamic = false
         boxCollider.alpha = 0.01
         //Impostazioni riguardanti il mobiletto
+//        furniture.position = CGPoint(x: size.width*0, y: size.height*0.42)
         furniture.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         furniture.xScale = 0.4
         furniture.yScale = 0.4
         furniture.zPosition = 4
-        furniture.name = "furniture"
+//        furniture.name = "furniture"
+        furnitureInteractionCollider.position = CGPoint(x: size.width*0.05, y: size.height*0.45)
+        furnitureInteractionCollider.xScale = 0.4
+        furnitureInteractionCollider.yScale = 0.4
+        furnitureInteractionCollider.zPosition = 5
+        furnitureInteractionCollider.alpha = 0.01
+        furnitureInteractionCollider.name = "furniture"
         furnitureCollider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         furnitureCollider.xScale = 0.4
         furnitureCollider.yScale = 0.4

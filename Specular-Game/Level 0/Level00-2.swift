@@ -78,6 +78,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         door.yScale = 0.4
         door.zPosition = 7
         
+        
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
         characterAvatar.position = CGPoint(x: size.width*1.1,y: size.height*0.24)
         characterAvatar.name = "player"
@@ -94,7 +95,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.restitution = 0
         characterFeetCollider.physicsBody?.allowsRotation = false
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
-        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
+        characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.LowerDoor
         player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
         
         barrieraPortaSu.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
@@ -107,10 +108,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraPortaSu.physicsBody?.restitution = 0
         barrieraPortaSu.physicsBody?.allowsRotation = false
         barrieraPortaSu.physicsBody?.isDynamic = false
-        barrieraPortaSu.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraPortaSu.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
         barrieraPortaSu.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         barrieraPortaSu.alpha = 0.01
-        barrieraPortaSu.name = "outerBarrier"
         
         barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
 //        barrieraGIU.zRotation = 0
@@ -190,6 +190,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         camera = cameraNode
         cameraNode.position = characterAvatar.position
         
+        //Per abilitare le collisioni nella scena
+        self.scene?.physicsWorld.contactDelegate = self
     }
     
     
@@ -317,10 +319,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     }
     
     
-    func checkCollisions(){
-
-    }
-    
     func roomSetup(){
         
     }
@@ -330,8 +328,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         let contactA = contact.bodyA.node?.name
         let contactB = contact.bodyB.node?.name
         
+        
         //Se la collisione che si è verificata ha come protagonisti il personaggio e la porta sul lato inferiore della stanza allora avvia la transizione alla nuova stanza
-        if(contactA == "player1" || contactB == "player1"){
+        if(contactA == "player" || contactB == "player"){
             if(contactA == "PortaSu" || contactB == "PortaSu"){
                 //TO DO: transizione verso la nuova stanza
                 let room1 = Level00(size: size)
