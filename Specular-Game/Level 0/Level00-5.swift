@@ -33,8 +33,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let doorColliderRT = SKSpriteNode(imageNamed: "DoorColliderRT")
     let colliderRT = SKSpriteNode(imageNamed: "DoorRT")
     
-    var moveSingle: Bool = true
-    var move: Bool = true
+    var moveSingle: Bool = false
+    var move: Bool = false
     var location = CGPoint.zero
     
     let gameArea: CGRect
@@ -54,6 +54,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         roomSetUp()
+        
         addChild(room)
         addChild(boxes)
         addChild(doorLF)
@@ -236,6 +237,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         characterAvatar.position.y = characterAvatar.position.y - 8
         cameraNode.position = characterAvatar.position
         cameraNode.position.y += size.height*0.2
+        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -264,7 +266,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
-        characterFeetCollider.position = CGPoint(x: size.width*0,y: size.height*0.2)
+        if(previousRoom == "Room4"){
+            characterFeetCollider.position = CGPoint(x: -size.width*0.12,y: size.height*0.32) 
+        }
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
