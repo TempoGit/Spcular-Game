@@ -12,14 +12,14 @@ import SpriteKit
 
 
 class Level00_3: SKScene, SKPhysicsContactDelegate{
-    let pauseButton = SKSpriteNode(imageNamed: "pause")
+    let pauseButton = SKSpriteNode(imageNamed: "Pause")
     let room = SKSpriteNode(imageNamed: "Level0-Room3")
     let characterAvatar = SKSpriteNode(imageNamed: "Character")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
     
     let barrierDownLF = SKSpriteNode(imageNamed: "BarrierBottomLF-Room3")
     let barrierDownRT = SKSpriteNode(imageNamed: "BarrierBottomRT-Room3")
-    let barrierTopLF = SKSpriteNode(imageNamed: "BarrierTopLF-Room3")
+    let barrierTopLF = SKSpriteNode(imageNamed: "BarrierLeft(1)")
     let barrierTopRT = SKSpriteNode(imageNamed: "BarrierTopRT-Room3")
     
     let doorColliderTopLF = SKSpriteNode(imageNamed: "DoorColliderTopLF-Room3")
@@ -198,13 +198,15 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         
        
         if(contactA == "player" || contactB == "player"){
+            print("Collisione")
             if(contactA == "doorColliderTopRT" || contactB == "doorColliderTopRT"){
                 let room4 = Level00_4(size: size)
                 view?.presentScene(room4)
-                if(contactA == "doorColliderTopLF" || contactB == "doorColliderTopLF"){
-                    let room2 = Level00_2(size: size)
-                    view?.presentScene(room2)
-                }
+                
+            } else if(contactA == "doorColliderTopLF" || contactB == "doorColliderTopLF"){
+                print("Porta a sx")
+//                let room2 = Level00_2(size: size)
+//                view?.presentScene(room2)
             }
         }
     }
@@ -321,13 +323,13 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
 
         doorRT.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
         doorRT.name = "doorRT"
-        doorRT.alpha = 0.01
+        doorRT.alpha = 1
         doorRT.xScale = 0.4
         doorRT.yScale = 0.4
         
         doorLF.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
         doorLF.name = "doorLF"
-        doorLF.alpha = 0.01
+        doorLF.alpha = 1
         doorLF.xScale = 0.4
         doorLF.yScale = 0.4
  

@@ -25,23 +25,21 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let door = SKSpriteNode(imageNamed: "Level0-Room2-DoorOpen")
     let characterAvatar = SKSpriteNode(imageNamed: "Character")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
+    
     let player = SKSpriteNode()
+    
     let cameraNode = SKCameraNode()
+    
     let barrieraSX = SKSpriteNode( imageNamed: "BarrierLeft")
     let barrieraDX = SKSpriteNode(imageNamed: "BarrierUp")
+    
     var move: Bool = false
     var moveSingle: Bool = false
     var location = CGPoint.zero
     var worldGroup = SKSpriteNode()
-    let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
-    let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
+
     let pauseButton = SKSpriteNode(imageNamed: "Pause")
-    let closePauseMenu = SKLabelNode(text: "Close pause menu")
-    let goBackToMenu = SKLabelNode(text: "Go back to main menu")
-    let languageButton = SKLabelNode(text: "Language Button")
-    let backgroundPause = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-    let pauseSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.7, height: UIScreen.main.bounds.size.height*0.4))
-    let testObjects = SKShapeNode(rectOf: CGSize(width: 100,height: 100))
+
     
     let gameArea: CGRect
     override init(size: CGSize) {
@@ -87,7 +85,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.affectedByGravity = false
         characterFeetCollider.physicsBody?.restitution = 0
         characterFeetCollider.physicsBody?.allowsRotation = false
-//        characterFeetCollider.physicsBody?.isDynamic = false
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
         player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
@@ -125,15 +122,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         pauseButton.xScale = 0.2
         pauseButton.yScale = 0.2
         cameraNode.addChild(pauseButton)
-        
-        testObjects.position = CGPoint(x: size.width*0.8,y: size.height*0.3)
-        testObjects.zPosition = 6
-        testObjects.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        testObjects.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        testObjects.fillColor = .black
-        testObjects.strokeColor = .black
-        testObjects.name = "testObject"
-        addChild(testObjects)
         
         
         worldGroup.addChild(room2)
@@ -207,25 +195,20 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             PauseMenuHandler.instance.closePauseMenu.removeFromParent()
             self.isPaused = false
         }
-    }
-    
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        moveSingle = false
-        move = true
-        for touch in touches {
-            location = touch.location(in: self)
+        //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
+        //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
+        if(touchLocation != characterFeetCollider.position){
+            location = touchLocation
+            moveSingle = true
         }
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        move = false
-        moveSingle = false
-    }
-    
-    
     
     override func update(_ currentTime: TimeInterval) {
+        
+        //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
+        //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
+        //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(move || moveSingle){
             if(location.x > characterFeetCollider.position.x) {
                 characterFeetCollider.position.x += 0.8
@@ -249,33 +232,40 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                 characterFeetCollider.position.y -= 0.8
             }
         }
+        //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
         characterAvatar.position = characterFeetCollider.position
+        characterAvatar.position.y = characterAvatar.position.y - 8
+        //Vado poi a centrare la camera sul personaggio
         cameraNode.position = characterAvatar.position
-        checkCollisions()
+        //Metto la camera di gioco un po' pià in basso così si vede la cima della stanza
+        cameraNode.position.y += size.height*0.2
+        
+        //Funzione che controlla le intersezioni tra gli oggetti
+//        checkCollisions()
         
     
     }
     
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        moveSingle = false
+        move = true
+        for touch in touches {
+            location = touch.location(in: self)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        move = false
+        moveSingle = false
+    }
+    
+    
     func checkCollisions(){
-        if(characterFeetCollider.frame.intersects(self.testObjects.frame)){
-            print("Intersection")
-            print(testObjects.position.x)
-            print(characterAvatar.position.x)
-            if(testObjects.position.x > characterAvatar.position.x){
-                testObjects.alpha = 1
-            } else {
-                testObjects.alpha = 1
-                characterAvatar.zPosition = 10
-            }
-            
-        } else {
-            testObjects.alpha = 1
-        }
-        if(characterFeetCollider.frame.intersects(testObjects.frame)){
-            print(testObjects.position)
-            print(characterFeetCollider.position)
-            print("Collision")
-        }
+
+    }
+    
+    func roomSetup(){
+        
     }
     
 }

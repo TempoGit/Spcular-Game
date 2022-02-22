@@ -294,8 +294,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
         characterAvatar.position = characterFeetCollider.position
+        characterAvatar.position.y = characterAvatar.position.y - 8
         //Vado poi a centrare la camera sul personaggio
         cameraNode.position = characterAvatar.position
+        //Metto la camera di gioco un po' pià in basso così si vede la cima della stanza
+        cameraNode.position.y += size.height*0.2
         
         //Funzione che controlla le intersezioni tra gli oggetti
         checkCollisions()
