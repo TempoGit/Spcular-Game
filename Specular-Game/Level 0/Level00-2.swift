@@ -35,7 +35,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let barrieraSX = SKSpriteNode( imageNamed: "Level0-Room2-LeftBarrier")
     let barrieraSU = SKSpriteNode(imageNamed: "Level0-Room2-TopBarrier")
     let barrieraGIU = SKSpriteNode(imageNamed: "Level0-Room2-BottomBarrier")
-    let barrieraDX = SKSpriteNode(imageNamed: "level0-Room2-RightBarrier")
+    let barrieraDX = SKSpriteNode(imageNamed: "Level0-Room2-RightBarrier")
     
     var move: Bool = false
     var moveSingle: Bool = false
@@ -94,10 +94,10 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
         
         barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-        barrieraGIU.zRotation = 0
+//        barrieraGIU.zRotation = 0
         barrieraGIU.xScale = 0.4
         barrieraGIU.yScale = 0.4
-        barrieraGIU.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
+        barrieraGIU.physicsBody = SKPhysicsBody(texture: barrieraGIU.texture!, size: barrieraGIU.size)
         barrieraGIU.physicsBody?.affectedByGravity = false
         barrieraGIU.physicsBody?.restitution = 0
         barrieraGIU.physicsBody?.allowsRotation = false
@@ -107,18 +107,18 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraGIU.alpha = 0.01
         barrieraGIU.name = "outerBarrier"
 //
-//        barrieraDX.position = CGPoint(x: size.width/2, y: size.height/2)
-//        barrieraDX.xScale = 0.4
-//        barrieraDX.yScale = 0.4
-//        barrieraDX.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
-//        barrieraDX.physicsBody?.affectedByGravity = false
-//        barrieraDX.physicsBody?.restitution = 0
-//        barrieraDX.physicsBody?.allowsRotation = false
-//        barrieraDX.physicsBody?.isDynamic = false
-//        barrieraDX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-//        barrieraDX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-//        barrieraDX.alpha = 0.01
-//        barrieraDX.name = "outerBarrier"
+        barrieraDX.position = CGPoint(x: size.width/2, y: size.height/2)
+        barrieraDX.xScale = 0.4
+        barrieraDX.yScale = 0.4
+        barrieraDX.physicsBody = SKPhysicsBody(texture: barrieraDX.texture!, size: barrieraDX.size)
+        barrieraDX.physicsBody?.affectedByGravity = false
+        barrieraDX.physicsBody?.restitution = 0
+        barrieraDX.physicsBody?.allowsRotation = false
+        barrieraDX.physicsBody?.isDynamic = false
+        barrieraDX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraDX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraDX.alpha = 0.01
+        barrieraDX.name = "outerBarrier"
         
         barrieraSX.position = CGPoint(x: size.width / 2, y: size.height / 2)
         barrieraSX.xScale = 0.4
@@ -232,6 +232,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         if(touchLocation != characterFeetCollider.position){
             location = touchLocation
             moveSingle = true
+            //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
+            characterAvatar.run(SKAction.repeatForever(walkingAnimation))
         }
     }
     
@@ -289,6 +291,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         move = false
         moveSingle = false
+        //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
+        characterAvatar.removeAllActions()
+        characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
     }
     
     

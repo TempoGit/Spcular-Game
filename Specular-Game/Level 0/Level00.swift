@@ -12,6 +12,8 @@ import SpriteKit
 import AVFoundation
 
 
+let walkingAnimationFrames: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
+let walkingAnimation: SKAction = SKAction.animate(with: walkingAnimationFrames, timePerFrame: 0.2)
 
 
 struct PhysicsCategories {
@@ -128,20 +130,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(characterFeetCollider)
 
         
-        //Testing interazione con gli oggetti, DA CANCELLARE IN SEGUITO
-//        object.xScale = 0.2
-//        object.yScale = 0.2
-//        object.zPosition = 4
-//        object.position = CGPoint(x: size.width * 0.4, y: size.height * 0.4)
-//        object.physicsBody = SKPhysicsBody(texture: object.texture!, size: object.size)
-//        object.physicsBody?.affectedByGravity = false
-//        object.physicsBody?.restitution = 0
-//        object.physicsBody?.allowsRotation = false
-//        object.physicsBody?.isDynamic = false
-//        object.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-//        object.name = "tappedObject"
-//        addChild(object)
-        
         //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
@@ -154,14 +142,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
-        
-        
-        //Testing della trasparenza dietro un ogetto, DA CANCELLARE IN SEGUITO
-        //        squareTest1.position = CGPoint(x: size.width*0.8,y: size.height*0.3)
-        //        squareTest1.fillColor = .black
-        //        squareTest1.strokeColor = .black
-        //        squareTest1.name = "posa"
-        //        addChild(squareTest1)
     }
     
     //Funzione che rileva il tocco
@@ -242,6 +222,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(touchLocation != characterFeetCollider.position){
             location = touchLocation
             moveSingle = true
+            //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
+            characterAvatar.run(SKAction.repeatForever(walkingAnimation))
+            
         }
     }
 
@@ -262,6 +245,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
         move = false
         moveSingle = false
+        //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
+        characterAvatar.removeAllActions()
+        characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
     }
     
     override func update(_ currentTime: TimeInterval) {

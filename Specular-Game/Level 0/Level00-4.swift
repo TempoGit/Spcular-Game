@@ -160,6 +160,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         if(touchLocation != characterFeetCollider.position){
             location = touchLocation
             moveSingle = true
+            //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
+            characterAvatar.run(SKAction.repeatForever(walkingAnimation))
         }
     }
     
@@ -177,6 +179,9 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
         move = false
         moveSingle = false
+        //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
+        characterAvatar.removeAllActions()
+        characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
