@@ -2,7 +2,7 @@
 //  Level00-2.swift
 //  Specular-Game
 //
-//  3331412399
+
 //
 //  Created by Salvatore Manna on 18/02/22.
 //
@@ -37,6 +37,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let barrieraGIU = SKSpriteNode(imageNamed: "Level0-Room2-BottomBarrier")
     let barrieraDX = SKSpriteNode(imageNamed: "Level0-Room2-RightBarrier")
     let barrieraPortaSu = SKSpriteNode(imageNamed: "Level0-Room2-TopDoorCollider")
+    let barrieraPortaDx = SKSpriteNode(imageNamed: "Level0-Room2-RightDoorCollider")
     
     var move: Bool = false
     var moveSingle: Bool = false
@@ -112,6 +113,20 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraPortaSu.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         barrieraPortaSu.alpha = 0.01
         
+        barrieraPortaDx.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
+//        barrieraGIU.zRotation = 0
+        barrieraPortaDx.name = "PortaDx"
+        barrieraPortaDx.xScale = 0.4
+        barrieraPortaDx.yScale = 0.4
+        barrieraPortaDx.physicsBody = SKPhysicsBody(texture: barrieraPortaDx.texture!, size: barrieraPortaDx.size)
+        barrieraPortaDx.physicsBody?.affectedByGravity = false
+        barrieraPortaDx.physicsBody?.restitution = 0
+        barrieraPortaDx.physicsBody?.allowsRotation = false
+        barrieraPortaDx.physicsBody?.isDynamic = false
+        barrieraPortaDx.physicsBody?.categoryBitMask = PhysicsCategories.LowerDoor
+        barrieraPortaDx.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraPortaDx.alpha = 0.01
+        
         barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
 //        barrieraGIU.zRotation = 0
         barrieraGIU.xScale = 0.4
@@ -182,6 +197,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         worldGroup.addChild(barrieraGIU)
         worldGroup.addChild(barrieraDX)
         worldGroup.addChild(barrieraPortaSu)
+        worldGroup.addChild(barrieraPortaDx)
         addChild(worldGroup)
         addChild(characterAvatar)
         addChild(characterFeetCollider)
@@ -337,8 +353,18 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                 view?.presentScene(room1)
             }
         }
+        if(contactA == "player" || contactB == "player"){
+            if(contactA == "PortaDx" || contactB == "PortaDx"){
+                //TO DO: transizione verso la nuova stanza
+                let room3 = Level00_3(size: size)
+                view?.presentScene(room3)
+            }
+        }
+
     }
     
+    
 }
+
 
 

@@ -216,8 +216,8 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
                 
             } else if(contactA == "doorColliderTopLF" || contactB == "doorColliderTopLF"){
                 print("Porta a sx")
-//                let room2 = Level00_2(size: size)
-//                view?.presentScene(room2)
+                let room2 = Level00_2(size: size)
+                view?.presentScene(room2)
             }
         }
     }
