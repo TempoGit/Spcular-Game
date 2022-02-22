@@ -22,6 +22,7 @@
 		4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */; };
 		4A87769727C3A38B002B966F /* LevelSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */; };
 		4A87769927C3A3BB002B966F /* PauseMenuHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A87769827C3A3BB002B966F /* PauseMenuHandler.swift */; };
+		528D100C27C5282700BC4BB7 /* frame.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 528D100B27C5282700BC4BB7 /* frame.atlas */; };
 		52FF066F27C3D57D0041C232 /* Level00-3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF066E27C3D57D0041C232 /* Level00-3.swift */; };
 		52FF067127C3D5920041C232 /* Level00-4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF067027C3D5920041C232 /* Level00-4.swift */; };
 /* End PBXBuildFile section */
@@ -43,6 +44,7 @@
 		4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-5.swift"; sourceTree = "<group>"; };
 		4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectionScreen.swift; sourceTree = "<group>"; };
 		4A87769827C3A3BB002B966F /* PauseMenuHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseMenuHandler.swift; sourceTree = "<group>"; };
+		528D100B27C5282700BC4BB7 /* frame.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = frame.atlas; sourceTree = "<group>"; };
 		52FF066E27C3D57D0041C232 /* Level00-3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-3.swift"; sourceTree = "<group>"; };
 		52FF067027C3D5920041C232 /* Level00-4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-4.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -77,6 +79,7 @@
 		4A2A3BB627BFEBDA0061788A /* Specular-Game */ = {
 			isa = PBXGroup;
 			children = (
+				528D100B27C5282700BC4BB7 /* frame.atlas */,
 				4A2A3BB727BFEBDA0061788A /* AppDelegate.swift */,
 				4A2A3BB927BFEBDA0061788A /* GameScene.sks */,
 				4A2A3BBB27BFEBDA0061788A /* Actions.sks */,
@@ -169,6 +172,7 @@
 				4A2A3BC527BFEBDB0061788A /* Assets.xcassets in Resources */,
 				4A2A3BD527BFEC5F0061788A /* academy.wav in Resources */,
 				4A2A3BC827BFEBDB0061788A /* LaunchScreen.storyboard in Resources */,
+				528D100C27C5282700BC4BB7 /* frame.atlas in Resources */,
 				4A2A3BBC27BFEBDA0061788A /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

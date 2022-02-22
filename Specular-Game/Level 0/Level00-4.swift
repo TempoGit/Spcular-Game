@@ -11,6 +11,12 @@ import SpriteKit
 
 
 class Level00_4: SKScene, SKPhysicsContactDelegate {
+    //    prova animazione cassettone
+        var open: Bool = false
+        var openClose = SKSpriteNode()
+        var TextureAtlas = SKTextureAtlas()
+        var TextureArray = [SKTexture]()
+        
     
     //Bottone che apre il menu di pausa
     let pauseButton = SKSpriteNode(imageNamed: "Pause")
@@ -59,6 +65,15 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
+        
+        TextureAtlas = SKTextureAtlas(named: "frame")
+//        le immagini della texture atlas le metto nel TextureArray
+        for i in 1...TextureAtlas.textureNames.count{
+            var frame = "Frame_\(i)"
+            TextureArray.append(SKTexture(imageNamed: frame))
+        }
+        openClose = SKSpriteNode(imageNamed: TextureAtlas.textureNames[0])
+        self.addChild(openClose)
         //Per non imputtanire troppo il codice, metto le impostazioni più lunghe in un'altra funzione definita sempre nella classe e la richiamo qui, così almeno sembra un po' più pulito
         roomSetup()
         addChild(room)
@@ -163,6 +178,12 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
             characterAvatar.run(SKAction.repeatForever(walkingAnimation))
         }
+        if(touchedNode.name == "cassettone"){
+            location = touchLocation
+            open = true
+            openClose.run(SKAction.animate(with: TextureArray, timePerFrame: 0.5))
+            
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -182,6 +203,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
         characterAvatar.removeAllActions()
         characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
+//        openClose.removeAllActions()
+       
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -246,6 +269,12 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     
     //Funzione per creare definire le impostazioni dei nodi della stanza
     func roomSetup(){
+        //        prova cassettone
+                openClose.xScale = 0.4
+                openClose.yScale = 0.4
+                openClose.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+                openClose.zPosition = 5
+                openClose.name = "cassettone"
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
         characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
