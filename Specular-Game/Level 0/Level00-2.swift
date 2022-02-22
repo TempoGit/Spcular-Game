@@ -2,6 +2,8 @@
 //  Level00-2.swift
 //  Specular-Game
 //
+//  3331412399
+//
 //  Created by Salvatore Manna on 18/02/22.
 //
 
@@ -30,8 +32,10 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     let cameraNode = SKCameraNode()
     
-    let barrieraSX = SKSpriteNode( imageNamed: "BarrierLeft")
-    let barrieraDX = SKSpriteNode(imageNamed: "BarrierUp")
+    let barrieraSX = SKSpriteNode( imageNamed: "Level0-Room2-LeftBarrier")
+    let barrieraSU = SKSpriteNode(imageNamed: "Level0-Room2-TopBarrier")
+    let barrieraGIU = SKSpriteNode(imageNamed: "Level0-Room2-BottomBarrier")
+    let barrieraDX = SKSpriteNode(imageNamed: "level0-Room2-RightBarrier")
     
     var move: Bool = false
     var moveSingle: Bool = false
@@ -88,11 +92,37 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
         player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
-
         
-        barrieraSX.position = CGPoint(x: size.width/2, y: size.height/2)
-        barrieraSX.xScale = 0.8
-        barrieraSX.yScale = 0.8
+        barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
+        barrieraGIU.zRotation = 0
+        barrieraGIU.xScale = 0.4
+        barrieraGIU.yScale = 0.4
+        barrieraGIU.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
+        barrieraGIU.physicsBody?.affectedByGravity = false
+        barrieraGIU.physicsBody?.restitution = 0
+        barrieraGIU.physicsBody?.allowsRotation = false
+        barrieraGIU.physicsBody?.isDynamic = false
+        barrieraGIU.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraGIU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraGIU.alpha = 0.01
+        barrieraGIU.name = "outerBarrier"
+//
+//        barrieraDX.position = CGPoint(x: size.width/2, y: size.height/2)
+//        barrieraDX.xScale = 0.4
+//        barrieraDX.yScale = 0.4
+//        barrieraDX.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
+//        barrieraDX.physicsBody?.affectedByGravity = false
+//        barrieraDX.physicsBody?.restitution = 0
+//        barrieraDX.physicsBody?.allowsRotation = false
+//        barrieraDX.physicsBody?.isDynamic = false
+//        barrieraDX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+//        barrieraDX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+//        barrieraDX.alpha = 0.01
+//        barrieraDX.name = "outerBarrier"
+        
+        barrieraSX.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        barrieraSX.xScale = 0.4
+        barrieraSX.yScale = 0.4
         barrieraSX.physicsBody = SKPhysicsBody(texture: barrieraSX.texture!, size: barrieraSX.size)
         barrieraSX.physicsBody?.affectedByGravity = false
         barrieraSX.physicsBody?.restitution = 0
@@ -103,18 +133,18 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraSX.alpha = 0.01
         barrieraSX.name = "outerBarrier"
         
-        barrieraDX.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
-        barrieraDX.xScale = 0.8
-        barrieraDX.yScale = 0.8
-        barrieraDX.physicsBody = SKPhysicsBody(texture: barrieraDX.texture!, size: barrieraDX.size)
-        barrieraDX.physicsBody?.affectedByGravity = false
-        barrieraDX.physicsBody?.restitution = 0
-        barrieraDX.physicsBody?.allowsRotation = false
-        barrieraDX.physicsBody?.isDynamic = false
-        barrieraDX.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-        barrieraDX.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        barrieraDX.alpha = 0.01
-        barrieraDX.name = "outerBarrier"
+        barrieraSU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        barrieraSU.xScale = 0.4
+        barrieraSU.yScale = 0.4
+        barrieraSU.physicsBody = SKPhysicsBody(texture: barrieraSU.texture!, size: barrieraSU.size)
+        barrieraSU.physicsBody?.affectedByGravity = false
+        barrieraSU.physicsBody?.restitution = 0
+        barrieraSU.physicsBody?.allowsRotation = false
+        barrieraSU.physicsBody?.isDynamic = false
+        barrieraSU.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraSU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraSU.alpha = 0.01
+        barrieraSU.name = "outerBarrier"
         
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
@@ -128,8 +158,10 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         worldGroup.addChild(lamp)
         worldGroup.addChild(bookshelf)
         worldGroup.addChild(door)
-        worldGroup.addChild(barrieraDX)
+        worldGroup.addChild(barrieraSU)
         worldGroup.addChild(barrieraSX)
+        worldGroup.addChild(barrieraGIU)
+        worldGroup.addChild(barrieraDX)
         addChild(worldGroup)
         addChild(characterAvatar)
         addChild(characterFeetCollider)
