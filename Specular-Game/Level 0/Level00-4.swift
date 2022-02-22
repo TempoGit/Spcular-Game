@@ -8,14 +8,15 @@
 import Foundation
 import SpriteKit
 
+//let furnitureFrames: [SKTexture] = []
 
 
 class Level00_4: SKScene, SKPhysicsContactDelegate {
     //    prova animazione cassettone
-        var open: Bool = false
-        var openClose = SKSpriteNode()
-        var TextureAtlas = SKTextureAtlas()
-        var TextureArray = [SKTexture]()
+    var open: Bool = false
+//        var openClose = SKSpriteNode()
+//        var TextureAtlas = SKTextureAtlas()
+//        var TextureArray = [SKTexture]()
         
     
     //Bottone che apre il menu di pausa
@@ -66,14 +67,14 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
-        TextureAtlas = SKTextureAtlas(named: "frame")
+//        TextureAtlas = SKTextureAtlas(named: "frame")
 //        le immagini della texture atlas le metto nel TextureArray
-        for i in 1...TextureAtlas.textureNames.count{
-            var frame = "Frame_\(i)"
-            TextureArray.append(SKTexture(imageNamed: frame))
-        }
-        openClose = SKSpriteNode(imageNamed: TextureAtlas.textureNames[0])
-        self.addChild(openClose)
+//        for i in 1...TextureAtlas.textureNames.count{
+//            var frame = "Frame_\(i)"
+//            TextureArray.append(SKTexture(imageNamed: frame))
+//        }
+//        openClose = SKSpriteNode(imageNamed: TextureAtlas.textureNames[0])
+//        self.addChild(openClose)
         //Per non imputtanire troppo il codice, metto le impostazioni più lunghe in un'altra funzione definita sempre nella classe e la richiamo qui, così almeno sembra un po' più pulito
         roomSetup()
         addChild(room)
@@ -170,6 +171,19 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             PauseMenuHandler.instance.closePauseMenu.removeFromParent()
             self.isPaused = false
         }
+        //Se tocco il cassettone si apre, se ritocco si chiude, TO DO: Aggiungere una condizione che permette di aprire e chiudere il cassettone solamente se si è nelle vicinanz del cassettone
+        if(touchedNode.name == "furniture"){
+            if(!open){
+                print("Open")
+                open = true
+                furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpen")))
+            } else if (open){
+                print("Close")
+                furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
+                open = false
+            }
+        }
+        
         //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
         //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
         if(touchLocation != characterFeetCollider.position){
@@ -178,12 +192,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
             characterAvatar.run(SKAction.repeatForever(walkingAnimation))
         }
-        if(touchedNode.name == "cassettone"){
-            location = touchLocation
-            open = true
-            openClose.run(SKAction.animate(with: TextureArray, timePerFrame: 0.5))
-            
-        }
+        
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -270,11 +279,11 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     //Funzione per creare definire le impostazioni dei nodi della stanza
     func roomSetup(){
         //        prova cassettone
-                openClose.xScale = 0.4
-                openClose.yScale = 0.4
-                openClose.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-                openClose.zPosition = 5
-                openClose.name = "cassettone"
+//                openClose.xScale = 0.4
+//                openClose.yScale = 0.4
+//                openClose.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+//                openClose.zPosition = 5
+//                openClose.name = "cassettone"
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
         characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
@@ -378,7 +387,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         furniture.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         furniture.xScale = 0.4
         furniture.yScale = 0.4
-        furniture.zPosition = 2
+        furniture.zPosition = 4
+        furniture.name = "furniture"
         furnitureCollider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         furnitureCollider.xScale = 0.4
         furnitureCollider.yScale = 0.4
