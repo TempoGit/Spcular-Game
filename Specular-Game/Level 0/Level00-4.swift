@@ -230,7 +230,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         characterAvatar.position.y = characterAvatar.position.y - 8
         //Vado poi a centrare la camera sul personaggio
         cameraNode.position = characterAvatar.position
-        //Metto la camera di gioco un po' pià in basso così si vede la cima della stanza
+        //Metto la camera di gioco un po' pià in alto così si vede la cima della stanza
         cameraNode.position.y += size.height*0.2
         
         //Funzione che controlla le intersezioni tra gli oggetti
