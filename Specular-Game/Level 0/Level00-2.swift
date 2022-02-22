@@ -10,6 +10,7 @@
 import UIKit
 import SpriteKit
 import AVFoundation
+import SwiftUI
 
 
 struct PhysicsCategories1 {
@@ -20,6 +21,7 @@ struct PhysicsCategories1 {
 
 class Level00_2: SKScene, SKPhysicsContactDelegate {
 
+    @AppStorage("language") var language: String = "English"
     
     let room2 = SKSpriteNode(imageNamed: "Level0-Room2")
     let lamp = SKSpriteNode(imageNamed: "Level0-Room2-Lamp")
@@ -227,40 +229,91 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
         }
+        //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
+        //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
         if(touchedNode.name == "pause"){
             self.isPaused = true
             if(PauseMenuHandler.instance.firstSet == false){
-                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
-                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
-                PauseMenuHandler.instance.languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
-                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
-                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
+                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: -gameArea.size.width*0.25, y: gameArea.size.height*0.35)
+                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+                PauseMenuHandler.instance.languageLabel.position = CGPoint(x: -gameArea.size.width*0.15, y: -gameArea.size.height*0.1)
+                PauseMenuHandler.instance.languageSelectionButton.position = CGPoint(x: gameArea.size.width*0.2, y: -gameArea.size.height*0.1)
+                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.15)
+                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.15)
             }
             PauseMenuHandler.instance.initializeNodeSettings()
             cameraNode.addChild(PauseMenuHandler.instance.pauseSquare)
             cameraNode.addChild(PauseMenuHandler.instance.backgroundPause)
-            cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
-            cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            if(musicHandler.instance.mutedMusic){
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            } else if(!musicHandler.instance.mutedMusic){
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            }
+            if(language == "Italian"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelItalian
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonItalian
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelItalian
+            } else if (language == "English"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelEnglish
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonEnglish
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelEnglish
+            }
+            cameraNode.addChild(PauseMenuHandler.instance.languageSelectionButton)
             cameraNode.addChild(PauseMenuHandler.instance.closePauseMenu)
             cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
-            cameraNode.addChild(PauseMenuHandler.instance.languageButton)
+            cameraNode.addChild(PauseMenuHandler.instance.languageLabel)
         }
-        if(touchedNode.name == "volumeOff"){
-            PauseMenuHandler.instance.volumeOnButton.alpha = 0.5
-            PauseMenuHandler.instance.volumeOffButton.alpha = 1
-            musicHandler.instance.muteBackgroundMusic()
+
+        
+        if(touchedNode.name == "volumeButton"){
+            if(musicHandler.instance.mutedMusic == false){
+                PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+                musicHandler.instance.muteBackgroundMusic()
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            } else if  (musicHandler.instance.mutedMusic){
+                PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+                musicHandler.instance.unmuteBackgroundMusic()
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            }
         }
-        if(touchedNode.name == "volumeOn"){
-            PauseMenuHandler.instance.volumeOnButton.alpha = 1
-            PauseMenuHandler.instance.volumeOffButton.alpha = 0.5
-            musicHandler.instance.unmuteBackgroundMusic()
+        
+        if(touchedNode.name == "languageButton"){
+            if(language == "English"){
+                language = "Italian"
+            } else if (language == "Italian"){
+                language = "English"
+            }
+            
+            PauseMenuHandler.instance.languageLabel.removeFromParent()
+            PauseMenuHandler.instance.languageSelectionButton.removeFromParent()
+            PauseMenuHandler.instance.goBackToMenu.removeFromParent()
+            if(language == "English"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelEnglish
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonEnglish
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelEnglish
+            } else if (language == "Italian"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelItalian
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonItalian
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelItalian
+            }
+            cameraNode.addChild(PauseMenuHandler.instance.languageLabel)
+            cameraNode.addChild(PauseMenuHandler.instance.languageSelectionButton)
+            cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
         }
+
+        
+        
+        //Se clicco il bottone per chiudere il menu di pausa rimuovo tutti gli oggetti che compongono il menu di pausa dal cameraNode e rimuovo la pausa dalla scena di gioco
         if(touchedNode.name == "closePause"){
-            PauseMenuHandler.instance.languageButton.removeFromParent()
+            PauseMenuHandler.instance.languageLabel.removeFromParent()
+            PauseMenuHandler.instance.languageSelectionButton.removeFromParent()
             PauseMenuHandler.instance.backgroundPause.removeFromParent()
             PauseMenuHandler.instance.pauseSquare.removeFromParent()
-            PauseMenuHandler.instance.volumeOnButton.removeFromParent()
-            PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            if(musicHandler.instance.mutedMusic){
+                PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            } else {
+                PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+            }
             PauseMenuHandler.instance.goBackToMenu.removeFromParent()
             PauseMenuHandler.instance.closePauseMenu.removeFromParent()
             self.isPaused = false
