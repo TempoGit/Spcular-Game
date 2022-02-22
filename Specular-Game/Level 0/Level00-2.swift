@@ -36,6 +36,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let barrieraSU = SKSpriteNode(imageNamed: "Level0-Room2-TopBarrier")
     let barrieraGIU = SKSpriteNode(imageNamed: "Level0-Room2-BottomBarrier")
     let barrieraDX = SKSpriteNode(imageNamed: "Level0-Room2-RightBarrier")
+    let barrieraPortaSu = SKSpriteNode(imageNamed: "Level0-Room2-TopDoorCollider")
     
     var move: Bool = false
     var moveSingle: Bool = false
@@ -79,10 +80,13 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
         characterAvatar.position = CGPoint(x: size.width*1.1,y: size.height*0.24)
+        characterAvatar.name = "player"
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 8
+        
         characterFeetCollider.position = CGPoint(x: size.width*1.1,y: size.height*0.25)
+        characterFeetCollider.name = "player"
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
@@ -92,6 +96,21 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
         player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
+        
+        barrieraPortaSu.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
+//        barrieraGIU.zRotation = 0
+        barrieraPortaSu.name = "PortaSu"
+        barrieraPortaSu.xScale = 0.4
+        barrieraPortaSu.yScale = 0.4
+        barrieraPortaSu.physicsBody = SKPhysicsBody(texture: barrieraPortaSu.texture!, size: barrieraPortaSu.size)
+        barrieraPortaSu.physicsBody?.affectedByGravity = false
+        barrieraPortaSu.physicsBody?.restitution = 0
+        barrieraPortaSu.physicsBody?.allowsRotation = false
+        barrieraPortaSu.physicsBody?.isDynamic = false
+        barrieraPortaSu.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        barrieraPortaSu.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        barrieraPortaSu.alpha = 0.01
+        barrieraPortaSu.name = "outerBarrier"
         
         barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
 //        barrieraGIU.zRotation = 0
@@ -162,6 +181,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         worldGroup.addChild(barrieraSX)
         worldGroup.addChild(barrieraGIU)
         worldGroup.addChild(barrieraDX)
+        worldGroup.addChild(barrieraPortaSu)
         addChild(worldGroup)
         addChild(characterAvatar)
         addChild(characterFeetCollider)
@@ -303,6 +323,21 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     func roomSetup(){
         
+    }
+    
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        let contactA = contact.bodyA.node?.name
+        let contactB = contact.bodyB.node?.name
+        
+        //Se la collisione che si è verificata ha come protagonisti il personaggio e la porta sul lato inferiore della stanza allora avvia la transizione alla nuova stanza
+        if(contactA == "player1" || contactB == "player1"){
+            if(contactA == "PortaSu" || contactB == "PortaSu"){
+                //TO DO: transizione verso la nuova stanza
+                let room1 = Level00(size: size)
+                view?.presentScene(room1)
+            }
+        }
     }
     
 }
