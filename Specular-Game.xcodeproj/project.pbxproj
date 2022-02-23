@@ -15,10 +15,10 @@
 		4A2A3BC327BFEBDA0061788A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A2A3BC127BFEBDA0061788A /* Main.storyboard */; };
 		4A2A3BC527BFEBDB0061788A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4A2A3BC427BFEBDB0061788A /* Assets.xcassets */; };
 		4A2A3BC827BFEBDB0061788A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 4A2A3BC627BFEBDB0061788A /* LaunchScreen.storyboard */; };
-		4A2A3BCF27BFEC230061788A /* Level00.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A3BCE27BFEC230061788A /* Level00.swift */; };
 		4A2A3BD127BFEC2B0061788A /* Level00-2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD027BFEC2B0061788A /* Level00-2.swift */; };
 		4A2A3BD327BFEC330061788A /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD227BFEC330061788A /* Music.swift */; };
 		4A2A3BD527BFEC5F0061788A /* academy.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD427BFEC5F0061788A /* academy.wav */; };
+		4A611C6627C6855300FCC517 /* Level00.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A611C6527C6855300FCC517 /* Level00.swift */; };
 		4A6E625227C56AE800FAC06C /* LanguageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6E625127C56AE800FAC06C /* LanguageHandler.swift */; };
 		4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */; };
 		4A87769727C3A38B002B966F /* LevelSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */; };
@@ -39,10 +39,10 @@
 		4A2A3BC227BFEBDA0061788A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		4A2A3BC427BFEBDB0061788A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		4A2A3BC727BFEBDB0061788A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		4A2A3BCE27BFEC230061788A /* Level00.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level00.swift; sourceTree = "<group>"; };
 		4A2A3BD027BFEC2B0061788A /* Level00-2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-2.swift"; sourceTree = "<group>"; };
 		4A2A3BD227BFEC330061788A /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		4A2A3BD427BFEC5F0061788A /* academy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = academy.wav; sourceTree = "<group>"; };
+		4A611C6527C6855300FCC517 /* Level00.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level00.swift; sourceTree = "<group>"; };
 		4A6E625127C56AE800FAC06C /* LanguageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageHandler.swift; sourceTree = "<group>"; };
 		4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-5.swift"; sourceTree = "<group>"; };
 		4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectionScreen.swift; sourceTree = "<group>"; };
@@ -105,7 +105,7 @@
 		4A7B1D3D27C4EE9B0084F509 /* Level 0 */ = {
 			isa = PBXGroup;
 			children = (
-				4A2A3BCE27BFEC230061788A /* Level00.swift */,
+				4A611C6527C6855300FCC517 /* Level00.swift */,
 				4A2A3BD027BFEC2B0061788A /* Level00-2.swift */,
 				52FF066E27C3D57D0041C232 /* Level00-3.swift */,
 				52FF067027C3D5920041C232 /* Level00-4.swift */,
@@ -190,8 +190,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4A611C6627C6855300FCC517 /* Level00.swift in Sources */,
 				4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */,
-				4A2A3BCF27BFEC230061788A /* Level00.swift in Sources */,
 				4A2A3BBE27BFEBDA0061788A /* GameScene.swift in Sources */,
 				4A87769927C3A3BB002B966F /* PauseMenuHandler.swift in Sources */,
 				4A2A3BC027BFEBDA0061788A /* GameViewController.swift in Sources */,

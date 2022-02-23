@@ -19,6 +19,9 @@ final class musicHandler {
     var playingMusic: Bool = false
     var mutedMusic: Bool = false
     
+    var mutedSounds: Bool = false
+    
+    
     private init() {
         
     }

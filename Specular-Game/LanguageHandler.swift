@@ -14,11 +14,14 @@ class LanguageHandler {
     public let languageLabelEnglish = "Language"
     public let languageLabelItalian = "Lingua"
     public let goBackToMainMenuLabelEnglish = "Go back to main menu"
+    public let musicLabelEnglish = "Music"
+    public let soundEffectsLabelEnglish = "Sound effects"
     
     public let languageSelectionButtonEnglish = "English"
     public let languageSelectionButtonItalian = "Italiano"
     public let goBackToMainMenuLabelItalian = "Torna al menu principale"
-    
+    public let musicLabelItalian = "Musica"
+    public let soundEffectsLabelItalian = "Effetti sonori"
     
     
 }

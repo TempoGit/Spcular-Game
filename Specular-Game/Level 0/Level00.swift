@@ -15,10 +15,7 @@ import SwiftUI
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkRightUpFrame1"), SKTexture(imageNamed: "WalkRightUpFrame2")]
 let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
 let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkLeftUpFrame1"), SKTexture(imageNamed: "WalkLeftUpFrame2")]
-//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
-//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "Frame1(1)"), SKTexture(imageNamed: "Frame2(1)")]
-let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "Frame 2"), SKTexture(imageNamed: "Frame2(1)")]
-//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "Frame1(1)"), SKTexture(imageNamed: "Stop"),SKTexture(imageNamed: "Frame2(1)")]
+let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
 let walkingAnimationRightUp: SKAction = SKAction.animate(with: walkingAnimationFramesRightUp, timePerFrame: 0.2)
 let walkingAnimationRightDown: SKAction = SKAction.animate(with: walkingAnimationFramesRightDown, timePerFrame: 0.2)
 let walkingAnimationLeftUp: SKAction = SKAction.animate(with: walkingAnimationFramesLeftUp, timePerFrame: 0.2)
@@ -57,12 +54,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let box2andShadow = SKSpriteNode(imageNamed: "Level0-Room1-Box2AndShadow")
     let box2Single = SKSpriteNode(imageNamed: "Level0-Room1-Box2part2")
     let box2Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box2Collider")
-    let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Box2TransparencyCollider")
+    let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes2TransparencyCollider")
+//    let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Box2TransparencyCollider")
     let box1Left = SKSpriteNode(imageNamed: "Level0-Room1-Box1Left")
     let box1Right = SKSpriteNode(imageNamed: "Level0-Room1-Box1Right")
+    let box1TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes1TransparencyCollider")
     let box1Shadow = SKSpriteNode(imageNamed: "Level0-Room1-Box1Shadow")
-    let box1TransparencyColliderLeft = SKSpriteNode(imageNamed: "Level0-Room1-Box1TransparencyColliderLeft")
-    let box1TransparencyColliderRight = SKSpriteNode(imageNamed: "Level0-Room1-Box1TransparencyColliderRight")
     let box1Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box1Collider")
     
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
@@ -82,6 +79,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var box2Collided: Bool = false
     var box1LeftCollided: Bool = false
     var box1RightCollided: Bool = false
+    var box1Collided: Bool = false
     
     //Camera di gioco
     let cameraNode = SKCameraNode()
@@ -121,7 +119,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(wardrobe)
         addChild(wardrobeCollider)
         addChild(wardrobeShadow)
-        addChild(wardrobeTransparencyCollider)
         addChild(box2andShadow)
         addChild(box2Single)
         addChild(box2Collider)
@@ -130,8 +127,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(box1Right)
         addChild(box1Shadow)
         addChild(box1Collider)
-        addChild(box1TransparencyColliderLeft)
-        addChild(box1TransparencyColliderRight)
+        addChild(box1TransparencyCollider)
+        addChild(wardrobeTransparencyCollider)
         
         
 //        worldGroup.addChild(room)
@@ -437,53 +434,49 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     func checkCollisions(){
         //Verifico se ci sono state collisioni tra il personaggio e il collider che gestisce la trasparenza dell'armadio
         if(characterFeetCollider.frame.intersects(self.wardrobeTransparencyCollider.frame)){
+            print("Behind")
             wardrobeCollided = true
-            wardrobe.alpha = 0.3
-            characterAvatar.alpha = 0.85
+            wardrobe.zPosition = 11
+            characterAvatar.zPosition = 10
         } else {
             //Quando la collisione finisce resetto i valori di trasparenza, uso la variabile wadrobeCollided così non eseguo sempre queste azioni, ma solamente se c'è stata una modifica a questi valori in precedenza, se quindi il personaggio è andato dietro all'armadio e ora ne sta uscendo
             if(wardrobeCollided){
                 wardrobeCollided = false
-                wardrobe.alpha = 1
-                characterAvatar.alpha = 1
+                wardrobe.zPosition = 10
+                characterAvatar.zPosition = 11
             }
         }
         
         if(characterFeetCollider.frame.intersects(self.box2TransparencyCollider.frame)){
             box2Collided = true
-            box2Single.alpha = 0.3
-            characterAvatar.alpha = 0.85
+            box2Single.zPosition = 11
+            box2andShadow.zPosition = 11
+            characterAvatar.zPosition = 10
         } else {
             if(box2Collided){
                box2Collided = false
-                box2Single.alpha = 1
-                characterAvatar.alpha = 1
+                box2Single.zPosition = 10
+                box2andShadow.zPosition = 10
+                characterAvatar.zPosition = 11
             }
         }
         
-        if(characterFeetCollider.frame.intersects(self.box1TransparencyColliderLeft.frame)){
-            box1LeftCollided = true
-            box1Left.alpha = 0.3
-            characterAvatar.alpha = 0.85
+        if(characterFeetCollider.frame.intersects(self.box1TransparencyCollider.frame)){
+            box1Collided = true
+            box1Left.zPosition = 11
+            characterAvatar.zPosition = 10
+            box1Right.zPosition = 11
+            characterAvatar.zPosition = 10
         } else {
-            if(box1LeftCollided){
-                box1LeftCollided = false
-                box1Left.alpha = 1
-                characterAvatar.alpha = 1
+            if(box1Collided){
+                box1Collided = false
+                box1Left.zPosition = 10
+                characterAvatar.zPosition = 11
+                box1Right.zPosition = 10
+                characterAvatar.zPosition = 11
             }
         }
         
-        if(characterFeetCollider.frame.intersects(self.box1TransparencyColliderRight.frame)){
-            box1RightCollided = true
-            box1Right.alpha = 0.3
-            characterAvatar.alpha = 0.85
-        } else {
-            if(box1RightCollided){
-                box1RightCollided = false
-                box1Right.alpha = 1
-                characterAvatar.alpha = 1
-            }
-        }
     }
     
     //Funzione per creare definire le impostazioni dei nodi della stanza
@@ -574,7 +567,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         wardrobeShadow.xScale = 0.4
         wardrobeShadow.yScale = 0.4
         wardrobeShadow.zPosition = 3
-        wardrobeTransparencyCollider.position = CGPoint(x: size.width*0.93, y: size.height*0.33)
+        wardrobeTransparencyCollider.position = CGPoint(x: size.width*0.905, y: size.height*0.33)
         wardrobeTransparencyCollider.xScale = 0.4
         wardrobeTransparencyCollider.yScale = 0.4
         wardrobeTransparencyCollider.zPosition = 3
@@ -626,20 +619,15 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         box1Collider.physicsBody?.allowsRotation = false
         box1Collider.physicsBody?.isDynamic = false
         box1Collider.zPosition = 3
-        box1TransparencyColliderLeft.position = CGPoint(x: size.width*0.62, y: size.height*0.18)
-        box1TransparencyColliderLeft.xScale = 0.4
-        box1TransparencyColliderLeft.yScale = 0.4
-        box1TransparencyColliderLeft.zPosition = 3
-        box1TransparencyColliderLeft.alpha = 0.01
-        box1TransparencyColliderRight.position = CGPoint(x: size.width*0.77, y: size.height*0.205)
-        box1TransparencyColliderRight.xScale = 0.4
-        box1TransparencyColliderRight.yScale = 0.4
-        box1TransparencyColliderRight.zPosition = 3
-        box1TransparencyColliderRight.alpha = 0.01
+        box1TransparencyCollider.position = CGPoint(x: size.width*0.7, y: size.height*0.2)
+        box1TransparencyCollider.xScale = 0.4
+        box1TransparencyCollider.yScale = 0.4
+        box1TransparencyCollider.zPosition = 3
+        box1TransparencyCollider.alpha = 0.01
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.xScale = 0.2
-        characterAvatar.yScale = 0.2
+        characterAvatar.xScale = 0.16
+        characterAvatar.yScale = 0.16
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
         if(previousRoom == "Room2"){
