@@ -24,8 +24,9 @@ class GameScene: SKScene {
     let playButton = SKSpriteNode(imageNamed: "SquarePlay4")
     let houseSpriteMenu = SKSpriteNode(imageNamed: "House.png")
     let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
-    var gameTitle = SKLabelNode(text: "SPECULAR")
-    let gameTitleMirrored = SKLabelNode(text: "SPECULAR")
+    var gameTitleWithReflection = SKSpriteNode(imageNamed: "Title_white_resized")
+    
+    
     
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
     let settingsButton = SKShapeNode(rectOf: CGSize(width: 50, height: 50))
@@ -36,12 +37,13 @@ class GameScene: SKScene {
     
     let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
     let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
+    let musicLabel = SKLabelNode(text: "BGM")
+
+    let soundEffectsLabel = SKLabelNode(text: "Sound effects")
+    var soundEffectsLabelSpriteNode = SKSpriteNode()
     
     let languageLabel = SKLabelNode(text: "Language")
     let languageSelectionLabel = SKLabelNode(text: "English")
-    
-    let italianFlag = SKSpriteNode(imageNamed: "ItalyFlag")
-    let ukFlag = SKSpriteNode(imageNamed: "UkFlag")
     
     override func didMove(to view: SKView) {
         backgroundScreen.size.width = size.width
@@ -60,19 +62,6 @@ class GameScene: SKScene {
         houseSpriteMenuMirrored.alpha = 0.2
         houseSpriteMenuMirrored.zRotation = 3.14
         houseSpriteMenuMirrored.xScale = -1
-        
-        gameTitle.position = CGPoint(x: size.width*0.5, y: size.height*0.8)
-        gameTitle.fontName = "SFMono"
-        gameTitle.fontSize = 50
-        gameTitle.fontColor = .systemGray
-        
-        
-        gameTitleMirrored.position = CGPoint(x: size.width*0.5,y: size.height*0.8)
-        gameTitleMirrored.fontSize = 50
-        gameTitleMirrored.fontName = "SFMono"
-        gameTitleMirrored.zRotation = 3.14
-        gameTitleMirrored.xScale = -1.0
-        gameTitleMirrored.fontColor = .black
         
         playButton.position = CGPoint(x: size.width*0.5,y: size.height*0.15)
         playButton.size = CGSize(width: size.width*0.25, height: size.width*0.25)
@@ -106,30 +95,48 @@ class GameScene: SKScene {
         volumeOnButton.yScale = 0.2
         volumeOnButton.name = "volumeButton"
         volumeOnButton.zPosition = 10
-        volumeOnButton.position = CGPoint(x: size.width*0.35,y: size.height*0.55 )
+        volumeOnButton.position = CGPoint(x: size.width*0.7,y: size.height*0.57 )
         
         volumeOffButton.xScale = 0.2
         volumeOffButton.yScale = 0.2
         volumeOffButton.name = "volumeButton"
         volumeOffButton.zPosition = 10
-        volumeOffButton.position = CGPoint(x: size.width*0.35,y: size.height*0.55 )
+        volumeOffButton.position = CGPoint(x: size.width*0.7,y: size.height*0.57 )
+        
+        
+        musicLabel.fontColor = .white
+        musicLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
+        musicLabel.position = CGPoint(x: size.width*0.2, y: size.height*0.55)
+        musicLabel.zPosition = 10
+        
+        soundEffectsLabel.fontColor = .white
+        soundEffectsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
+        soundEffectsLabel.position = CGPoint(x: size.width*0.2, y: size.height*0.5)
+        soundEffectsLabel.zPosition = 10
+        
 
         languageLabel.zPosition = 10
         languageLabel.fontColor = .white
-        languageLabel.position = CGPoint(x: size.width*0.35, y: size.height*0.45)
+        languageLabel.position = CGPoint(x: size.width*0.2, y: size.height*0.45)
+        languageLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
         languageSelectionLabel.zPosition = 10
         languageSelectionLabel.fontColor = .white
-        languageSelectionLabel.position = CGPoint(x: size.width*0.65, y: size.height*0.45)
+        languageSelectionLabel.position = CGPoint(x: size.width*0.8, y: size.height*0.45)
+        languageSelectionLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
         languageSelectionLabel.name = "languageButton"
+        
+        gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.8)
+        gameTitleWithReflection.xScale = 0.4
+        gameTitleWithReflection.yScale = 0.4
         
         
         //Aggiungo gli elementi alla scena
         addChild(houseSpriteMenu)
         addChild(houseSpriteMenuMirrored)
-        addChild(gameTitle)
-        addChild(gameTitleMirrored)
+        addChild(gameTitleWithReflection)
         addChild(playButton)
         addChild(settingsButton)
+        
         
         //Avvio la musica
         musicHandler.instance.playBackgroundMusicMenu()
@@ -153,6 +160,8 @@ class GameScene: SKScene {
         if(touchedNode.name == "settingsButton"){
             addChild(backgroundSettings)
             addChild(settingsSquare)
+            addChild(musicLabel)
+            addChild(soundEffectsLabel)
             if(musicHandler.instance.mutedMusic == true){
                 addChild(volumeOffButton)
             } else if (musicHandler.instance.mutedMusic == false){
@@ -190,13 +199,21 @@ class GameScene: SKScene {
             }
             languageLabel.removeFromParent()
             languageSelectionLabel.removeFromParent()
+            soundEffectsLabel.removeFromParent()
+            musicLabel.removeFromParent()
             if(language == "English"){
-                languageLabel.text = "Language"
-                languageSelectionLabel.text = "English"
+                languageLabel.text = LanguageHandler.instance.languageLabelEnglish
+                languageSelectionLabel.text = LanguageHandler.instance.languageSelectionButtonEnglish
+                soundEffectsLabel.text = LanguageHandler.instance.soundEffectsLabelEnglish
+                musicLabel.text = LanguageHandler.instance.musicLabelEnglish
             } else if(language == "Italian"){
-                languageLabel.text = "Lingua"
-                languageSelectionLabel.text = "Italiano"
+                languageLabel.text = LanguageHandler.instance.languageLabelItalian
+                languageSelectionLabel.text = LanguageHandler.instance.languageSelectionButtonEnglish
+                soundEffectsLabel.text = LanguageHandler.instance.soundEffectsLabelItalian
+                musicLabel.text = LanguageHandler.instance.musicLabelItalian
             }
+            addChild(soundEffectsLabel)
+            addChild(musicLabel)
             addChild(languageLabel)
             addChild(languageSelectionLabel)
         }
@@ -212,6 +229,8 @@ class GameScene: SKScene {
             closeSettingsButton.removeFromParent()
             languageLabel.removeFromParent()
             languageSelectionLabel.removeFromParent()
+            musicLabel.removeFromParent()
+            soundEffectsLabel.removeFromParent()
         }
        
     }

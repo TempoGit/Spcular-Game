@@ -542,13 +542,13 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     func checkCollisions(){
         if(characterFeetCollider.frame.intersects(bookshelfTransparencyCollider.frame)){
             bookshelfCollided = true
-            characterAvatar.alpha = 0.85
-            bookshelf.alpha = 0.3
+            characterAvatar.zPosition = 10
+            bookshelf.zPosition = 11
         } else {
             if(bookshelfCollided){
                 bookshelfCollided = false
-                characterAvatar.alpha = 1
-                bookshelf.alpha = 1
+                characterAvatar.zPosition = 11
+                bookshelf.zPosition = 10
             }
         }
         
