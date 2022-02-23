@@ -12,9 +12,15 @@ import SpriteKit
 import AVFoundation
 import SwiftUI
 
+let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkRightUpFrame1"), SKTexture(imageNamed: "WalkRightUpFrame2")]
+let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
+let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkLeftUpFrame1"), SKTexture(imageNamed: "WalkLeftUpFrame2")]
+let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
+let walkingAnimationRightUp: SKAction = SKAction.animate(with: walkingAnimationFramesRightUp, timePerFrame: 0.2)
+let walkingAnimationRightDown: SKAction = SKAction.animate(with: walkingAnimationFramesRightDown, timePerFrame: 0.2)
+let walkingAnimationLeftUp: SKAction = SKAction.animate(with: walkingAnimationFramesLeftUp, timePerFrame: 0.2)
+let walkingAnimationLeftDown: SKAction = SKAction.animate(with: walkingAnimationFramesLeftDown, timePerFrame: 0.2)
 
-let walkingAnimationFrames: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
-let walkingAnimation: SKAction = SKAction.animate(with: walkingAnimationFrames, timePerFrame: 0.2)
 
 var previousRoom: String = "Room1"
 
@@ -77,10 +83,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     //Camera di gioco
     let cameraNode = SKCameraNode()
     
-    //Variabili per testare delle cose DA CANCELLARE IN SEGUITO
-    let squareTest1 = SKShapeNode(rectOf: CGSize(width: 100,height: 100))
-    var tappedObject: Bool = false
-    let object = SKSpriteNode(imageNamed: "PlayerBox")
+    //Variabili per gestire le animazioni
+    var walkingRight: Bool = false
+    var walkingLeft: Bool = false
+    var walkingUp: Bool = false
+    var walkingDown: Bool = false
+    
     
     let gameArea: CGRect
     
@@ -162,15 +170,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.location(in: self)
         let touchedNode = atPoint(touchLocation)
 
-        
-        if (touchedNode.name == "tappedObject"){
-            for touch in touches {
-                location = touch.location(in: self)
-                let removeObject = SKAction.sequence([SKAction.removeFromParent()])
-                object.run(removeObject)
-            }
-       
-        }
         
         //Se scelgo dal menu di pausa di tornare indietro, fermo la musica del livello e torno al menu principale
         if(touchedNode.name == "goToMenu"){
@@ -269,19 +268,49 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
         //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
-        if(touchLocation != characterFeetCollider.position){
+        if((touchedNode.name != "goToMenu" && touchedNode.name != "pause" && touchedNode.name != "closePause") && (touchLocation != characterFeetCollider.position)){
             location = touchLocation
             moveSingle = true
             //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-            characterAvatar.run(SKAction.repeatForever(walkingAnimation))
+//            if(location.x > characterFeetCollider.position.x){
+//                print("Walking right")
+//                characterAvatar.run(SKAction.repeatForever(walkingAnimation))
+//            } else if (location.x < characterFeetCollider.position.x){
+//                print("Walking left")
+//            }
+            
+            if(location.x > characterFeetCollider.position.x){
+                walkingRight = true
+//                print("Walking right")
+                if (location.y > characterFeetCollider.position.y) {
+                    walkingUp = true
+                    print("Walking right and up")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                } else if (location.y < characterFeetCollider.position.y){
+                    walkingDown = true
+                    print("Walking right and down")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                }
+            } else if (location.x < characterFeetCollider.position.x){
+                walkingLeft = true
+//                print("Walking left")
+                if (location.y > characterFeetCollider.position.y) {
+                    walkingUp = true
+                    print("Walking left and up")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                } else if (location.y < characterFeetCollider.position.y){
+                    walkingDown = true
+                    print("Walking left and down")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                }
+            }
+            
             
         }
     }
 
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        tappedObject = true
-        
         //Per fare la transizione dal tocco singolo al tocco continuo, quando viene rilevato il tocco continuo, imposto la variabile moveSingle a false, in modo che il movimento col semplice tap si interrompa e poi metto la variabile move a true, così facendo avvio il movimento del personaggio col tocco continuo dello schermo
         //Tengo continuamente traccia di dove sto toccando lo schermo tramite il for ed assegnando il valore della posizione del tocco alla variabile "location", così facendo posso usare il valore del tocco anche al di fuori di questa funzione, in particolare lo uso nella funzione di "update"
         moveSingle = false
@@ -289,12 +318,19 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         for touch in touches {
             location = touch.location(in: self)
         }
+        
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
         move = false
         moveSingle = false
+        //Reimposto tutte le variabili che si occupano di gestire le animazioni della camminata a false
+        walkingUp = false
+        walkingDown = false
+        walkingLeft = false
+        walkingRight = false
         //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
         characterAvatar.removeAllActions()
         characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
@@ -310,17 +346,55 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 characterFeetCollider.position.x += 0.8
                 if(location.y > characterFeetCollider.position.y){
                     characterFeetCollider.position.y += 0.8
-                    
+                    if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
+                        if(!walkingRight || !walkingUp){
+                            walkingLeft = false
+                            walkingDown = false
+                            walkingRight = true
+                            walkingUp = true
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                        }
+                    }
                 } else if(location.y < characterFeetCollider.position.y){
                     characterFeetCollider.position.y -= 0.8
+                    if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
+                        if(!walkingRight || !walkingDown){
+                            walkingRight = true
+                            walkingDown = true
+                            walkingLeft = false
+                            walkingUp = false
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                        }
+                    }
                 }
             } else if (location.x < characterFeetCollider.position.x){
                 characterFeetCollider.position.x -= 0.8
                 if(location.y > characterFeetCollider.position.y){
                     characterFeetCollider.position.y += 0.8
-                    
+                    if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
+                        if(!walkingLeft || !walkingUp){
+                            walkingLeft = true
+                            walkingUp = true
+                            walkingRight = false
+                            walkingDown = false
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                        }
+                    }
                 } else if(location.y < characterFeetCollider.position.y){
                     characterFeetCollider.position.y -= 0.8
+                    if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
+                        if(!walkingLeft || !walkingDown){
+                            walkingLeft = true
+                            walkingDown = true
+                            walkingRight = false
+                            walkingUp = false
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                        }
+                    }
                 }
             } else if (location.y > characterFeetCollider.position.y){
                 characterFeetCollider.position.y += 0.8
