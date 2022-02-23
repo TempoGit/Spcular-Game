@@ -22,8 +22,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let room = SKSpriteNode(imageNamed: "Level0-Room5-Background")
     let boxes = SKSpriteNode(imageNamed: "Level0-Room5-BookShelf")
     let doorLF = SKSpriteNode(imageNamed: "Level0-Room5-DoorLF")
-    let doorRTclosed = SKSpriteNode(imageNamed: "Level0-Room5-HalfWall-open")
-    let doorRTopen = SKSpriteNode(imageNamed: "Level0-Room5-HalfWall-closed")
+    let doorRTclosed = SKSpriteNode(imageNamed: "Door2 closed")
+    let doorRTopen = SKSpriteNode(imageNamed: "Door2 open")
+    let halfWallBackground = SKSpriteNode(imageNamed: "HalfWallBackground")
     let lamp = SKSpriteNode(imageNamed: "Level0-Room5-Lamp")
     let barrierDownLF = SKSpriteNode(imageNamed: "BarrierBottomLT")
     let barrierDownRT = SKSpriteNode(imageNamed: "BarrierBottomRT")
@@ -32,6 +33,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let doorColliderLF = SKSpriteNode(imageNamed: "DoorColliderLT")
     let doorColliderRT = SKSpriteNode(imageNamed: "DoorColliderRT")
     let halfWallCollider = SKSpriteNode(imageNamed: "ColliderHalfWall")
+    let boxCollider = SKSpriteNode(imageNamed: "BoxesCollider")
   
     var moveSingle: Bool = false
     var move: Bool = false
@@ -76,7 +78,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         addChild(doorColliderLF)
         addChild(doorColliderRT)
         addChild(halfWallCollider)
-        
+        addChild(halfWallBackground)
+        addChild(boxCollider)
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.addChild(pauseButton)
@@ -481,7 +484,13 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorRTclosed.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         doorRTclosed.xScale = 0.4
         doorRTclosed.yScale = 0.4
-        doorRTclosed.alpha = 0.8
+        doorRTclosed.alpha = 0.95
+        
+        halfWallBackground.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
+        halfWallBackground.xScale = 0.4
+        halfWallBackground.yScale = 0.4
+        halfWallBackground.alpha = 0.8
+        halfWallBackground.zPosition = 10
 //        setup lamp
         lamp.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         lamp.xScale = 0.4
@@ -491,6 +500,18 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         halfWallCollider.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         halfWallCollider.xScale = 0.4
         halfWallCollider.yScale = 0.4
-        halfWallCollider.alpha = 0
+        halfWallCollider.alpha = 0.01
+        
+        boxCollider.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
+        boxCollider.xScale = 0.4
+        boxCollider.yScale = 0.4
+        boxCollider.physicsBody = SKPhysicsBody(texture: boxCollider.texture!, size: boxCollider.size)
+        boxCollider.physicsBody?.affectedByGravity = false
+        boxCollider.physicsBody?.restitution = 0
+        boxCollider.physicsBody?.allowsRotation = false
+        boxCollider.physicsBody?.isDynamic = false
+        boxCollider.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        boxCollider.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        boxCollider.alpha = 0.01
     }
 }
