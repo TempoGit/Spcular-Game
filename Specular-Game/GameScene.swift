@@ -7,42 +7,38 @@
 
 
 
-/*
-
- 
-            GIGGINO GRANDE GRANDE
-            
-            Piccolo piccolo
- 
- 
- */
-
 import SpriteKit
 import GameplayKit
 import SwiftUI
 
-//Changed
+
 
 class GameScene: SKScene {
     
     @AppStorage("language") var language: String = "English"
     
-    let startGameLabel = SKLabelNode(text: "Start Game")
-    
+    //Variabili che compongono l'home page, background, logo, riflessi e scritta
     let squareUp = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
-    
-    
     let backgroundScreenBottomPart = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.3))
     let backgroundScreen = SKSpriteNode(imageNamed: "Gradient")
     let playButton = SKSpriteNode(imageNamed: "SquarePlay4")
-    let settingsButton = SKLabelNode(text: "Settings")
     let houseSpriteMenu = SKSpriteNode(imageNamed: "House.png")
     let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
     var gameTitle = SKLabelNode(text: "SPECULAR")
     let gameTitleMirrored = SKLabelNode(text: "SPECULAR")
     
+    //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
+    let settingsButton = SKShapeNode(rectOf: CGSize(width: 50, height: 50))
+    let closeSettingsButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
+    
+    let backgroundSettings = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    let settingsSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.7, height: UIScreen.main.bounds.size.height*0.4))
+    
     let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
     let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
+    
+    let languageLabel = SKLabelNode(text: "Language")
+    let languageSelectionLabel = SKLabelNode(text: "English")
     
     let italianFlag = SKSpriteNode(imageNamed: "ItalyFlag")
     let ukFlag = SKSpriteNode(imageNamed: "UkFlag")
@@ -82,55 +78,60 @@ class GameScene: SKScene {
         playButton.size = CGSize(width: size.width*0.25, height: size.width*0.25)
         playButton.name = "playGameName"
         
+        
+        //Impostazioni relative al menu di opzioni
+        settingsButton.fillColor = .white
+        settingsButton.strokeColor = .white
+        settingsButton.position = CGPoint(x: size.width*0.85, y: size.height*0.9)
+        settingsButton.name = "settingsButton"
+        
+        settingsSquare.fillColor = .black
+        settingsSquare.strokeColor = .black
+        settingsSquare.zPosition = 8
+        settingsSquare.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        backgroundSettings.fillColor = .black
+        backgroundSettings.strokeColor = .black
+        backgroundSettings.alpha = 0.6
+        backgroundSettings.zPosition = 7
+        backgroundSettings.name = "closeSettings"
+        backgroundSettings.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        
+        closeSettingsButton.fillColor = .white
+        closeSettingsButton.strokeColor = .white
+        closeSettingsButton.zPosition = 10
+        closeSettingsButton.position = CGPoint(x: size.width*0.28, y: size.height*0.65)
+        closeSettingsButton.name = "closeSettings"
+        
         volumeOnButton.xScale = 0.2
         volumeOnButton.yScale = 0.2
-        volumeOnButton.name = "volumeOn"
-        volumeOnButton.position = CGPoint(x: size.width*0.15,y: size.height*0.9 )
-        
+        volumeOnButton.name = "volumeButton"
+        volumeOnButton.zPosition = 10
+        volumeOnButton.position = CGPoint(x: size.width*0.35,y: size.height*0.55 )
         
         volumeOffButton.xScale = 0.2
         volumeOffButton.yScale = 0.2
-        volumeOffButton.name = "volumeOff"
-        volumeOffButton.position = CGPoint(x: size.width*0.38,y: size.height*0.9 )
-        
-        if(musicHandler.instance.mutedMusic){
-            volumeOnButton.alpha = 0.5
-            volumeOffButton.alpha = 1
-        } else if(!musicHandler.instance.mutedMusic) {
-            volumeOnButton.alpha = 1
-            volumeOffButton.alpha = 0.5
-        }
-        
-        italianFlag.xScale = 0.08
-        italianFlag.yScale = 0.06
-        italianFlag.name = "italianFlag"
-        italianFlag.position = CGPoint(x: size.width*0.9, y: size.height*0.9)
-        
-        ukFlag.xScale = 0.08
-        ukFlag.yScale = 0.06
-        ukFlag.name = "ukFlag"
-        ukFlag.position = CGPoint(x: size.width*0.7, y: size.height*0.9)
-        
-        if(language == "English"){
-            italianFlag.alpha = 0.5
-        } else if (language == "Italiano"){
-            ukFlag.alpha = 0.5
-        }
+        volumeOffButton.name = "volumeButton"
+        volumeOffButton.zPosition = 10
+        volumeOffButton.position = CGPoint(x: size.width*0.35,y: size.height*0.55 )
+
+        languageLabel.zPosition = 10
+        languageLabel.fontColor = .white
+        languageLabel.position = CGPoint(x: size.width*0.35, y: size.height*0.45)
+        languageSelectionLabel.zPosition = 10
+        languageSelectionLabel.fontColor = .white
+        languageSelectionLabel.position = CGPoint(x: size.width*0.65, y: size.height*0.45)
+        languageSelectionLabel.name = "languageButton"
         
         
-        addChild(volumeOnButton)
-        addChild(volumeOffButton)
-        
-        
+        //Aggiungo gli elementi alla scena
         addChild(houseSpriteMenu)
         addChild(houseSpriteMenuMirrored)
         addChild(gameTitle)
         addChild(gameTitleMirrored)
         addChild(playButton)
-        addChild(italianFlag)
-        addChild(ukFlag)
+        addChild(settingsButton)
         
-        
+        //Avvio la musica
         musicHandler.instance.playBackgroundMusicMenu()
     }
     
@@ -148,15 +149,69 @@ class GameScene: SKScene {
             let startGameScene = Level00(size: size)
             view?.presentScene(startGameScene)
         }
-        if(touchedNode.name == "volumeOff"){
-            volumeOnButton.alpha = 0.5
-            volumeOffButton.alpha = 1
-            musicHandler.instance.muteBackgroundMusic()
+        
+        if(touchedNode.name == "settingsButton"){
+            addChild(backgroundSettings)
+            addChild(settingsSquare)
+            if(musicHandler.instance.mutedMusic == true){
+                addChild(volumeOffButton)
+            } else if (musicHandler.instance.mutedMusic == false){
+                addChild(volumeOnButton)
+            }
+            if(language == "Italian"){
+                languageLabel.text = "Lingua"
+                languageSelectionLabel.text = "Italiano"
+            } else if(language == "English") {
+                languageLabel.text = "Language"
+                languageSelectionLabel.text = "English"
+            }
+            addChild(languageLabel)
+            addChild(languageSelectionLabel)
+            addChild(closeSettingsButton)
         }
-        if(touchedNode.name == "volumeOn"){
-            volumeOnButton.alpha = 1
-            volumeOffButton.alpha = 0.5
-            musicHandler.instance.unmuteBackgroundMusic()
+        
+        if(touchedNode.name == "volumeButton"){
+            if(musicHandler.instance.mutedMusic == true){
+                volumeOffButton.removeFromParent()
+                musicHandler.instance.unmuteBackgroundMusic()
+                addChild(volumeOnButton)
+            } else if (!musicHandler.instance.mutedMusic){
+                volumeOnButton.removeFromParent()
+                musicHandler.instance.muteBackgroundMusic()
+                addChild(volumeOffButton)
+            }
+        }
+        
+        if (touchedNode.name == "languageButton"){
+            if(language == "English"){
+                language = "Italian"
+            } else if(language == "Italian"){
+                language = "English"
+            }
+            languageLabel.removeFromParent()
+            languageSelectionLabel.removeFromParent()
+            if(language == "English"){
+                languageLabel.text = "Language"
+                languageSelectionLabel.text = "English"
+            } else if(language == "Italian"){
+                languageLabel.text = "Lingua"
+                languageSelectionLabel.text = "Italiano"
+            }
+            addChild(languageLabel)
+            addChild(languageSelectionLabel)
+        }
+        
+        if(touchedNode.name == "closeSettings"){
+            settingsSquare.removeFromParent()
+            backgroundSettings.removeFromParent()
+            if(musicHandler.instance.mutedMusic){
+                volumeOffButton.removeFromParent()
+            } else {
+                volumeOnButton.removeFromParent()
+            }
+            closeSettingsButton.removeFromParent()
+            languageLabel.removeFromParent()
+            languageSelectionLabel.removeFromParent()
         }
        
     }

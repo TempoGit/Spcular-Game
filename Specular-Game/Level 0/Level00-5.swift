@@ -7,8 +7,10 @@
 
 import UIKit
 import SpriteKit
+import SwiftUI
 
 class Level00_5: SKScene, SKPhysicsContactDelegate {
+    @AppStorage("language") var language: String = "English"
     
     let pauseButton = SKSpriteNode(imageNamed: "Pause")
     
@@ -31,9 +33,14 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let doorColliderRT = SKSpriteNode(imageNamed: "DoorColliderRT")
     let colliderRT = SKSpriteNode(imageNamed: "DoorRT")
     
-    var moveSingle: Bool = true
-    var move: Bool = true
+    var moveSingle: Bool = false
+    var move: Bool = false
     var location = CGPoint.zero
+    //Variabili per gestire le animazioni
+    var walkingRight: Bool = false
+    var walkingLeft: Bool = false
+    var walkingUp: Bool = false
+    var walkingDown: Bool = false
     
     let gameArea: CGRect
     
@@ -52,6 +59,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         
         roomSetUp()
+        
         addChild(room)
         addChild(boxes)
         addChild(doorLF)
@@ -76,6 +84,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         
         
         self.scene?.physicsWorld.contactDelegate = self
+        
+        previousRoom = "Room5"
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -92,47 +102,91 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
             view?.presentScene(gameScene)
         }
 
+        //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
+        //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
         if(touchedNode.name == "pause"){
             self.isPaused = true
             if(PauseMenuHandler.instance.firstSet == false){
-                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0.35)
-                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: gameArea.size.width*0, y: -gameArea.size.height*0.4)
-                PauseMenuHandler.instance.languageButton.position = CGPoint(x: gameArea.size.width*0, y: gameArea.size.height*0)
-                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: gameArea.size.width*0.15, y: gameArea.size.height*0.25)
-                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.25)
+                PauseMenuHandler.instance.closePauseMenu.position = CGPoint(x: -gameArea.size.width*0.25, y: gameArea.size.height*0.35)
+                PauseMenuHandler.instance.goBackToMenu.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+                PauseMenuHandler.instance.languageLabel.position = CGPoint(x: -gameArea.size.width*0.15, y: -gameArea.size.height*0.1)
+                PauseMenuHandler.instance.languageSelectionButton.position = CGPoint(x: gameArea.size.width*0.2, y: -gameArea.size.height*0.1)
+                PauseMenuHandler.instance.volumeOffButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.15)
+                PauseMenuHandler.instance.volumeOnButton.position = CGPoint(x: -gameArea.size.width*0.15, y: gameArea.size.height*0.15)
             }
             PauseMenuHandler.instance.initializeNodeSettings()
             cameraNode.addChild(PauseMenuHandler.instance.pauseSquare)
             cameraNode.addChild(PauseMenuHandler.instance.backgroundPause)
-            cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
-            cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            if(musicHandler.instance.mutedMusic){
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            } else if(!musicHandler.instance.mutedMusic){
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            }
+            if(language == "Italian"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelItalian
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonItalian
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelItalian
+            } else if (language == "English"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelEnglish
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonEnglish
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelEnglish
+            }
+            cameraNode.addChild(PauseMenuHandler.instance.languageSelectionButton)
             cameraNode.addChild(PauseMenuHandler.instance.closePauseMenu)
             cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
-            cameraNode.addChild(PauseMenuHandler.instance.languageButton)
-        }
-   
-        if(touchedNode.name == "volumeOff"){
-            if(musicHandler.instance.mutedMusic == false){
-                PauseMenuHandler.instance.volumeOnButton.alpha = 0.5
-                PauseMenuHandler.instance.volumeOffButton.alpha = 1
-                musicHandler.instance.muteBackgroundMusic()
-            }
-        }
-   
-        if(touchedNode.name == "volumeOn"){
-            if(musicHandler.instance.mutedMusic == true){
-                PauseMenuHandler.instance.volumeOnButton.alpha = 1
-                PauseMenuHandler.instance.volumeOffButton.alpha = 0.5
-                musicHandler.instance.unmuteBackgroundMusic()
-            }
+            cameraNode.addChild(PauseMenuHandler.instance.languageLabel)
         }
 
+        
+        if(touchedNode.name == "volumeButton"){
+            if(musicHandler.instance.mutedMusic == false){
+                PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+                musicHandler.instance.muteBackgroundMusic()
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOffButton)
+            } else if  (musicHandler.instance.mutedMusic){
+                PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+                musicHandler.instance.unmuteBackgroundMusic()
+                cameraNode.addChild(PauseMenuHandler.instance.volumeOnButton)
+            }
+        }
+        
+        if(touchedNode.name == "languageButton"){
+            if(language == "English"){
+                language = "Italian"
+            } else if (language == "Italian"){
+                language = "English"
+            }
+            
+            PauseMenuHandler.instance.languageLabel.removeFromParent()
+            PauseMenuHandler.instance.languageSelectionButton.removeFromParent()
+            PauseMenuHandler.instance.goBackToMenu.removeFromParent()
+            if(language == "English"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelEnglish
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonEnglish
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelEnglish
+            } else if (language == "Italian"){
+                PauseMenuHandler.instance.languageLabel.text = LanguageHandler.instance.languageLabelItalian
+                PauseMenuHandler.instance.languageSelectionButton.text = LanguageHandler.instance.languageSelectionButtonItalian
+                PauseMenuHandler.instance.goBackToMenu.text = LanguageHandler.instance.goBackToMainMenuLabelItalian
+            }
+            cameraNode.addChild(PauseMenuHandler.instance.languageLabel)
+            cameraNode.addChild(PauseMenuHandler.instance.languageSelectionButton)
+            cameraNode.addChild(PauseMenuHandler.instance.goBackToMenu)
+        }
+
+        
+        
+        //Se clicco il bottone per chiudere il menu di pausa rimuovo tutti gli oggetti che compongono il menu di pausa dal cameraNode e rimuovo la pausa dalla scena di gioco
         if(touchedNode.name == "closePause"){
-            PauseMenuHandler.instance.languageButton.removeFromParent()
+            PauseMenuHandler.instance.languageLabel.removeFromParent()
+            PauseMenuHandler.instance.languageSelectionButton.removeFromParent()
             PauseMenuHandler.instance.backgroundPause.removeFromParent()
             PauseMenuHandler.instance.pauseSquare.removeFromParent()
-            PauseMenuHandler.instance.volumeOnButton.removeFromParent()
-            PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            if(musicHandler.instance.mutedMusic){
+                PauseMenuHandler.instance.volumeOffButton.removeFromParent()
+            } else {
+                PauseMenuHandler.instance.volumeOnButton.removeFromParent()
+            }
             PauseMenuHandler.instance.goBackToMenu.removeFromParent()
             PauseMenuHandler.instance.closePauseMenu.removeFromParent()
             self.isPaused = false
@@ -141,7 +195,39 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         if(touchLocation != characterFeetCollider.position){
             location = touchLocation
             moveSingle = true
-            characterAvatar.run(SKAction.repeatForever(walkingAnimation))
+            //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
+//            if(location.x > characterFeetCollider.position.x){
+//                print("Walking right")
+//                characterAvatar.run(SKAction.repeatForever(walkingAnimation))
+//            } else if (location.x < characterFeetCollider.position.x){
+//                print("Walking left")
+//            }
+            
+            if(location.x > characterFeetCollider.position.x){
+                walkingRight = true
+//                print("Walking right")
+                if (location.y > characterFeetCollider.position.y) {
+                    walkingUp = true
+                    print("Walking right and up")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                } else if (location.y < characterFeetCollider.position.y){
+                    walkingDown = true
+                    print("Walking right and down")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                }
+            } else if (location.x < characterFeetCollider.position.x){
+                walkingLeft = true
+//                print("Walking left")
+                if (location.y > characterFeetCollider.position.y) {
+                    walkingUp = true
+                    print("Walking left and up")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                } else if (location.y < characterFeetCollider.position.y){
+                    walkingDown = true
+                    print("Walking left and down")
+                    characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                }
+            }
         }
     }
     
@@ -156,27 +242,73 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         move = false
         moveSingle = false
+        //Reimposto tutte le variabili che si occupano di gestire le animazioni della camminata a false
+        walkingUp = false
+        walkingDown = false
+        walkingLeft = false
+        walkingRight = false
         characterAvatar.removeAllActions()
         characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
     }
     
     override func update(_ currentTime: TimeInterval) {
+        //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
+        //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
+        //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(move || moveSingle){
             if(location.x > characterFeetCollider.position.x) {
                 characterFeetCollider.position.x += 0.8
                 if(location.y > characterFeetCollider.position.y){
                     characterFeetCollider.position.y += 0.8
-                    
+                    if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
+                        if(!walkingRight || !walkingUp){
+                            walkingLeft = false
+                            walkingDown = false
+                            walkingRight = true
+                            walkingUp = true
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                        }
+                    }
                 } else if(location.y < characterFeetCollider.position.y){
                     characterFeetCollider.position.y -= 0.8
+                    if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
+                        if(!walkingRight || !walkingDown){
+                            walkingRight = true
+                            walkingDown = true
+                            walkingLeft = false
+                            walkingUp = false
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                        }
+                    }
                 }
             } else if (location.x < characterFeetCollider.position.x){
                 characterFeetCollider.position.x -= 0.8
                 if(location.y > characterFeetCollider.position.y){
                     characterFeetCollider.position.y += 0.8
-                    
+                    if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
+                        if(!walkingLeft || !walkingUp){
+                            walkingLeft = true
+                            walkingUp = true
+                            walkingRight = false
+                            walkingDown = false
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                        }
+                    }
                 } else if(location.y < characterFeetCollider.position.y){
                     characterFeetCollider.position.y -= 0.8
+                    if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
+                        if(!walkingLeft || !walkingDown){
+                            walkingLeft = true
+                            walkingDown = true
+                            walkingRight = false
+                            walkingUp = false
+                            characterAvatar.removeAllActions()
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                        }
+                    }
                 }
             } else if (location.y > characterFeetCollider.position.y){
                 characterFeetCollider.position.y += 0.8
@@ -188,6 +320,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         characterAvatar.position.y = characterAvatar.position.y - 8
         cameraNode.position = characterAvatar.position
         cameraNode.position.y += size.height*0.2
+        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -212,12 +345,13 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     func roomSetUp(){
 //        setup character
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.position = CGPoint(x: size.width*0.5,y: size.height*0.3)
         characterAvatar.xScale = 0.5
         characterAvatar.yScale = 0.5
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
-        characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
+        if(previousRoom == "Room4"){
+            characterFeetCollider.position = CGPoint(x: -size.width*0.12,y: size.height*0.32) 
+        }
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
