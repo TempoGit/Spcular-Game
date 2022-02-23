@@ -31,8 +31,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let barrierTopRT = SKSpriteNode(imageNamed: "BarrierTopRT")
     let doorColliderLF = SKSpriteNode(imageNamed: "DoorColliderLT")
     let doorColliderRT = SKSpriteNode(imageNamed: "DoorColliderRT")
-    let colliderRT = SKSpriteNode(imageNamed: "DoorRT")
-    
+    let halfWallCollider = SKSpriteNode(imageNamed: "ColliderHalfWall")
+  
     var moveSingle: Bool = false
     var move: Bool = false
     var location = CGPoint.zero
@@ -41,6 +41,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     var walkingLeft: Bool = false
     var walkingUp: Bool = false
     var walkingDown: Bool = false
+    var colliderHalfWall: Bool = false
     
     let gameArea: CGRect
     
@@ -72,9 +73,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         addChild(barrierTopRT)
         addChild(barrierDownLF)
         addChild(barrierDownRT)
-        addChild(colliderRT)
         addChild(doorColliderLF)
         addChild(doorColliderRT)
+        addChild(halfWallCollider)
         
         addChild(cameraNode)
         camera = cameraNode
@@ -252,6 +253,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        checkCollision()
         //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
@@ -342,6 +344,21 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         }
     }
     
+    func checkCollision(){
+        if(characterFeetCollider.frame.intersects(halfWallCollider.frame)){
+            colliderHalfWall = true
+            characterAvatar.zPosition = 10
+            doorRTclosed.zPosition = 11
+        } else{
+            if(colliderHalfWall){
+                colliderHalfWall = false
+                characterAvatar.zPosition = 11
+                doorRTopen.zPosition = 10
+            }
+        }
+        
+    }
+    
     func roomSetUp(){
 //        setup character
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
@@ -350,7 +367,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
         if(previousRoom == "Room4"){
-            characterFeetCollider.position = CGPoint(x: -size.width*0.12,y: size.height*0.32) 
+            characterFeetCollider.position = CGPoint(x: -size.width*0.2,y: size.height*0.2)
         }
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
@@ -368,12 +385,12 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         pauseButton.xScale = 0.08
         pauseButton.yScale = 0.08
 //        setup room
-        room.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        room.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         room.xScale = 0.4
         room.yScale = 0.4
         room.zPosition = 1
 //        setup barrier
-        barrierTopRT.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierTopRT.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         barrierTopRT.xScale = 0.4
         barrierTopRT.yScale = 0.4
         barrierTopRT.physicsBody = SKPhysicsBody(texture: barrierTopRT.texture!, size: barrierTopRT.size)
@@ -385,7 +402,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierTopRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         barrierTopRT.alpha = 0.01
         barrierTopRT.name = "outerBarrier"
-        barrierTopLF.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierTopLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         barrierTopLF.xScale = 0.4
         barrierTopLF.yScale = 0.4
         barrierTopLF.physicsBody = SKPhysicsBody(texture: barrierTopLF.texture!, size: barrierTopLF.size)
@@ -397,7 +414,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierTopLF.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         barrierTopLF.alpha = 0.01
         barrierTopLF.name = "outerBarrier"
-        barrierDownRT.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierDownRT.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         barrierDownRT.xScale = 0.4
         barrierDownRT.yScale = 0.4
         barrierDownRT.physicsBody = SKPhysicsBody(texture: barrierDownRT.texture!, size: barrierDownRT.size)
@@ -409,7 +426,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierDownRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         barrierDownRT.alpha = 0.01
         barrierDownRT.name = "outerBarrier"
-        barrierDownLF.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        barrierDownLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         barrierDownLF.xScale = 0.4
         barrierDownLF.yScale = 0.4
         barrierDownLF.physicsBody = SKPhysicsBody(texture: barrierDownLF.texture!, size: barrierDownLF.size)
@@ -422,7 +439,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierDownLF.alpha = 0.01
         barrierDownLF.name = "outerBarrier"
 //        setup collider
-        doorColliderLF.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        doorColliderLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         doorColliderLF.xScale = 0.4
         doorColliderLF.yScale = 0.4
         doorColliderLF.physicsBody = SKPhysicsBody(texture: doorColliderLF.texture!, size: doorColliderLF.size)
@@ -434,7 +451,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorColliderLF.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         doorColliderLF.alpha = 0.01
         doorColliderLF.name = "doorColliderLF"
-        doorColliderRT.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        doorColliderRT.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         doorColliderRT.xScale = 0.4
         doorColliderRT.yScale = 0.4
         doorColliderRT.physicsBody = SKPhysicsBody(texture: doorColliderRT.texture!, size: doorColliderRT.size)
@@ -447,26 +464,33 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorColliderRT.alpha = 0.01
         doorColliderRT.name = "doorColliderRT"
 //        setup boxes
-        boxes.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        boxes.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         boxes.xScale = 0.4
         boxes.yScale = 0.4
         boxes.zPosition = 3
 //        setup door left
-        doorLF.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        doorLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         doorLF.xScale = 0.4
         doorLF.yScale = 0.4
         doorLF.zPosition = 3
         doorLF.name = "doorLF"
 //        setup door right
-        doorRTopen.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        doorRTopen.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         doorRTopen.xScale = 0.4
         doorRTopen.yScale = 0.4
-        doorRTopen.zPosition = 3
+        doorRTclosed.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
+        doorRTclosed.xScale = 0.4
+        doorRTclosed.yScale = 0.4
+        doorRTclosed.alpha = 0.8
 //        setup lamp
-        lamp.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        lamp.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         lamp.xScale = 0.4
         lamp.yScale = 0.4
         lamp.zPosition = 3
 
+        halfWallCollider.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
+        halfWallCollider.xScale = 0.4
+        halfWallCollider.yScale = 0.4
+        halfWallCollider.alpha = 0
     }
 }
