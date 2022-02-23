@@ -34,6 +34,11 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     let doorRT = SKSpriteNode(imageNamed: "Door open RT-Room3")
     let lamp = SKSpriteNode(imageNamed: "Floor Lamp-Room3")
     
+    let colliderLamp = SKSpriteNode(imageNamed: "ColliderLampRoom3")
+    let colliderBook = SKSpriteNode(imageNamed: "ColliderBookRoom3")
+    let colliderArmchair = SKSpriteNode(imageNamed: "ColliderArmchairsRoom3")
+    let colliderTrasparencyChair = SKSpriteNode(imageNamed: "ColliderTrasparencyRoom3")
+    
     var WorldGroup = SKSpriteNode()
     
     var tappedObject: Bool = false
@@ -46,6 +51,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     var walkingLeft: Bool = false
     var walkingUp: Bool = false
     var walkingDown: Bool = false
+    var chairCollider: Bool = false
     
     
     let cameraNode = SKCameraNode()
@@ -81,6 +87,10 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         addChild(doorColliderTopRT)
         addChild(characterAvatar)
         addChild(characterFeetCollider)
+        addChild(colliderBook)
+        addChild(colliderLamp)
+        addChild(colliderArmchair)
+        addChild(colliderTrasparencyChair)
         
         addChild(cameraNode)
         camera = cameraNode
@@ -351,6 +361,20 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         }
     }
     
+    func checkCollisions(){
+        if(characterFeetCollider.frame.intersects(colliderTrasparencyChair.frame)){
+            chairCollider = true
+            characterAvatar.zPosition = 10
+            armachair.zPosition = 11
+        } else{
+            if(chairCollider){
+                chairCollider = false
+                characterAvatar.zPosition = 11
+                armachair.zPosition = 10
+            }
+        }
+    }
+    
     
     
     func roomSetUp(){
@@ -480,15 +504,50 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         armachair.xScale = 0.4
         armachair.yScale = 0.4
         armachair.zPosition = 3
+        colliderArmchair.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        colliderArmchair.xScale = 0.4
+        colliderArmchair.yScale = 0.4
+        colliderArmchair.alpha = 0.01
+        colliderArmchair.physicsBody = SKPhysicsBody(texture: colliderArmchair.texture!, size: colliderArmchair.size)
+        colliderArmchair.physicsBody?.affectedByGravity = false
+        colliderArmchair.physicsBody?.restitution = 0
+        colliderArmchair.physicsBody?.allowsRotation = false
+        colliderArmchair.physicsBody?.isDynamic = false
+        colliderArmchair.zPosition = 3
+        
+        colliderTrasparencyChair.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        colliderTrasparencyChair.xScale = 0.4
+        colliderTrasparencyChair.yScale = 0.4
+        colliderTrasparencyChair.alpha = 0.01
         
         lamp.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         lamp.xScale = 0.4
         lamp.yScale = 0.4
         lamp.zPosition = 3
+        colliderLamp.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        colliderLamp.xScale = 0.4
+        colliderLamp.yScale = 0.4
+        colliderLamp.alpha = 0.01
+        colliderLamp.physicsBody = SKPhysicsBody(texture: colliderLamp.texture!, size: colliderLamp.size)
+        colliderLamp.physicsBody?.affectedByGravity = false
+        colliderLamp.physicsBody?.allowsRotation = false
+        colliderLamp.physicsBody?.restitution = 0
+        colliderLamp.physicsBody?.isDynamic = false
+        colliderLamp.zPosition = 3
         
         books.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         books.xScale = 0.4
         books.yScale = 0.4
         books.zPosition = 3
+        colliderBook.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        colliderBook.xScale = 0.4
+        colliderBook.yScale = 0.4
+        colliderBook.alpha = 0.01
+        colliderBook.physicsBody = SKPhysicsBody(texture: colliderBook.texture!, size: colliderBook.size)
+        colliderBook.physicsBody?.affectedByGravity = false
+        colliderBook.physicsBody?.allowsRotation = false
+        colliderBook.physicsBody?.isDynamic = false
+        colliderBook.physicsBody?.restitution = 0
+        colliderBook.zPosition = 3
     }
 }
