@@ -15,11 +15,14 @@ import SwiftUI
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkRightUpFrame1"), SKTexture(imageNamed: "WalkRightUpFrame2")]
 let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
 let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkLeftUpFrame1"), SKTexture(imageNamed: "WalkLeftUpFrame2")]
-let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
+//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
+let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "Frame1(1)"), SKTexture(imageNamed: "Frame2(1)")]
+//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "Frame 2"), SKTexture(imageNamed: "Frame2(1)")]
+//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "Frame1(1)"), SKTexture(imageNamed: "Stop"),SKTexture(imageNamed: "Frame2(1)")]
 let walkingAnimationRightUp: SKAction = SKAction.animate(with: walkingAnimationFramesRightUp, timePerFrame: 0.2)
 let walkingAnimationRightDown: SKAction = SKAction.animate(with: walkingAnimationFramesRightDown, timePerFrame: 0.2)
 let walkingAnimationLeftUp: SKAction = SKAction.animate(with: walkingAnimationFramesLeftUp, timePerFrame: 0.2)
-let walkingAnimationLeftDown: SKAction = SKAction.animate(with: walkingAnimationFramesLeftDown, timePerFrame: 0.2)
+let walkingAnimationLeftDown: SKAction = SKAction.animate(with: walkingAnimationFramesLeftDown, timePerFrame: 0.25)
 
 
 var previousRoom: String = "Room1"
@@ -66,7 +69,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var worldGroup = SKSpriteNode()
     
     //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
-    let characterAvatar = SKSpriteNode(imageNamed: "Character")
+    let characterAvatar = SKSpriteNode(imageNamed: "Stop")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
     
     //Variabili usate per il movimento del personaggio
@@ -635,8 +638,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         box1TransparencyColliderRight.alpha = 0.01
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.xScale = 0.5
-        characterAvatar.yScale = 0.5
+        characterAvatar.xScale = 0.2
+        characterAvatar.yScale = 0.2
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
         if(previousRoom == "Room2"){

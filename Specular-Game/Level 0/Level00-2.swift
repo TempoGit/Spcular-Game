@@ -25,12 +25,14 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     
     let room2 = SKSpriteNode(imageNamed: "Level0-Room2")
     let lamp = SKSpriteNode(imageNamed: "Level0-Room2-Lamp")
+    let lampCollider = SKSpriteNode(imageNamed: "Level0-Room2-FurnitureLampCollider")
+    let lampTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room2-FurnitureLampTransparencyCollider")
     let bookshelf = SKSpriteNode(imageNamed: "Level0-Room2-bookshelf")
+    let bookshelfCollider = SKSpriteNode(imageNamed: "Level0-Room2-BookshelfCollider")
+    let bookshelfTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room2-BookshelfTransparencyCollider")
     let door = SKSpriteNode(imageNamed: "Level0-Room2-DoorOpen")
     let characterAvatar = SKSpriteNode(imageNamed: "Character")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
-    
-    let player = SKSpriteNode()
     
     let cameraNode = SKCameraNode()
     
@@ -41,9 +43,14 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let barrieraPortaSu = SKSpriteNode(imageNamed: "Level0-Room2-TopDoorCollider")
     let barrieraPortaDx = SKSpriteNode(imageNamed: "Level0-Room2-RightDoorCollider")
     
+    
     var move: Bool = false
     var moveSingle: Bool = false
     var location = CGPoint.zero
+    
+    //Variabili per gestire la trasparenza e livelli degli oggetti
+    var bookshelfCollided: Bool = false
+    var lampCollided: Bool = false
     
     //Variabili per gestire le animazioni
     var walkingRight: Bool = false
@@ -88,7 +95,10 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         addChild(worldGroup)
         addChild(characterAvatar)
         addChild(characterFeetCollider)
-        addChild(player)
+        addChild(bookshelfCollider)
+        addChild(bookshelfTransparencyCollider)
+        addChild(lampCollider)
+        addChild(lampTransparencyCollider)
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = characterAvatar.position
@@ -107,10 +117,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         let touchLocation = touch.location(in: self)
         let touchedNode = atPoint(touchLocation)
-        if(touchLocation != player.position){
-            location = touchLocation
-            moveSingle = true
-        }
         if(touchedNode.name == "goToMenu"){
             musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
@@ -322,7 +328,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         cameraNode.position.y += size.height*0.2
         
         //Funzione che controlla le intersezioni tra gli oggetti
-//        checkCollisions()
+        checkCollisions()
         
     
     }
@@ -358,9 +364,41 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lamp.xScale = 0.4
         lamp.yScale = 0.4
         
+        lampCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        lampCollider.xScale = 0.4
+        lampCollider.yScale = 0.4
+        lampCollider.alpha = 0.01
+        lampCollider.physicsBody = SKPhysicsBody(texture: lampCollider.texture!, size: lampCollider.size)
+        lampCollider.physicsBody?.affectedByGravity = false
+        lampCollider.physicsBody?.restitution = 0
+        lampCollider.physicsBody?.allowsRotation = false
+        lampCollider.physicsBody?.isDynamic = false
+        lampCollider.zPosition = 3
+        
+        lampTransparencyCollider.position = CGPoint(x: size.width*0.27,y: size.height*0.4)
+        lampTransparencyCollider.xScale = 0.4
+        lampTransparencyCollider.yScale = 0.4
+        lampTransparencyCollider.alpha = 1
+        
         bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         bookshelf.xScale = 0.4
         bookshelf.yScale = 0.4
+        
+        bookshelfCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
+        bookshelfCollider.xScale = 0.4
+        bookshelfCollider.yScale = 0.4
+        bookshelfCollider.alpha = 0.01
+        bookshelfCollider.physicsBody = SKPhysicsBody(texture: bookshelfCollider.texture!, size: bookshelfCollider.size)
+        bookshelfCollider.physicsBody?.affectedByGravity = false
+        bookshelfCollider.physicsBody?.restitution = 0
+        bookshelfCollider.physicsBody?.allowsRotation = false
+        bookshelfCollider.physicsBody?.isDynamic = false
+        bookshelfCollider.zPosition = 3
+        
+        bookshelfTransparencyCollider.position = CGPoint(x: size.width*0.57,y: size.height*0.43)
+        bookshelfTransparencyCollider.xScale = 0.4
+        bookshelfTransparencyCollider.yScale = 0.4
+        bookshelfTransparencyCollider.alpha = 0.01
         
         door.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         door.xScale = 0.4
@@ -390,10 +428,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.allowsRotation = false
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.LowerDoor
-        player.position = CGPoint(x: size.width*0.5, y: size.height*0.35)
         
         barrieraPortaSu.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-//        barrieraGIU.zRotation = 0
         barrieraPortaSu.name = "PortaSu"
         barrieraPortaSu.xScale = 0.4
         barrieraPortaSu.yScale = 0.4
@@ -407,7 +443,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraPortaSu.alpha = 0.01
         
         barrieraPortaDx.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-//        barrieraGIU.zRotation = 0
         barrieraPortaDx.name = "PortaDx"
         barrieraPortaDx.xScale = 0.4
         barrieraPortaDx.yScale = 0.4
@@ -421,7 +456,6 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraPortaDx.alpha = 0.01
         
         barrieraGIU.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
-//        barrieraGIU.zRotation = 0
         barrieraGIU.xScale = 0.4
         barrieraGIU.yScale = 0.4
         barrieraGIU.physicsBody = SKPhysicsBody(texture: barrieraGIU.texture!, size: barrieraGIU.size)
@@ -433,7 +467,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraGIU.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         barrieraGIU.alpha = 0.01
         barrieraGIU.name = "outerBarrier"
-//
+
         barrieraDX.position = CGPoint(x: size.width/2, y: size.height/2)
         barrieraDX.xScale = 0.4
         barrieraDX.yScale = 0.4
@@ -503,6 +537,38 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             }
         }
 
+    }
+    
+    func checkCollisions(){
+        if(characterFeetCollider.frame.intersects(bookshelfTransparencyCollider.frame)){
+            bookshelfCollided = true
+            characterAvatar.alpha = 0.85
+            bookshelf.alpha = 0.3
+        } else {
+            if(bookshelfCollided){
+                bookshelfCollided = false
+                characterAvatar.alpha = 1
+                bookshelf.alpha = 1
+            }
+        }
+        
+        if(characterFeetCollider.frame.intersects(lampTransparencyCollider.frame)){
+            lampCollided = true
+            characterAvatar.zPosition = 10
+            lamp.zPosition = 11
+//            characterAvatar.alpha = 0.85
+//            lamp.alpha = 0.3
+        } else {
+            if(lampCollided){
+                lampCollided = false
+                characterAvatar.zPosition = 11
+                lamp.zPosition = 10
+//                characterAvatar.alpha = 1
+//                lamp.alpha = 1
+            }
+        }
+        
+        
     }
     
     
