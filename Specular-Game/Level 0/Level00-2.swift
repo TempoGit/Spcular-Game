@@ -44,7 +44,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let barrieraPortaSu = SKSpriteNode(imageNamed: "Level0-Room2-TopDoorCollider")
     let barrieraPortaDx = SKSpriteNode(imageNamed: "Level0-Room2-RightDoorCollider")
     
-    
+    var interaction: Bool = false
     var move: Bool = false
     var moveSingle: Bool = false
     var location = CGPoint.zero
@@ -101,6 +101,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         addChild(lampCollider)
         addChild(lampTransparencyCollider)
         addChild(lampInteractionCollider)
+        
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = characterAvatar.position
@@ -123,6 +124,18 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
+        }
+        if(touchedNode.name == "interaction"){
+            print("interazione")
+            if(!interaction){
+                interaction = true
+                lamp.run(SKAction.setTexture(SKTexture(imageNamed: "FurnitureOpenRoom2")))
+            } else {
+                if(interaction){
+                lamp.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room2-Lamp")))
+                interaction = false
+                }
+            }
         }
         //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
         //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
@@ -361,6 +374,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lamp.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         lamp.xScale = 0.4
         lamp.yScale = 0.4
+        lamp.zPosition = 4
         
         lampCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         lampCollider.xScale = 0.4
@@ -378,12 +392,12 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lampTransparencyCollider.yScale = 0.4
         lampTransparencyCollider.alpha = 0.01
         
-        lampInteractionCollider.position = CGPoint(x: size.width*0.05, y: size.height*0.45)
+        lampInteractionCollider.position = CGPoint(x: size.width*0.05, y: size.height*0.5)
         lampInteractionCollider.xScale = 0.4
         lampInteractionCollider.yScale = 0.4
-        lampInteractionCollider.zPosition = 5
-        lampInteractionCollider.alpha = 0.9
-        lampInteractionCollider.name = "furniture"
+        lampInteractionCollider.zPosition = 12
+        lampInteractionCollider.alpha = 0.01
+        lampInteractionCollider.name = "interaction"
         
         bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         bookshelf.xScale = 0.4
