@@ -33,24 +33,21 @@ class GameScene: SKScene {
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
 //    let settingsButton = SKShapeNode(rectOf: CGSize(width: 50, height: 50))
     let settingsButton = SKSpriteNode(imageNamed: "Cog")
-    let closeSettingsButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
+//    let closeSettingsButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
     
     let settingsBackground = SKSpriteNode(imageNamed: "DropMenu2")
     
     let backgroundSettings = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-    let settingsSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.70, height: UIScreen.main.bounds.size.height*0.4))
-    let settingsSquareBorder = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.71, height: UIScreen.main.bounds.size.height*0.41))
-    let settingsSquareBorder2 = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.7, height: UIScreen.main.bounds.size.height*0.403))
     
-    let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
-    let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
-    let musicLabel = SKLabelNode(text: "BGM")
-
-    let soundEffectsLabel = SKLabelNode(text: "Sound effects")
-    var soundEffectsLabelSpriteNode = SKSpriteNode()
+    let settingsLabel = SKLabelNode(text: "Settings")
     
-    let languageLabel = SKLabelNode(text: "Language")
-    let languageSelectionLabel = SKLabelNode(text: "English")
+    let musicIcon = SKSpriteNode(imageNamed: "MusicOn")
+    
+    let sfxButton = SKSpriteNode(imageNamed: "SfxOn")
+    
+    let languageButton = SKSpriteNode(imageNamed: "EnglishFlag")
+    
+    let closeSettingsButton = SKLabelNode(text: "Close")
     
     override func didMove(to view: SKView) {
         backgroundScreen.size.width = size.width
@@ -74,6 +71,10 @@ class GameScene: SKScene {
         playButton.size = CGSize(width: size.width*0.25, height: size.width*0.25)
         playButton.name = "playGameName"
         
+        gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.8)
+        gameTitleWithReflection.xScale = 0.4
+        gameTitleWithReflection.yScale = 0.4
+        
         
         //Impostazioni relative al menu di opzioni
 //        settingsButton.fillColor = .white
@@ -92,69 +93,41 @@ class GameScene: SKScene {
         
         settingsBackground.zPosition = 8
         settingsBackground.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
-        settingsBackground.xScale = 0.45
-        settingsBackground.yScale = 0.45
-        
-        
-        settingsSquare.fillColor = .black
-        settingsSquare.strokeColor = .black
-        settingsSquare.zPosition = 8
-        settingsSquare.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        
-        settingsSquareBorder.strokeColor = .white
-        settingsSquareBorder.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        settingsSquareBorder.zPosition = 8
-        settingsSquareBorder.lineWidth = 3
-        
-        settingsSquareBorder2.strokeColor = myGray
-        settingsSquareBorder2.lineWidth = 4
-        settingsSquareBorder2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        settingsSquareBorder2.zPosition = 8
-        
-        
-        closeSettingsButton.fillColor = .white
-        closeSettingsButton.strokeColor = .white
-        closeSettingsButton.zPosition = 10
-        closeSettingsButton.position = CGPoint(x: size.width*0.28, y: size.height*0.65)
-        closeSettingsButton.name = "closeSettings"
-        
-        volumeOnButton.xScale = 0.2
-        volumeOnButton.yScale = 0.2
-        volumeOnButton.name = "volumeButton"
-        volumeOnButton.zPosition = 10
-        volumeOnButton.position = CGPoint(x: size.width*0.7,y: size.height*0.57 )
-        
-        volumeOffButton.xScale = 0.2
-        volumeOffButton.yScale = 0.2
-        volumeOffButton.name = "volumeButton"
-        volumeOffButton.zPosition = 10
-        volumeOffButton.position = CGPoint(x: size.width*0.7,y: size.height*0.57 )
-        
-        
-        musicLabel.fontColor = .white
-        musicLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        musicLabel.position = CGPoint(x: size.width*0.2, y: size.height*0.55)
-        musicLabel.zPosition = 10
-        
-        soundEffectsLabel.fontColor = .white
-        soundEffectsLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        soundEffectsLabel.position = CGPoint(x: size.width*0.2, y: size.height*0.5)
-        soundEffectsLabel.zPosition = 10
-        
+//        settingsBackground.xScale = 0.45
+//        settingsBackground.yScale = 0.45
+        settingsBackground.xScale = size.width*0.0011
+        settingsBackground.yScale = size.width*0.0011
 
-        languageLabel.zPosition = 10
-        languageLabel.fontColor = .white
-        languageLabel.position = CGPoint(x: size.width*0.2, y: size.height*0.45)
-        languageLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.left
-        languageSelectionLabel.zPosition = 10
-        languageSelectionLabel.fontColor = .white
-        languageSelectionLabel.position = CGPoint(x: size.width*0.8, y: size.height*0.45)
-        languageSelectionLabel.horizontalAlignmentMode = SKLabelHorizontalAlignmentMode.right
-        languageSelectionLabel.name = "languageButton"
         
-        gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.8)
-        gameTitleWithReflection.xScale = 0.4
-        gameTitleWithReflection.yScale = 0.4
+        settingsLabel.zPosition = 9
+        settingsLabel.fontColor = .white
+        settingsLabel.fontSize = 32
+        settingsLabel.position = CGPoint(x: size.width*0.51, y: size.height*0.63)
+        
+        musicIcon.position = CGPoint(x: size.width*0.675, y: size.height*0.55)
+        musicIcon.zPosition = 9
+        musicIcon.xScale = size.width*0.0005
+        musicIcon.yScale = size.width*0.0005
+        musicIcon.name = "musicButton"
+        
+        sfxButton.position = CGPoint(x: size.width*0.38, y: size.height*0.55)
+        sfxButton.zPosition = 9
+        sfxButton.xScale = size.width*0.0005
+        sfxButton.yScale = size.width*0.0005
+        sfxButton.name = "sfxButton"
+        
+        languageButton.position = CGPoint(x: size.width*0.51, y: size.height*0.43)
+        languageButton.zPosition = 9
+        languageButton.xScale = size.width*0.00035
+        languageButton.yScale = size.width*0.00035
+        languageButton.name = "languageButton"
+        
+        
+        closeSettingsButton.zPosition = 9
+        closeSettingsButton.fontColor = .white
+        closeSettingsButton.fontSize = 32
+        closeSettingsButton.position = CGPoint(x: size.width*0.51, y: size.height*0.28)
+        closeSettingsButton.name = "closeSettings"
         
         
         //Aggiungo gli elementi alla scena
@@ -185,88 +158,87 @@ class GameScene: SKScene {
         }
         
         if(touchedNode.name == "settingsButton"){
+            
+            if(musicHandler.instance.mutedMusic == true){
+                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
+            } else if (musicHandler.instance.mutedMusic == false){
+                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
+                
+            }
+            
+            if(musicHandler.instance.mutedSFX == true){
+                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOff")))
+            } else if (musicHandler.instance.mutedSFX == false){
+                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
+            }
+            
+            if(language == "Italian"){
+                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
+            } else if(language == "English") {
+                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
+            }
+
+            
             addChild(settingsBackground)
             addChild(backgroundSettings)
-//            addChild(settingsSquare)
-//            addChild(settingsSquareBorder)
-//            addChild(settingsSquareBorder2)
-//            addChild(musicLabel)
-//            addChild(soundEffectsLabel)
-            if(musicHandler.instance.mutedMusic == true){
-//                addChild(volumeOffButton)
-            } else if (musicHandler.instance.mutedMusic == false){
-//                addChild(volumeOnButton)
-            }
-            if(language == "Italian"){
-                languageLabel.text = "Lingua"
-                languageSelectionLabel.text = "Italiano"
-            } else if(language == "English") {
-                languageLabel.text = "Language"
-                languageSelectionLabel.text = "English"
-            }
-//            addChild(languageLabel)
-//            addChild(languageSelectionLabel)
-//            addChild(closeSettingsButton)
+            addChild(settingsLabel)
+            addChild(musicIcon)
+            addChild(sfxButton)
+            addChild(languageButton)
+            addChild(closeSettingsButton)
         }
         
-        if(touchedNode.name == "volumeButton"){
+        if(touchedNode.name == "musicButton"){
             if(musicHandler.instance.mutedMusic == true){
-                volumeOffButton.removeFromParent()
                 musicHandler.instance.unmuteBackgroundMusic()
-                addChild(volumeOnButton)
+                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
             } else if (!musicHandler.instance.mutedMusic){
-                volumeOnButton.removeFromParent()
                 musicHandler.instance.muteBackgroundMusic()
-                addChild(volumeOffButton)
+                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
+            }
+        }
+        
+        if(touchedNode.name == "sfxButton"){
+            if(musicHandler.instance.mutedSFX == true){
+                musicHandler.instance.unmuteSfx()
+                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
+            } else if (!musicHandler.instance.mutedSFX){
+                musicHandler.instance.muteSfx()
+                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOff")))
             }
         }
         
         if (touchedNode.name == "languageButton"){
             if(language == "English"){
                 language = "Italian"
+                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
+                settingsLabel.removeFromParent()
+                closeSettingsButton.removeFromParent()
+                settingsLabel.text = LanguageHandler.instance.settingsLabelItalian
+                closeSettingsButton.text = LanguageHandler.instance.closePauseItalian
+                addChild(settingsLabel)
+                addChild(closeSettingsButton)
             } else if(language == "Italian"){
                 language = "English"
+                settingsLabel.removeFromParent()
+                closeSettingsButton.removeFromParent()
+                settingsLabel.text = LanguageHandler.instance.settingsLabelEnglish
+                closeSettingsButton.text = LanguageHandler.instance.closePauseEnglish
+                addChild(settingsLabel)
+                addChild(closeSettingsButton)
+                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
             }
-            languageLabel.removeFromParent()
-            languageSelectionLabel.removeFromParent()
-            soundEffectsLabel.removeFromParent()
-            musicLabel.removeFromParent()
-            if(language == "English"){
-                languageLabel.text = LanguageHandler.instance.languageLabelEnglish
-                languageSelectionLabel.text = LanguageHandler.instance.languageSelectionButtonEnglish
-                soundEffectsLabel.text = LanguageHandler.instance.soundEffectsLabelEnglish
-                musicLabel.text = LanguageHandler.instance.musicLabelEnglish
-            } else if(language == "Italian"){
-                languageLabel.text = LanguageHandler.instance.languageLabelItalian
-                languageSelectionLabel.text = LanguageHandler.instance.languageSelectionButtonEnglish
-                soundEffectsLabel.text = LanguageHandler.instance.soundEffectsLabelItalian
-                musicLabel.text = LanguageHandler.instance.musicLabelItalian
-            }
-            addChild(soundEffectsLabel)
-            addChild(musicLabel)
-            addChild(languageLabel)
-            addChild(languageSelectionLabel)
         }
         
+        
         if(touchedNode.name == "closeSettings"){
-            settingsSquare.removeFromParent()
-            
             backgroundSettings.removeFromParent()
             settingsBackground.removeFromParent()
-            
-            settingsSquareBorder.removeFromParent()
-            settingsSquareBorder2.removeFromParent()
-            if(musicHandler.instance.mutedMusic){
-                volumeOffButton.removeFromParent()
-            } else {
-                volumeOnButton.removeFromParent()
-            }
+            settingsLabel.removeFromParent()
+            musicIcon.removeFromParent()
+            sfxButton.removeFromParent()
+            languageButton.removeFromParent()
             closeSettingsButton.removeFromParent()
-            languageLabel.removeFromParent()
-            languageSelectionLabel.removeFromParent()
-            musicLabel.removeFromParent()
-            soundEffectsLabel.removeFromParent()
-            
         }
        
     }

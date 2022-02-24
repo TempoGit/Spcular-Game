@@ -73,6 +73,14 @@ final class musicHandler {
         mutedMusic = false
     }
     
+    func muteSfx(){
+        mutedSFX = true
+    }
+    
+    func unmuteSfx(){
+        mutedSFX = false
+    }
+    
     func playBackgroundMusic() {
       let resourceUrl = Bundle.main.url(forResource:
         backgroundMusicName, withExtension: nil)

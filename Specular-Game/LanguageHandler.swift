@@ -11,6 +11,12 @@ class LanguageHandler {
     
     static let instance = LanguageHandler()
     
+    public let settingsLabelEnglish = "Settings"
+    public let closePauseEnglish = "Close"
+    
+    public let settingsLabelItalian = "Impostazioni"
+    public let closePauseItalian = "Chiudi"
+    
     public let languageLabelEnglish = "Language"
     public let languageLabelItalian = "Lingua"
     public let goBackToMainMenuLabelEnglish = "Go back to main menu"
