@@ -33,6 +33,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let door = SKSpriteNode(imageNamed: "Level0-Room2-DoorOpen")
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
+    let lampInteractionCollider = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
     
     let cameraNode = SKCameraNode()
     
@@ -99,6 +100,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         addChild(bookshelfTransparencyCollider)
         addChild(lampCollider)
         addChild(lampTransparencyCollider)
+        addChild(lampInteractionCollider)
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = characterAvatar.position
@@ -375,6 +377,13 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lampTransparencyCollider.xScale = 0.4
         lampTransparencyCollider.yScale = 0.4
         lampTransparencyCollider.alpha = 0.01
+        
+        lampInteractionCollider.position = CGPoint(x: size.width*0.05, y: size.height*0.45)
+        lampInteractionCollider.xScale = 0.4
+        lampInteractionCollider.yScale = 0.4
+        lampInteractionCollider.zPosition = 5
+        lampInteractionCollider.alpha = 0.9
+        lampInteractionCollider.name = "furniture"
         
         bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         bookshelf.xScale = 0.4
