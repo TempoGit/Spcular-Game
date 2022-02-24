@@ -73,7 +73,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let box1TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes1TransparencyCollider")
     let box1Shadow = SKSpriteNode(imageNamed: "Level0-Room1-Box1Shadow")
     let box1Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box1Collider")
-    let wardrobeInteractionCollider = SKSpriteNode(imageNamed: "WardrobeInteractionRoom1")
+    let wardrobeInteractionCollider = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
     
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
@@ -597,10 +597,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         wardrobeTransparencyCollider.zPosition = 3
         wardrobeTransparencyCollider.alpha = 0.01
         
-        wardrobeInteractionCollider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        wardrobeInteractionCollider.xScale = 0.4
-        wardrobeInteractionCollider.yScale = 0.4
+        wardrobeInteractionCollider.position = CGPoint(x: size.width * 1.05, y: size.height * 0.43)
+        wardrobeInteractionCollider.xScale = 0.46
+        wardrobeInteractionCollider.yScale = 0.34
         wardrobeInteractionCollider.zPosition = 14
+        wardrobeInteractionCollider.zRotation = .pi/2
         wardrobeInteractionCollider.alpha = 0.01
         wardrobeInteractionCollider.name = "furniture"
         
