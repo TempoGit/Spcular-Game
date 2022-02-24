@@ -27,7 +27,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     
     
     //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
-    let characterAvatar = SKSpriteNode(imageNamed: "Character")
+    let characterAvatar = SKSpriteNode(imageNamed: "Stop")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
     
     //Definisco i nodi che creano la stanza di gioco
@@ -245,35 +245,22 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             location = touchLocation
             moveSingle = true
             //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-//            if(location.x > characterFeetCollider.position.x){
-//                print("Walking right")
-//                characterAvatar.run(SKAction.repeatForever(walkingAnimation))
-//            } else if (location.x < characterFeetCollider.position.x){
-//                print("Walking left")
-//            }
-            
             if(location.x > characterFeetCollider.position.x){
                 walkingRight = true
-//                print("Walking right")
                 if (location.y > characterFeetCollider.position.y) {
                     walkingUp = true
-                    print("Walking right and up")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
                 } else if (location.y < characterFeetCollider.position.y){
                     walkingDown = true
-                    print("Walking right and down")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
                 }
             } else if (location.x < characterFeetCollider.position.x){
                 walkingLeft = true
-//                print("Walking left")
                 if (location.y > characterFeetCollider.position.y) {
                     walkingUp = true
-                    print("Walking left and up")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
                 } else if (location.y < characterFeetCollider.position.y){
                     walkingDown = true
-                    print("Walking left and down")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
                 }
             }
@@ -295,15 +282,22 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
         move = false
         moveSingle = false
+        //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
+        characterAvatar.removeAllActions()
+        if(walkingLeft && walkingDown){
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Stop")))
+        } else if (walkingRight && walkingDown){
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopRight")))
+        } else if (walkingRight && walkingUp){
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackRight")))
+        } else if (walkingLeft && walkingUp) {
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackLeft")))
+        }
         //Reimposto tutte le variabili che si occupano di gestire le animazioni della camminata a false
         walkingUp = false
         walkingDown = false
         walkingLeft = false
         walkingRight = false
-        //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
-        characterAvatar.removeAllActions()
-        characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Character")))
-//        openClose.removeAllActions()
        
     }
     
@@ -419,14 +413,16 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 //                openClose.name = "cassettone"
         //Impostazioni riguardanti il collider dei piedi e il personaggio stesso
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.xScale = 0.5
-        characterAvatar.yScale = 0.5
+        characterAvatar.xScale = 0.14
+        characterAvatar.yScale = 0.14
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
         if(previousRoom == "Room3"){
             characterFeetCollider.position = CGPoint(x: size.width*0.25,y: size.height*0.13)
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackRight")))
         } else {
             characterFeetCollider.position = CGPoint(x: size.width*0.89,y: size.height*0.13)
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackLeft")))
         }
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5

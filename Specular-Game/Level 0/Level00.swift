@@ -13,13 +13,21 @@ import AVFoundation
 import SwiftUI
 
 //let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkRightUpFrame1"), SKTexture(imageNamed: "WalkRightUpFrame2")]
-let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "RightWalkBackFrame1"), SKTexture(imageNamed: "RightWalkBackFrame2")]
+//let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "RightWalkBackFrame1"), SKTexture(imageNamed: "RightWalkBackFrame2")]
+let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
+
 //let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
-let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "RightWalkDownFrame1"), SKTexture(imageNamed: "RightWalkDownFrame2")]
+//let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "RightWalkDownFrame1"), SKTexture(imageNamed: "RightWalkDownFrame2")]
+let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "WalkingBigRightFrame1"), SKTexture(imageNamed: "WalkingBigRightFrame2")]
+
 //let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkLeftUpFrame1"), SKTexture(imageNamed: "WalkLeftUpFrame2")]
-let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "LeftWalkBackFrame1"), SKTexture(imageNamed: "LeftWalkBackFrame2")]
+//let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "LeftWalkBackFrame1"), SKTexture(imageNamed: "LeftWalkBackFrame2")]
+let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackLeftFrame1"), SKTexture(imageNamed: "WalkingBigBackLeftFrame2")]
+
 //let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
-let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "LeftWalkDownFrame1"), SKTexture(imageNamed: "LeftWalkDownFrame2")]
+//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "LeftWalkDownFrame1"), SKTexture(imageNamed: "LeftWalkDownFrame2")]
+let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkingBigFrame1"), SKTexture(imageNamed: "WalkingBigFrame2")]
+
 let walkingAnimationRightUp: SKAction = SKAction.animate(with: walkingAnimationFramesRightUp, timePerFrame: 0.25)
 let walkingAnimationRightDown: SKAction = SKAction.animate(with: walkingAnimationFramesRightDown, timePerFrame: 0.25)
 let walkingAnimationLeftUp: SKAction = SKAction.animate(with: walkingAnimationFramesLeftUp, timePerFrame: 0.25)
@@ -276,35 +284,23 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             location = touchLocation
             moveSingle = true
             //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-//            if(location.x > characterFeetCollider.position.x){
-//                print("Walking right")
-//                characterAvatar.run(SKAction.repeatForever(walkingAnimation))
-//            } else if (location.x < characterFeetCollider.position.x){
-//                print("Walking left")
-//            }
             
             if(location.x > characterFeetCollider.position.x){
                 walkingRight = true
-//                print("Walking right")
                 if (location.y > characterFeetCollider.position.y) {
                     walkingUp = true
-                    print("Walking right and up")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
                 } else if (location.y < characterFeetCollider.position.y){
                     walkingDown = true
-                    print("Walking right and down")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
                 }
             } else if (location.x < characterFeetCollider.position.x){
                 walkingLeft = true
-//                print("Walking left")
                 if (location.y > characterFeetCollider.position.y) {
                     walkingUp = true
-                    print("Walking left and up")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
                 } else if (location.y < characterFeetCollider.position.y){
                     walkingDown = true
-                    print("Walking left and down")
                     characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
                 }
             }
