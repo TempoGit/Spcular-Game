@@ -59,10 +59,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let topBarrier = SKSpriteNode(imageNamed: "Level0-Room1-TopBarrier")
     let leftBarrier = SKSpriteNode(imageNamed: "Level0-Room1-LeftBarrier")
     let lowerDoor = SKSpriteNode(imageNamed: "Level0-Room1-LowerDoor")
-    let wardrobe = SKSpriteNode(imageNamed: "Level0-Room1-Wardrobe")
+    let wardrobe = SKSpriteNode(imageNamed: "WardrobeClosedRoom1")
     let wardrobeCollider = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeCollider")
     let wardrobeTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeTransparencyCollider")
-    let wardrobeShadow = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeShadow")
+//    let wardrobeShadow = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeShadow")
     let box2andShadow = SKSpriteNode(imageNamed: "Level0-Room1-Box2AndShadow")
     let box2Single = SKSpriteNode(imageNamed: "Level0-Room1-Box2part2")
     let box2Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box2Collider")
@@ -73,9 +73,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let box1TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes1TransparencyCollider")
     let box1Shadow = SKSpriteNode(imageNamed: "Level0-Room1-Box1Shadow")
     let box1Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box1Collider")
+    let wardrobeInteractionCollider = SKSpriteNode(imageNamed: "WardrobeInteractionRoom1")
     
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
+    var interaction: Bool = false
     
     //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
@@ -130,7 +132,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(lowerDoor)
         addChild(wardrobe)
         addChild(wardrobeCollider)
-        addChild(wardrobeShadow)
+//        addChild(wardrobeShadow)
         addChild(box2andShadow)
         addChild(box2Single)
         addChild(box2Collider)
@@ -155,7 +157,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(characterAvatar)
         addChild(characterFeetCollider)
 
-        
+        addChild(wardrobeInteractionCollider)
         //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
@@ -188,6 +190,19 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
+        }
+        
+        if(touchedNode.name == "furniture"){
+            if(!interaction){
+            interaction = true
+            wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
+            }else{
+                if(interaction){
+                    interaction = false
+                    wardrobe.run(SKAction.setTexture((SKTexture(imageNamed: "WardrobeOpenRoom1"))))
+                }
+            }
+            
         }
         //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
         //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
@@ -567,19 +582,28 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         wardrobeCollider.physicsBody?.allowsRotation = false
         wardrobeCollider.physicsBody?.isDynamic = false
         wardrobeCollider.zPosition = 3
-        wardrobe.position = CGPoint(x: size.width*1.05, y: size.height*0.42)
+        wardrobe.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         wardrobe.xScale = 0.4
         wardrobe.yScale = 0.4
         wardrobe.zPosition = 3
-        wardrobeShadow.position = CGPoint(x: size.width*1.05, y: size.height*0.42)
-        wardrobeShadow.xScale = 0.4
-        wardrobeShadow.yScale = 0.4
-        wardrobeShadow.zPosition = 3
+        
+//        wardrobeShadow.position = CGPoint(x: size.width*1.05, y: size.height*0.42)
+//        wardrobeShadow.xScale = 0.4
+//        wardrobeShadow.yScale = 0.4
+//        wardrobeShadow.zPosition = 3
         wardrobeTransparencyCollider.position = CGPoint(x: size.width*0.905, y: size.height*0.33)
         wardrobeTransparencyCollider.xScale = 0.4
         wardrobeTransparencyCollider.yScale = 0.4
         wardrobeTransparencyCollider.zPosition = 3
         wardrobeTransparencyCollider.alpha = 0.01
+        
+        wardrobeInteractionCollider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        wardrobeInteractionCollider.xScale = 0.4
+        wardrobeInteractionCollider.yScale = 0.4
+        wardrobeInteractionCollider.zPosition = 14
+        wardrobeInteractionCollider.alpha = 0.01
+        wardrobeInteractionCollider.name = "furniture"
+        
         //Impostazioni riguardanti le scatole in alto
         box2andShadow.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         box2andShadow.xScale = 0.4
