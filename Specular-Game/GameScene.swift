@@ -15,7 +15,7 @@ import SwiftUI
 
 class GameScene: SKScene {
     
-    let myGray = UIColor(red: 129, green: 129, blue: 129, alpha: 1)
+    let myGray = UIColor(red: 129/255, green: 129/255, blue: 129/255, alpha: 1.0)
     
     @AppStorage("language") var language: String = "English"
     
@@ -31,8 +31,11 @@ class GameScene: SKScene {
     
     
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
-    let settingsButton = SKShapeNode(rectOf: CGSize(width: 50, height: 50))
+//    let settingsButton = SKShapeNode(rectOf: CGSize(width: 50, height: 50))
+    let settingsButton = SKSpriteNode(imageNamed: "Cog")
     let closeSettingsButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
+    
+    let settingsBackground = SKSpriteNode(imageNamed: "DropMenu2")
     
     let backgroundSettings = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let settingsSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.70, height: UIScreen.main.bounds.size.height*0.4))
@@ -73,10 +76,25 @@ class GameScene: SKScene {
         
         
         //Impostazioni relative al menu di opzioni
-        settingsButton.fillColor = .white
-        settingsButton.strokeColor = .white
-        settingsButton.position = CGPoint(x: size.width*0.85, y: size.height*0.9)
+//        settingsButton.fillColor = .white
+//        settingsButton.strokeColor = .white
+        settingsButton.position = CGPoint(x: size.width*0.85, y: size.height*0.92)
+        settingsButton.xScale = 0.2
+        settingsButton.yScale = 0.2
         settingsButton.name = "settingsButton"
+        
+        backgroundSettings.fillColor = .black
+        backgroundSettings.strokeColor = .black
+        backgroundSettings.alpha = 0.45
+        backgroundSettings.zPosition = 7
+        backgroundSettings.name = "closeSettings"
+        backgroundSettings.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        
+        settingsBackground.zPosition = 8
+        settingsBackground.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
+        settingsBackground.xScale = 0.45
+        settingsBackground.yScale = 0.45
+        
         
         settingsSquare.fillColor = .black
         settingsSquare.strokeColor = .black
@@ -93,12 +111,6 @@ class GameScene: SKScene {
         settingsSquareBorder2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         settingsSquareBorder2.zPosition = 8
         
-        backgroundSettings.fillColor = .black
-        backgroundSettings.strokeColor = .black
-        backgroundSettings.alpha = 0.6
-        backgroundSettings.zPosition = 7
-        backgroundSettings.name = "closeSettings"
-        backgroundSettings.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         
         closeSettingsButton.fillColor = .white
         closeSettingsButton.strokeColor = .white
@@ -173,16 +185,17 @@ class GameScene: SKScene {
         }
         
         if(touchedNode.name == "settingsButton"){
+            addChild(settingsBackground)
             addChild(backgroundSettings)
-            addChild(settingsSquare)
-            addChild(settingsSquareBorder)
-            addChild(settingsSquareBorder2)
-            addChild(musicLabel)
-            addChild(soundEffectsLabel)
+//            addChild(settingsSquare)
+//            addChild(settingsSquareBorder)
+//            addChild(settingsSquareBorder2)
+//            addChild(musicLabel)
+//            addChild(soundEffectsLabel)
             if(musicHandler.instance.mutedMusic == true){
-                addChild(volumeOffButton)
+//                addChild(volumeOffButton)
             } else if (musicHandler.instance.mutedMusic == false){
-                addChild(volumeOnButton)
+//                addChild(volumeOnButton)
             }
             if(language == "Italian"){
                 languageLabel.text = "Lingua"
@@ -191,9 +204,9 @@ class GameScene: SKScene {
                 languageLabel.text = "Language"
                 languageSelectionLabel.text = "English"
             }
-            addChild(languageLabel)
-            addChild(languageSelectionLabel)
-            addChild(closeSettingsButton)
+//            addChild(languageLabel)
+//            addChild(languageSelectionLabel)
+//            addChild(closeSettingsButton)
         }
         
         if(touchedNode.name == "volumeButton"){
@@ -237,7 +250,10 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "closeSettings"){
             settingsSquare.removeFromParent()
+            
             backgroundSettings.removeFromParent()
+            settingsBackground.removeFromParent()
+            
             settingsSquareBorder.removeFromParent()
             settingsSquareBorder2.removeFromParent()
             if(musicHandler.instance.mutedMusic){
