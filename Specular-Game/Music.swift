@@ -7,17 +7,21 @@
 
 
 import AVFoundation
+import SwiftUI
 
 final class musicHandler {
     
     static let instance = musicHandler()
     
+    
+    @AppStorage ("mutedMusic") var mutedMusic: Bool = false
+    @AppStorage ("mutedSFX") var mutedSFX: Bool = false
     let menuBackgroundMusicName: String = "academy.wav"
     let backgroundMusicName: String = "academy.wav"
     var backgroundMusicPlayerMenu: AVAudioPlayer = AVAudioPlayer()
     var backgroundMusicPlayer: AVAudioPlayer = AVAudioPlayer()
     var playingMusic: Bool = false
-    var mutedMusic: Bool = false
+//    var mutedMusic: Bool = false
     
     var mutedSounds: Bool = false
     

@@ -15,6 +15,8 @@ import SwiftUI
 
 class GameScene: SKScene {
     
+    let myGray = UIColor(red: 129, green: 129, blue: 129, alpha: 1)
+    
     @AppStorage("language") var language: String = "English"
     
     //Variabili che compongono l'home page, background, logo, riflessi e scritta
@@ -33,7 +35,9 @@ class GameScene: SKScene {
     let closeSettingsButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
     
     let backgroundSettings = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-    let settingsSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.7, height: UIScreen.main.bounds.size.height*0.4))
+    let settingsSquare = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.70, height: UIScreen.main.bounds.size.height*0.4))
+    let settingsSquareBorder = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.71, height: UIScreen.main.bounds.size.height*0.41))
+    let settingsSquareBorder2 = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width*0.7, height: UIScreen.main.bounds.size.height*0.403))
     
     let volumeOnButton = SKSpriteNode(imageNamed: "VolumeOn")
     let volumeOffButton = SKSpriteNode(imageNamed: "VolumeOff")
@@ -78,6 +82,17 @@ class GameScene: SKScene {
         settingsSquare.strokeColor = .black
         settingsSquare.zPosition = 8
         settingsSquare.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        
+        settingsSquareBorder.strokeColor = .white
+        settingsSquareBorder.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        settingsSquareBorder.zPosition = 8
+        settingsSquareBorder.lineWidth = 3
+        
+        settingsSquareBorder2.strokeColor = myGray
+        settingsSquareBorder2.lineWidth = 4
+        settingsSquareBorder2.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        settingsSquareBorder2.zPosition = 8
+        
         backgroundSettings.fillColor = .black
         backgroundSettings.strokeColor = .black
         backgroundSettings.alpha = 0.6
@@ -153,13 +168,15 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
-            let startGameScene = Level00_5(size: size)
+            let startGameScene = Level00(size: size)
             view?.presentScene(startGameScene)
         }
         
         if(touchedNode.name == "settingsButton"){
             addChild(backgroundSettings)
             addChild(settingsSquare)
+            addChild(settingsSquareBorder)
+            addChild(settingsSquareBorder2)
             addChild(musicLabel)
             addChild(soundEffectsLabel)
             if(musicHandler.instance.mutedMusic == true){
@@ -221,6 +238,8 @@ class GameScene: SKScene {
         if(touchedNode.name == "closeSettings"){
             settingsSquare.removeFromParent()
             backgroundSettings.removeFromParent()
+            settingsSquareBorder.removeFromParent()
+            settingsSquareBorder2.removeFromParent()
             if(musicHandler.instance.mutedMusic){
                 volumeOffButton.removeFromParent()
             } else {
@@ -231,6 +250,7 @@ class GameScene: SKScene {
             languageSelectionLabel.removeFromParent()
             musicLabel.removeFromParent()
             soundEffectsLabel.removeFromParent()
+            
         }
        
     }
