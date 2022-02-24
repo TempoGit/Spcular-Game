@@ -35,9 +35,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     let lamp = SKSpriteNode(imageNamed: "Floor Lamp-Room3")
     
     let colliderLamp = SKSpriteNode(imageNamed: "ColliderLampRoom3")
-    let colliderBook = SKSpriteNode(imageNamed: "ColliderBookRoom3")
-    let colliderArmchair = SKSpriteNode(imageNamed: "ColliderArmchairsRoom3")
+    let colliderBook = SKSpriteNode(imageNamed: "Level0-Room3-BookCollider")
+    let bookTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room3-BooksTransparencyCollider")
+    let colliderArmchairLeft = SKSpriteNode(imageNamed: "Level0-Room3-ArmchairColliderLeft")
+    let colliderArmchairRight = SKSpriteNode(imageNamed: "Level0-Room3-ArmchairColliderRight")
     let colliderTrasparencyChair = SKSpriteNode(imageNamed: "ColliderTrasparencyRoom3")
+    let armchairsTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room3-ArmchairsTransparencyCollider")
     
     var WorldGroup = SKSpriteNode()
     
@@ -51,7 +54,9 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     var walkingLeft: Bool = false
     var walkingUp: Bool = false
     var walkingDown: Bool = false
+    
     var chairCollider: Bool = false
+    var booksCollided: Bool = false
     
     
     let cameraNode = SKCameraNode()
@@ -88,9 +93,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         addChild(characterAvatar)
         addChild(characterFeetCollider)
         addChild(colliderBook)
+        addChild(bookTransparencyCollider)
         addChild(colliderLamp)
-        addChild(colliderArmchair)
+        addChild(colliderArmchairLeft)
+        addChild(colliderArmchairRight)
         addChild(colliderTrasparencyChair)
+        addChild(armchairsTransparencyCollider)
         
         addChild(cameraNode)
         camera = cameraNode
@@ -340,6 +348,8 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         //Metto la camera di gioco un po' pià in alto così si vede la cima della stanza
         cameraNode.position.y += size.height*0.2
         
+        checkCollisions()
+        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
@@ -359,7 +369,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     }
     
     func checkCollisions(){
-        if(characterFeetCollider.frame.intersects(colliderTrasparencyChair.frame)){
+        if(characterFeetCollider.frame.intersects(armchairsTransparencyCollider.frame)){
             chairCollider = true
             characterAvatar.zPosition = 10
             armachair.zPosition = 11
@@ -370,6 +380,19 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
                 armachair.zPosition = 10
             }
         }
+        
+        if(characterFeetCollider.frame.intersects(bookTransparencyCollider.frame)){
+            booksCollided = true
+            characterAvatar.zPosition = 10
+            books.zPosition = 11
+        } else{
+            if(booksCollided){
+                booksCollided = false
+                characterAvatar.zPosition = 11
+                books.zPosition = 10
+            }
+        }
+        
     }
     
     
@@ -502,21 +525,35 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         armachair.xScale = 0.4
         armachair.yScale = 0.4
         armachair.zPosition = 3
-        colliderArmchair.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        colliderArmchair.xScale = 0.4
-        colliderArmchair.yScale = 0.4
-        colliderArmchair.alpha = 0.01
-        colliderArmchair.physicsBody = SKPhysicsBody(texture: colliderArmchair.texture!, size: colliderArmchair.size)
-        colliderArmchair.physicsBody?.affectedByGravity = false
-        colliderArmchair.physicsBody?.restitution = 0
-        colliderArmchair.physicsBody?.allowsRotation = false
-        colliderArmchair.physicsBody?.isDynamic = false
-        colliderArmchair.zPosition = 3
+        colliderArmchairLeft.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        colliderArmchairLeft.xScale = 0.4
+        colliderArmchairLeft.yScale = 0.4
+        colliderArmchairLeft.alpha = 0.01
+        colliderArmchairLeft.physicsBody = SKPhysicsBody(texture: colliderArmchairLeft.texture!, size: colliderArmchairLeft.size)
+        colliderArmchairLeft.physicsBody?.affectedByGravity = false
+        colliderArmchairLeft.physicsBody?.restitution = 0
+        colliderArmchairLeft.physicsBody?.allowsRotation = false
+        colliderArmchairLeft.physicsBody?.isDynamic = false
+        colliderArmchairLeft.zPosition = 3
+        colliderArmchairRight.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        colliderArmchairRight.xScale = 0.4
+        colliderArmchairRight.yScale = 0.4
+        colliderArmchairRight.alpha = 0.01
+        colliderArmchairRight.physicsBody = SKPhysicsBody(texture: colliderArmchairRight.texture!, size: colliderArmchairRight.size)
+        colliderArmchairRight.physicsBody?.affectedByGravity = false
+        colliderArmchairRight.physicsBody?.restitution = 0
+        colliderArmchairRight.physicsBody?.allowsRotation = false
+        colliderArmchairRight.physicsBody?.isDynamic = false
+        colliderArmchairRight.zPosition = 3
         
         colliderTrasparencyChair.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         colliderTrasparencyChair.xScale = 0.4
         colliderTrasparencyChair.yScale = 0.4
         colliderTrasparencyChair.alpha = 0.01
+        armchairsTransparencyCollider.position = CGPoint(x: size.width*0.5, y: size.height*0.41)
+        armchairsTransparencyCollider.xScale = 0.4
+        armchairsTransparencyCollider.yScale = 0.4
+        armchairsTransparencyCollider.alpha = 0.01
         
         lamp.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         lamp.xScale = 0.4
@@ -547,5 +584,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         colliderBook.physicsBody?.isDynamic = false
         colliderBook.physicsBody?.restitution = 0
         colliderBook.zPosition = 3
+        bookTransparencyCollider.position = CGPoint(x: size.width*0.705, y: size.height*0.22)
+        bookTransparencyCollider.xScale = 0.4
+        bookTransparencyCollider.yScale = 0.4
+        bookTransparencyCollider.zPosition = 3
+        bookTransparencyCollider.alpha = 0.01
+        
+        
     }
 }
