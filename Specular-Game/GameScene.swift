@@ -17,7 +17,7 @@ class GameScene: SKScene {
     
     let myGray = UIColor(red: 129/255, green: 129/255, blue: 129/255, alpha: 1.0)
     
-    @AppStorage("language") var language: String = "English"
+    
     
     //Variabili che compongono l'home page, background, logo, riflessi e scritta
     let squareUp = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
@@ -31,9 +31,7 @@ class GameScene: SKScene {
     
     
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
-//    let settingsButton = SKShapeNode(rectOf: CGSize(width: 50, height: 50))
     let settingsButton = SKSpriteNode(imageNamed: "Cog")
-//    let closeSettingsButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
     
     let settingsBackground = SKSpriteNode(imageNamed: "DropMenu2")
     
@@ -47,7 +45,10 @@ class GameScene: SKScene {
     
     let languageButton = SKSpriteNode(imageNamed: "EnglishFlag")
     
-    let closeSettingsButton = SKLabelNode(text: "Close")
+//    let closeSettingsButton = SKLabelNode(text: "Close")
+    let closeSettingsButton = SKSpriteNode(imageNamed: "Close")
+
+    
     
     override func didMove(to view: SKView) {
         backgroundScreen.size.width = size.width
@@ -77,11 +78,9 @@ class GameScene: SKScene {
         
         
         //Impostazioni relative al menu di opzioni
-//        settingsButton.fillColor = .white
-//        settingsButton.strokeColor = .white
-        settingsButton.position = CGPoint(x: size.width*0.85, y: size.height*0.92)
-        settingsButton.xScale = 0.2
-        settingsButton.yScale = 0.2
+        settingsButton.position = CGPoint(x: size.width*0.88, y: size.height*0.92)
+        settingsButton.xScale = size.width*0.00022
+        settingsButton.yScale = size.width*0.00022
         settingsButton.name = "settingsButton"
         
         backgroundSettings.fillColor = .black
@@ -124,9 +123,9 @@ class GameScene: SKScene {
         
         
         closeSettingsButton.zPosition = 9
-        closeSettingsButton.fontColor = .white
-        closeSettingsButton.fontSize = 32
-        closeSettingsButton.position = CGPoint(x: size.width*0.51, y: size.height*0.28)
+        closeSettingsButton.xScale = size.width*0.0007
+        closeSettingsButton.yScale = size.width*0.0007
+        closeSettingsButton.position = CGPoint(x: size.width*0.51, y: size.height*0.31)
         closeSettingsButton.name = "closeSettings"
         
         
@@ -163,7 +162,6 @@ class GameScene: SKScene {
                 musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
             } else if (musicHandler.instance.mutedMusic == false){
                 musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
-                
             }
             
             if(musicHandler.instance.mutedSFX == true){
@@ -172,10 +170,12 @@ class GameScene: SKScene {
                 sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
             }
             
-            if(language == "Italian"){
+            if(LanguageHandler.instance.language == "Italian"){
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
-            } else if(language == "English") {
+                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
+            } else if(LanguageHandler.instance.language == "English") {
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
+                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
             }
 
             
@@ -209,21 +209,21 @@ class GameScene: SKScene {
         }
         
         if (touchedNode.name == "languageButton"){
-            if(language == "English"){
-                language = "Italian"
+            if(LanguageHandler.instance.language == "English"){
+                LanguageHandler.instance.language = "Italian"
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
                 settingsLabel.removeFromParent()
                 closeSettingsButton.removeFromParent()
                 settingsLabel.text = LanguageHandler.instance.settingsLabelItalian
-                closeSettingsButton.text = LanguageHandler.instance.closePauseItalian
+                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
                 addChild(settingsLabel)
                 addChild(closeSettingsButton)
-            } else if(language == "Italian"){
-                language = "English"
+            } else if(LanguageHandler.instance.language == "Italian"){
+                LanguageHandler.instance.language = "English"
                 settingsLabel.removeFromParent()
                 closeSettingsButton.removeFromParent()
                 settingsLabel.text = LanguageHandler.instance.settingsLabelEnglish
-                closeSettingsButton.text = LanguageHandler.instance.closePauseEnglish
+                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
                 addChild(settingsLabel)
                 addChild(closeSettingsButton)
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))

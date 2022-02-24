@@ -6,16 +6,21 @@
 //
 
 import Foundation
+import SwiftUI
 
 class LanguageHandler {
     
     static let instance = LanguageHandler()
     
+    @AppStorage("language") var language: String = "English"
+    
     public let settingsLabelEnglish = "Settings"
     public let closePauseEnglish = "Close"
+    public let pauseLabelEnglish = "Pause"
     
     public let settingsLabelItalian = "Impostazioni"
     public let closePauseItalian = "Chiudi"
+    public let pauseLabelItalian = "Pausa"
     
     public let languageLabelEnglish = "Language"
     public let languageLabelItalian = "Lingua"
