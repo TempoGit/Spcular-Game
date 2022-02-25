@@ -550,9 +550,11 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.MapEdge
         characterFeetCollider.name = "player"
+        characterFeetCollider.alpha = 0.01
+
         
         pauseButton.name = "pause"
-        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
+        pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05

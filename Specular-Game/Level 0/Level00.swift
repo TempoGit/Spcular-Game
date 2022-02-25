@@ -754,7 +754,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //TO DO: Far partire il personaggio da vicino alla porta in alto
         //Impostazioni riguardanti il bottone che apre il menu di pausa
         pauseButton.name = "pause"
-        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
+        pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05

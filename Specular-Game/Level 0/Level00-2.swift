@@ -523,6 +523,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterFeetCollider.physicsBody?.allowsRotation = false
         characterFeetCollider.physicsBody?.categoryBitMask = PhysicsCategories.Player
         characterFeetCollider.physicsBody?.contactTestBitMask = PhysicsCategories.LowerDoor
+        characterFeetCollider.alpha = 0.01
         
         barrieraPortaSu.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5 )
         barrieraPortaSu.name = "PortaSu"
@@ -603,7 +604,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         barrieraSU.name = "outerBarrier"
         
         pauseButton.name = "pause"
-        pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
+        pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05
@@ -651,15 +652,11 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             lampCollided = true
             characterAvatar.zPosition = 10
             lamp.zPosition = 11
-//            characterAvatar.alpha = 0.85
-//            lamp.alpha = 0.3
         } else {
             if(lampCollided){
                 lampCollided = false
                 characterAvatar.zPosition = 11
                 lamp.zPosition = 10
-//                characterAvatar.alpha = 1
-//                lamp.alpha = 1
             }
         }
         
