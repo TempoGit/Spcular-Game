@@ -47,7 +47,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
     let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-
+    var transitioning: Bool = false
     
     //Variabili che compongono il menu di guida al gioco
     let iButton = SKSpriteNode(imageNamed: "Info")
@@ -583,15 +583,18 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(contactA == "player" || contactB == "player"){
             if(contactA == "lowerDoor" || contactB == "lowerDoor"){
                 //TO DO: transizione verso la nuova stanza
-                blackCover.removeFromParent()
-                let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
-                blackCover.alpha = 0
-                cameraNode.addChild(blackCover)
-                blackCover.run(fadeInAction)
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                    let room2 = Level00_2(size: self.size)
-                    self.view?.presentScene(room2)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room2 = Level00_2(size: self.size)
+                        self.view?.presentScene(room2)
+                    }
                 }
             }
         }
@@ -810,7 +813,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         } else {
             characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
         }
-        characterFeetCollider.position = CGPoint(x: size.width*0.62,y: size.height*0.38)
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
