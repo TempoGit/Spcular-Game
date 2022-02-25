@@ -15,6 +15,9 @@ import SwiftUI
 class Level00_3: SKScene, SKPhysicsContactDelegate{
     @AppStorage("language") var language: String = "English"
     
+    let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    var transitioning: Bool = false
+    
     let iButton = SKSpriteNode(imageNamed: "Info")
     let infoText = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish)
     let infoText2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish2)
@@ -115,6 +118,14 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         //Aggiungo il bottonr per aprire il menu di pausa alla camera di gioco
         cameraNode.addChild(pauseButton)
         
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+        blackCover.alpha = 1
+        blackCover.fillColor = .black
+        blackCover.strokeColor = .black
+        blackCover.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        blackCover.zPosition = 100
+        cameraNode.addChild(blackCover)
+        blackCover.run(fadeOutAction)
         
         //Avvio la musica del livello
         musicHandler.instance.playBackgroundMusic()
@@ -483,11 +494,37 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
        
         if(contactA == "player" || contactB == "player"){
             if(contactA == "doorColliderTopRT" || contactB == "doorColliderTopRT"){
-                let room4 = Level00_4(size: size)
-                view?.presentScene(room4)
+//                let room4 = Level00_4(size: size)
+//                view?.presentScene(room4)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room4 = Level00_4(size: self.size)
+                        self.view?.presentScene(room4)
+                    }
+                }
             } else if(contactA == "doorColliderTopLF" || contactB == "doorColliderTopLF"){
-                let room2 = Level00_2(size: size)
-                view?.presentScene(room2)
+//                let room2 = Level00_2(size: size)
+//                view?.presentScene(room2)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room2 = Level00_2(size: self.size)
+                        self.view?.presentScene(room2)
+                    }
+                }
             }
         }
     }

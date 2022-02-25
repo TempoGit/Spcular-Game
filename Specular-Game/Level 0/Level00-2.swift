@@ -23,6 +23,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
 
     @AppStorage("language") var language: String = "English"
     
+    let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    var transitioning: Bool = false
+    
     let iButton = SKSpriteNode(imageNamed: "Info")
     let infoText = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish)
     let infoText2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish2)
@@ -116,6 +119,17 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = characterAvatar.position
+        
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+        blackCover.alpha = 1
+        blackCover.fillColor = .black
+        blackCover.strokeColor = .black
+        blackCover.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        blackCover.zPosition = 100
+        cameraNode.addChild(blackCover)
+        blackCover.run(fadeOutAction)
+        
+        musicHandler.instance.playBackgroundMusic()
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
@@ -712,15 +726,41 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         if(contactA == "player" || contactB == "player"){
             if(contactA == "PortaSu" || contactB == "PortaSu"){
                 //TO DO: transizione verso la nuova stanza
-                let room1 = Level00(size: size)
-                view?.presentScene(room1)
+//                let room1 = Level00(size: size)
+//                view?.presentScene(room1)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room1 = Level00(size: self.size)
+                        self.view?.presentScene(room1)
+                    }
+                }
             }
         }
         if(contactA == "player" || contactB == "player"){
             if(contactA == "PortaDx" || contactB == "PortaDx"){
                 //TO DO: transizione verso la nuova stanza
-                let room3 = Level00_3(size: size)
-                view?.presentScene(room3)
+//                let room3 = Level00_3(size: size)
+//                view?.presentScene(room3)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room3 = Level00_3(size: self.size)
+                        self.view?.presentScene(room3)
+                    }
+                }
             }
         }
 

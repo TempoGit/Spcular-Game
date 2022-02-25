@@ -12,6 +12,9 @@ import SwiftUI
 class Level00_5: SKScene, SKPhysicsContactDelegate {
     @AppStorage("language") var language: String = "English"
     
+    let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    var transitioning: Bool = false
+    
     let iButton = SKSpriteNode(imageNamed: "Info")
     let infoText = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish)
     let infoText2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish2)
@@ -99,6 +102,15 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
         addChild(doorInteractionCollider)
+        
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+        blackCover.alpha = 1
+        blackCover.fillColor = .black
+        blackCover.strokeColor = .black
+        blackCover.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        blackCover.zPosition = 100
+        cameraNode.addChild(blackCover)
+        blackCover.run(fadeOutAction)
         
         musicHandler.instance.playBackgroundMusic()
         
@@ -475,14 +487,27 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         //Se la collisione che si è verificata ha come protagonisti il personaggio e la porta sul lato inferiore della stanza allora avvia la transizione alla nuova stanza
         if(contactA == "player" || contactB == "player"){
             if(contactA == "doorColliderLF" || contactB == "doorColliderLF"){
-                print("left")
-                let room4 = Level00_4(size: size)
-                view?.presentScene(room4)
+//                let room4 = Level00_4(size: size)
+//                view?.presentScene(room4)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room4 = Level00_4(size: self.size)
+                        self.view?.presentScene(room4)
+                    }
+                }
                 
             } else if(contactA == "doorColliderRT" || contactB == "doorColliderRT"){
                 print("Right")
                 let room6 = TheEnd(size: size)
                 view?.presentScene(room6)
+
             }
         }
     }

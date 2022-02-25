@@ -7,9 +7,6 @@
 
 import UIKit
 import SpriteKit
-
-
-import AVFoundation
 import SwiftUI
 
 //let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkRightUpFrame1"), SKTexture(imageNamed: "WalkRightUpFrame2")]
@@ -48,6 +45,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     
     //Bottone che apre il menu di pausa
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
+    
+    let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    var transitioning: Bool = false
     
     //Variabili che compongono il menu di guida al gioco
     let iButton = SKSpriteNode(imageNamed: "Info")
@@ -130,6 +130,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     override func didMove(to view: SKView) {
         //Per non imputtanire troppo il codice, metto le impostazioni più lunghe in un'altra funzione definita sempre nella classe e la richiamo qui, così almeno sembra un po' più pulito
         roomSetup()
+        
 
         //Inserisco poi gli oggetti effettivamente nella scena
         addChild(room)
@@ -174,6 +175,14 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         cameraNode.addChild(iButton)
         
+        let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+        blackCover.alpha = 1
+        blackCover.fillColor = .black
+        blackCover.strokeColor = .black
+        blackCover.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        blackCover.zPosition = 100
+        cameraNode.addChild(blackCover)
+        blackCover.run(fadeOutAction)
         
         //Avvio la musica del livello
         musicHandler.instance.playBackgroundMusic()
@@ -574,10 +583,19 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(contactA == "player" || contactB == "player"){
             if(contactA == "lowerDoor" || contactB == "lowerDoor"){
                 //TO DO: transizione verso la nuova stanza
-                let room2 = Level00_2(size: size)
-//                let sceneTransition = SKTransition.fade(with: UIColor.black, duration: 1.5)
-                view?.presentScene(room2)
-//                view?.presentScene(room2, transition: sceneTransition)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        let room2 = Level00_2(size: self.size)
+                        self.view?.presentScene(room2)
+                    }
+                }
             }
         }
     }
@@ -795,7 +813,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         } else {
             characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
         }
-        characterFeetCollider.position = CGPoint(x: size.width*0.62,y: size.height*0.38)
         characterFeetCollider.xScale = 0.5
         characterFeetCollider.yScale = 0.5
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
