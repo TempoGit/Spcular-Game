@@ -1,91 +1,109 @@
 {
   "images" : [
     {
+      "filename" : "Icona_40-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
+      "filename" : "Icona.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "20x20"
     },
     {
+      "filename" : "Icona_58-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "Icona87.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "29x29"
     },
     {
+      "filename" : "Icona_80.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
+      "filename" : "Icona_120x120.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "40x40"
     },
     {
+      "filename" : "Icona_120x120-1.png",
       "idiom" : "iphone",
       "scale" : "2x",
       "size" : "60x60"
     },
     {
+      "filename" : "Icona_180.png",
       "idiom" : "iphone",
       "scale" : "3x",
       "size" : "60x60"
     },
     {
+      "filename" : "Icona20.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "20x20"
     },
     {
+      "filename" : "Icona_40-2.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "20x20"
     },
     {
+      "filename" : "Icona29.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "29x29"
     },
     {
+      "filename" : "Icona_58.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "29x29"
     },
     {
+      "filename" : "Icona_40.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "40x40"
     },
     {
+      "filename" : "Icona_80-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "40x40"
     },
     {
+      "filename" : "Icona_76.png",
       "idiom" : "ipad",
       "scale" : "1x",
       "size" : "76x76"
     },
     {
+      "filename" : "Icona152.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "76x76"
     },
     {
+      "filename" : "Icona167.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "size" : "83.5x83.5"
     },
     {
+      "filename" : "Icona-1.png",
       "idiom" : "ios-marketing",
       "scale" : "1x",
       "size" : "1024x1024"
