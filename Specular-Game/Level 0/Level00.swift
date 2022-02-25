@@ -50,7 +50,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
     //Variabili che compongono il menu di guida al gioco
-    let iButton = SKShapeNode(rectOf: CGSize(width: 30, height: 30))
+    let iButton = SKSpriteNode(imageNamed: "Info")
     let infoText = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish)
     let infoText2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish2)
     let infoText3 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish3)
@@ -816,6 +816,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         iButton.name = "infoButton"
         iButton.zPosition = 20
         iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
+        iButton.xScale = 0.05
+        iButton.yScale = 0.05
 
         infoOpacityOverlay.zPosition = 100
         infoOpacityOverlay.name = "closeInfo"
@@ -851,6 +853,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         infoText6.name = "closeInfo"
         infoText6.fontSize = size.width*0.05
         infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        
     }
 }
 

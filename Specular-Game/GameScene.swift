@@ -23,7 +23,7 @@ class GameScene: SKScene {
     let squareUp = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
     let backgroundScreenBottomPart = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.3))
     let backgroundScreen = SKSpriteNode(imageNamed: "Gradient")
-    let playButton = SKSpriteNode(imageNamed: "PlayButton")
+    let playButton = SKSpriteNode(imageNamed: "PlayButton1")
 //    let playButton = SKSpriteNode(imageNamed: "Start")
     let door = SKSpriteNode(imageNamed: "MainMenuBackground")
 //    let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
