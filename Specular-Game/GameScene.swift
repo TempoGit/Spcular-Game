@@ -29,6 +29,7 @@ class GameScene: SKScene {
 //    let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
     var gameTitleWithReflection = SKSpriteNode(imageNamed: "Title_white_resized")
     
+    let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     
     
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
@@ -157,7 +158,18 @@ class GameScene: SKScene {
             musicHandler.instance.stopBackgroundMusicMenu()
             let startGameScene = Level00_5(size: size)
 //            view?.presentScene(startGameScene)
-            view?.presentScene(startGameScene, transition: SKTransition.fade(with: UIColor.black, duration:  7))
+//            blackCover.alpha = 0
+            let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+            blackCover.alpha = 0
+            blackCover.fillColor = .black
+            blackCover.strokeColor = .black
+            blackCover.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+            addChild(blackCover)
+            blackCover.run(fadeInAction)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
+                let startGameScene = Level00(size: self.size)
+                self.view?.presentScene(startGameScene, transition: SKTransition.fade(with: UIColor.black, duration:  7))
+            }
         }
         
         if(touchedNode.name == "settingsButton"){
