@@ -156,7 +156,8 @@ class GameScene: SKScene {
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
             let startGameScene = Level00(size: size)
-            view?.presentScene(startGameScene)
+//            view?.presentScene(startGameScene)
+            view?.presentScene(startGameScene, transition: SKTransition.fade(with: UIColor.black, duration:  7))
         }
         
         if(touchedNode.name == "settingsButton"){
