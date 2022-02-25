@@ -15,6 +15,16 @@ import SwiftUI
 class Level00_3: SKScene, SKPhysicsContactDelegate{
     @AppStorage("language") var language: String = "English"
     
+    let iButton = SKSpriteNode(imageNamed: "Info")
+    let infoText = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish)
+    let infoText2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish2)
+    let infoText3 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish3)
+    let infoText4 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish4)
+    let infoText5 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish5)
+    let infoText6 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish6)
+    let infoOpacityOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    let infoBackground = SKSpriteNode(imageNamed: "Drop Menu 2")
+    
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     let room = SKSpriteNode(imageNamed: "Level0-Room3")
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
@@ -99,7 +109,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         addChild(colliderArmchairRight)
         addChild(colliderTrasparencyChair)
         addChild(armchairsTransparencyCollider)
-        
+        cameraNode.addChild(iButton)
         addChild(cameraNode)
         camera = cameraNode
         //Aggiungo il bottonr per aprire il menu di pausa alla camera di gioco
@@ -236,6 +246,45 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
                 cameraNode.addChild(PauseMenuHandler.instance.sfxButtonOff)
             }
         }
+        
+        if(touchedNode.name == "infoButton"){
+            self.isPaused = true
+            if(LanguageHandler.instance.language == "English"){
+                infoText.text = LanguageHandler.instance.objectiveEnglish
+                infoText2.text = LanguageHandler.instance.objectiveEnglish2
+                infoText3.text = LanguageHandler.instance.objectiveEnglish3
+                infoText4.text = LanguageHandler.instance.objectiveEnglish4
+                infoText5.text = LanguageHandler.instance.objectiveEnglish5
+                infoText6.text = LanguageHandler.instance.objectiveEnglish6
+            } else if (LanguageHandler.instance.language == "Italian"){
+                infoText.text = LanguageHandler.instance.objectiveItalian
+                infoText2.text = LanguageHandler.instance.objectiveItalian2
+                infoText3.text = LanguageHandler.instance.objectiveItalian3
+                infoText4.text = LanguageHandler.instance.objectiveItalian4
+                infoText5.text = LanguageHandler.instance.objectiveItalian5
+                infoText6.text = LanguageHandler.instance.objectiveItalian6
+            }
+            cameraNode.addChild(infoOpacityOverlay)
+            cameraNode.addChild(infoBackground)
+            cameraNode.addChild(infoText)
+            cameraNode.addChild(infoText2)
+            cameraNode.addChild(infoText3)
+            cameraNode.addChild(infoText4)
+            cameraNode.addChild(infoText5)
+            cameraNode.addChild(infoText6)
+        }
+        if(touchedNode.name == "closeInfo"){
+            infoOpacityOverlay.removeFromParent()
+            infoBackground.removeFromParent()
+            infoText.removeFromParent()
+            infoText2.removeFromParent()
+            infoText3.removeFromParent()
+            infoText4.removeFromParent()
+            infoText5.removeFromParent()
+            infoText6.removeFromParent()
+            self.isPaused = false
+        }
+        
         
         if(touchedNode.name == "languageButton"){
             if(LanguageHandler.instance.language == "English"){
@@ -667,6 +716,46 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         bookTransparencyCollider.zPosition = 3
         bookTransparencyCollider.alpha = 0.01
         
+        iButton.name = "infoButton"
+        iButton.zPosition = 20
+        iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
+        iButton.xScale = 0.05
+        iButton.yScale = 0.05
+
+        infoOpacityOverlay.zPosition = 100
+        infoOpacityOverlay.name = "closeInfo"
+        infoOpacityOverlay.strokeColor = .black
+        infoOpacityOverlay.fillColor = .black
+        infoOpacityOverlay.alpha = 0.6
+        infoBackground.zPosition = 101
+        infoBackground.name = "closeInfo"
+        infoBackground.xScale = size.width*0.0017
+        infoBackground.yScale = size.width*0.0008
+        infoBackground.position = CGPoint(x: -gameArea.size.width*0.02, y: gameArea.size.height*0)
+        infoText.zPosition = 102
+        infoText.name = "closeInfo"
+        infoText.fontSize = size.width*0.05
+        infoText.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.2)
+        infoText2.zPosition = 102
+        infoText2.name = "closeInfo"
+        infoText2.fontSize = size.width*0.05
+        infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
+        infoText3.zPosition = 102
+        infoText3.name = "closeInfo"
+        infoText3.fontSize = size.width*0.05
+        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        infoText4.zPosition = 102
+        infoText4.name = "closeInfo"
+        infoText4.fontSize = size.width*0.05
+        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
+        infoText5.zPosition = 102
+        infoText5.name = "closeInfo"
+        infoText5.fontSize = size.width*0.05
+        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+        infoText6.zPosition = 102
+        infoText6.name = "closeInfo"
+        infoText6.fontSize = size.width*0.05
+        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
         
     }
 }
