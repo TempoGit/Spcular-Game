@@ -25,7 +25,7 @@ class GameScene: SKScene {
     let backgroundScreen = SKSpriteNode(imageNamed: "Gradient")
     let playButton = SKSpriteNode(imageNamed: "PlayButton")
 //    let playButton = SKSpriteNode(imageNamed: "Start")
-    let door = SKSpriteNode(imageNamed: "MainMenu")
+    let door = SKSpriteNode(imageNamed: "MainMenuBackground")
 //    let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
     var gameTitleWithReflection = SKSpriteNode(imageNamed: "Title_white_resized")
     
@@ -71,8 +71,8 @@ class GameScene: SKScene {
 //        houseSpriteMenuMirrored.zRotation = 3.14
 //        houseSpriteMenuMirrored.xScale = -1
 //
-        playButton.position = CGPoint(x: size.width*0.5,y: size.height*0.15)
-        playButton.size = CGSize(width: size.width*0.25, height: size.width*0.2)
+        playButton.position = CGPoint(x: size.width*0.5,y: size.height*0.1)
+        playButton.size = CGSize(width: size.width*0.25, height: size.width*0.25)
         playButton.name = "playGameName"
         
         gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.85)
@@ -155,7 +155,7 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
-            let startGameScene = Level00_5(size: size)
+            let startGameScene = Level00(size: size)
             view?.presentScene(startGameScene)
         }
         
