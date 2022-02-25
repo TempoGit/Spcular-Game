@@ -15,7 +15,7 @@ import SwiftUI
 class Level00_3: SKScene, SKPhysicsContactDelegate{
     @AppStorage("language") var language: String = "English"
     
-    let pauseButton = SKSpriteNode(imageNamed: "Pause")
+    let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     let room = SKSpriteNode(imageNamed: "Level0-Room3")
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
@@ -554,8 +554,8 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
-        pauseButton.xScale = 0.2
-        pauseButton.yScale = 0.2
+        pauseButton.xScale = 0.05
+        pauseButton.yScale = 0.05
         
         doorColliderTopRT.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
         doorColliderTopRT.name = "doorColliderTopRT"

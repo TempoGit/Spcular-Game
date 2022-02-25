@@ -12,7 +12,7 @@ import SwiftUI
 class Level00_5: SKScene, SKPhysicsContactDelegate {
     @AppStorage("language") var language: String = "English"
     
-    let pauseButton = SKSpriteNode(imageNamed: "Pause")
+    let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
     let cameraNode = SKCameraNode()
 
@@ -458,8 +458,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
-        pauseButton.xScale = 0.08
-        pauseButton.yScale = 0.08
+        pauseButton.xScale = 0.05
+        pauseButton.yScale = 0.05
 //        setup room
         room.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         room.xScale = 0.4

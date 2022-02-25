@@ -23,7 +23,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
     
     //Bottone che apre il menu di pausa
-    let pauseButton = SKSpriteNode(imageNamed: "Pause")
+    let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
     
     //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
@@ -516,8 +516,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         pauseButton.zPosition = 20
 //        pauseButton.xScale = 0.2
 //        pauseButton.yScale = 0.2
-        pauseButton.xScale = 0.08
-        pauseButton.yScale = 0.08
+        pauseButton.xScale = 0.05
+        pauseButton.yScale = 0.05
         //Impostazioni relative al background della stanza
         room.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         room.xScale = 0.4

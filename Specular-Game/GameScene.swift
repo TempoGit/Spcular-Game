@@ -23,15 +23,16 @@ class GameScene: SKScene {
     let squareUp = SKShapeNode(rectOf: CGSize(width: 200, height: 200))
     let backgroundScreenBottomPart = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height*0.3))
     let backgroundScreen = SKSpriteNode(imageNamed: "Gradient")
-    let playButton = SKSpriteNode(imageNamed: "SquarePlay4")
-    let houseSpriteMenu = SKSpriteNode(imageNamed: "House.png")
-    let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
+    let playButton = SKSpriteNode(imageNamed: "PlayButton")
+//    let playButton = SKSpriteNode(imageNamed: "Start")
+    let door = SKSpriteNode(imageNamed: "MainMenu")
+//    let houseSpriteMenuMirrored = SKSpriteNode(imageNamed: "House.png")
     var gameTitleWithReflection = SKSpriteNode(imageNamed: "Title_white_resized")
     
     
     
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
-    let settingsButton = SKSpriteNode(imageNamed: "Cog")
+    let settingsButton = SKSpriteNode(imageNamed: "Setting")
     
     let settingsBackground = SKSpriteNode(imageNamed: "DropMenu2")
     
@@ -61,26 +62,28 @@ class GameScene: SKScene {
         backgroundScreenBottomPart.strokeColor = .black
         addChild(backgroundScreenBottomPart)
         
-        houseSpriteMenu.position = CGPoint(x: size.width*0.5, y: size.height*0.45)
+        door.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        door.xScale = 0.3
+        door.yScale = 0.3
         
-        houseSpriteMenuMirrored.position = CGPoint(x: size.width*0.5, y: size.height*0.055)
-        houseSpriteMenuMirrored.alpha = 0.2
-        houseSpriteMenuMirrored.zRotation = 3.14
-        houseSpriteMenuMirrored.xScale = -1
-        
+//        houseSpriteMenuMirrored.position = CGPoint(x: size.width*0.5, y: size.height*0.055)
+//        houseSpriteMenuMirrored.alpha = 0.2
+//        houseSpriteMenuMirrored.zRotation = 3.14
+//        houseSpriteMenuMirrored.xScale = -1
+//
         playButton.position = CGPoint(x: size.width*0.5,y: size.height*0.15)
-        playButton.size = CGSize(width: size.width*0.25, height: size.width*0.25)
+        playButton.size = CGSize(width: size.width*0.25, height: size.width*0.2)
         playButton.name = "playGameName"
         
-        gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.8)
-        gameTitleWithReflection.xScale = 0.4
-        gameTitleWithReflection.yScale = 0.4
-        
+        gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.85)
+        gameTitleWithReflection.xScale = 0.3
+        gameTitleWithReflection.yScale = 0.3
+
         
         //Impostazioni relative al menu di opzioni
         settingsButton.position = CGPoint(x: size.width*0.88, y: size.height*0.92)
-        settingsButton.xScale = size.width*0.00022
-        settingsButton.yScale = size.width*0.00022
+        settingsButton.xScale = size.width*0.00015
+        settingsButton.yScale = size.width*0.00015
         settingsButton.name = "settingsButton"
         
         backgroundSettings.fillColor = .black
@@ -130,9 +133,9 @@ class GameScene: SKScene {
         
         
         //Aggiungo gli elementi alla scena
-        addChild(houseSpriteMenu)
-        addChild(houseSpriteMenuMirrored)
-        addChild(gameTitleWithReflection)
+        addChild(door)
+//        addChild(houseSpriteMenuMirrored)
+       addChild(gameTitleWithReflection)
         addChild(playButton)
         addChild(settingsButton)
         
@@ -152,7 +155,7 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
-            let startGameScene = Level00(size: size)
+            let startGameScene = Level00_5(size: size)
             view?.presentScene(startGameScene)
         }
         

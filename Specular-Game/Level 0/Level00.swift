@@ -47,7 +47,7 @@ struct PhysicsCategories {
 class Level00: SKScene, SKPhysicsContactDelegate {
     
     //Bottone che apre il menu di pausa
-    let pauseButton = SKSpriteNode(imageNamed: "Pause")
+    let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
     //Definisco i nodi che creano la stanza di gioco
     let room = SKSpriteNode(imageNamed: "Level0-Room1")
@@ -756,8 +756,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
-        pauseButton.xScale = 0.2
-        pauseButton.yScale = 0.2
+        pauseButton.xScale = 0.05
+        pauseButton.yScale = 0.05
     }
 }
 
