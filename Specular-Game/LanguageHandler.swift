@@ -17,22 +17,21 @@ class LanguageHandler {
     public let settingsLabelEnglish = "Settings"
     public let closePauseEnglish = "Close"
     public let pauseLabelEnglish = "Pause"
+    public let objectiveEnglish = "Hello there!"
+    public let objectiveEnglish2 = "You are a son of a bitch that has"
+    public let objectiveEnglish3 = "to reach the closet at the end of the level."
+    public let objectiveEnglish4 = "Interact with the objects and furniture in"
+    public let objectiveEnglish5 = "the scene, you might find something useful..."
+    public let objectiveEnglish6 = "...or you might encounter a gruesome death! :)"
     
     public let settingsLabelItalian = "Impostazioni"
     public let closePauseItalian = "Chiudi"
     public let pauseLabelItalian = "Pausa"
-    
-    public let languageLabelEnglish = "Language"
-    public let languageLabelItalian = "Lingua"
-    public let goBackToMainMenuLabelEnglish = "Go back to main menu"
-    public let musicLabelEnglish = "Music"
-    public let soundEffectsLabelEnglish = "Sound effects"
-    
-    public let languageSelectionButtonEnglish = "English"
-    public let languageSelectionButtonItalian = "Italiano"
-    public let goBackToMainMenuLabelItalian = "Torna al menu principale"
-    public let musicLabelItalian = "Musica"
-    public let soundEffectsLabelItalian = "Effetti sonori"
-    
+    public let objectiveItalian = "Ciao!"
+    public let objectiveItalian2 = "Sei un povero figlio di puttana che deve"
+    public let objectiveItalian3 = "raggiungere lo sgabuzzino alla fine del livello."
+    public let objectiveItalian4 = "Interagisci con gli oggetti e i mobili nella"
+    public let objectiveItalian5 = "scena, potresti trovare qualcosa di utile..."
+    public let objectiveItalian6 = "...oppure incotrare una morte orribile! :)"
     
 }
