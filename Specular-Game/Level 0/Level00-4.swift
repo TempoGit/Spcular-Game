@@ -28,6 +28,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let infoOpacityOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let infoBackground = SKSpriteNode(imageNamed: "Drop Menu 2")
     
+    var keyObject : Bool = false
+    
     //    prova animazione cassettone
     var open: Bool = false
 //        var openClose = SKSpriteNode()
@@ -58,6 +60,10 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let boxCollider = SKSpriteNode(imageNamed: "Level0-Room4-BoxCollider")
     let lowerDoor = SKSpriteNode(imageNamed: "Level0-Room4-LowerDoor")
     let rightDoor = SKSpriteNode(imageNamed: "Level0-Room4-RightRoom")
+//    cose relative alla chiave nel cassetto
+    let Key = SKSpriteNode(imageNamed: "Key")
+    let keyLabel = SKLabelNode(fontNamed: "MonoSF")
+    let keyLabel1 = SKLabelNode(fontNamed: "MonoSF")
     
     //Variabili usate per il movimento del personaggio
     var move: Bool = false
@@ -116,6 +122,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         addChild(boxCollider)
         addChild(lowerDoor)
         addChild(rightDoor)
+        addChild(Key)
         cameraNode.addChild(iButton)
         
         
@@ -328,15 +335,31 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         //Se tocco il cassettone si apre, se ritocco si chiude, TO DO: Aggiungere una condizione che permette di aprire e chiudere il cassettone solamente se si è nelle vicinanz del cassettone
         if(touchedNode.name == "furniture"){
-            if(!open){
+            if(!open && !keyObject){
+                keyObject = true
                 open = true
-//                furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpenSingle")))
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpen")))
-            } else if (open){
+                cameraNode.addChild(keyLabel)
+                keyLabel.run(SKAction.fadeOut(withDuration: 5))
+                Key.zPosition = 11
+            } else if (open && keyObject){
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
                 open = false
+                keyLabel.removeFromParent()
+                keyObject = false
+                Key.zPosition = 1
             }
         }
+        
+        if(touchedNode.name == "key"){
+            print("chiave presa")
+            keyOpen = true
+            cameraNode.addChild(keyLabel1)
+            keyLabel1.run(SKAction.fadeOut(withDuration: 5))
+            Key.removeFromParent()
+            keyLabel.removeFromParent()
+        }
+        
         
         if(touchedNode.name == "infoButton"){
             self.isPaused = true
@@ -767,6 +790,22 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         infoText6.name = "closeInfo"
         infoText6.fontSize = size.width*0.05
         infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
-
+        
+        Key.position = CGPoint(x: size.width*0.05, y: size.height*0.45)
+        Key.xScale = 0.04
+        Key.yScale = 0.04
+        Key.name = "key"
+        
+        keyLabel.text = "This looks like an old key..."
+        keyLabel.fontColor = SKColor.black
+        keyLabel.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.9)
+        keyLabel.fontSize = size.width*0.05
+        keyLabel.zPosition = 150
+        
+        keyLabel1.text = "Could be useful..."
+        keyLabel1.fontColor = SKColor.black
+        keyLabel1.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.9)
+        keyLabel1.fontSize = size.width*0.05
+        keyLabel1.zPosition = 150
     }
 }

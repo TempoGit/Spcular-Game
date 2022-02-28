@@ -9,6 +9,9 @@ import UIKit
 import SpriteKit
 import SwiftUI
 
+
+var keyOpen: Bool = false
+
 class Level00_5: SKScene, SKPhysicsContactDelegate {
     @AppStorage("language") var language: String = "English"
     
@@ -46,9 +49,11 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let barrierTopLF = SKSpriteNode(imageNamed: "BarrierTopLF")
     let barrierTopRT = SKSpriteNode(imageNamed: "BarrierTopRT")
     let doorColliderLF = SKSpriteNode(imageNamed: "DoorColliderLT")
-//    let doorColliderRT = SKSpriteNode(imageNamed: "DoorColliderRT")
+    let doorColliderRT = SKSpriteNode(imageNamed: "DoorColliderRT")
     let halfWallCollider = SKSpriteNode(imageNamed: "ColliderHalfWall")
     let boxCollider = SKSpriteNode(imageNamed: "BoxesCollider")
+    
+    let colliderDoorClosed = SKSpriteNode(imageNamed: "DoorColliderRT-1")
     
     var interaction: Bool = false
   
@@ -93,7 +98,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         addChild(barrierDownLF)
         addChild(barrierDownRT)
         addChild(doorColliderLF)
-//        addChild(doorColliderRT)
+        addChild(doorColliderRT)
         addChild(halfWallCollider)
         addChild(halfWallBackground)
         addChild(boxCollider)
@@ -102,6 +107,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
         addChild(doorInteractionCollider)
+        addChild(colliderDoorClosed)
         
         let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
         blackCover.alpha = 1
@@ -226,8 +232,10 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 closed")))
             } else {
                 if(interaction){
+                    if(keyOpen){
                     doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
-                interaction = false
+                    interaction = false
+                    }
                 }
             }
         }
@@ -622,18 +630,32 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorColliderLF.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         doorColliderLF.alpha = 0.01
         doorColliderLF.name = "doorColliderLF"
-//        doorColliderRT.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-//        doorColliderRT.xScale = 0.4
-//        doorColliderRT.yScale = 0.4
-//        doorColliderRT.physicsBody = SKPhysicsBody(texture: doorColliderRT.texture!, size: doorColliderRT.size)
-//        doorColliderRT.physicsBody?.affectedByGravity = false
-//        doorColliderRT.physicsBody?.restitution = 0
-//        doorColliderRT.physicsBody?.allowsRotation = false
-//        doorColliderRT.physicsBody?.isDynamic = false
-//        doorColliderRT.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
-//        doorColliderRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-//        doorColliderRT.alpha = 0.01
-//        doorColliderRT.name = "doorColliderRT"
+        
+        colliderDoorClosed.position = CGPoint(x: size.width*0.1, y: size.height*0.4)
+        colliderDoorClosed.xScale = 0.6
+        colliderDoorClosed.yScale = 0.5
+        colliderDoorClosed.physicsBody = SKPhysicsBody(texture: colliderDoorClosed.texture!, size: colliderDoorClosed.size)
+        colliderDoorClosed.physicsBody?.affectedByGravity = false
+        colliderDoorClosed.physicsBody?.restitution = 0
+        colliderDoorClosed.physicsBody?.allowsRotation = false
+        colliderDoorClosed.physicsBody?.isDynamic = false
+        colliderDoorClosed.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        colliderDoorClosed.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        colliderDoorClosed.alpha = 0.9
+       
+        
+        doorColliderRT.position = CGPoint(x: size.width*0.35, y: size.height*0.27)
+        doorColliderRT.xScale = 0.5
+        doorColliderRT.yScale = 0.4
+        doorColliderRT.physicsBody = SKPhysicsBody(texture: doorColliderRT.texture!, size: doorColliderRT.size)
+        doorColliderRT.physicsBody?.affectedByGravity = false
+        doorColliderRT.physicsBody?.restitution = 0
+        doorColliderRT.physicsBody?.allowsRotation = false
+        doorColliderRT.physicsBody?.isDynamic = false
+        doorColliderRT.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
+        doorColliderRT.physicsBody?.contactTestBitMask = PhysicsCategories.Player
+        doorColliderRT.alpha = 0.01
+        doorColliderRT.name = "doorColliderRT"
 //        setup boxes
         boxes.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
         boxes.xScale = 0.4
