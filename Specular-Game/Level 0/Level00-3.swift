@@ -72,7 +72,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     var chairCollider: Bool = false
     var booksCollided: Bool = false
     
-    let diary = SKSpriteNode(imageNamed: "Diary")
+    let diary = SKSpriteNode(imageNamed: "Diary1")
+    let infoDiary = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDiary)
+    let infoDiary1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDiary1)
+    let infoDiaryy2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDiary2)
+    let infoOpacityOverlayDiary = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    let overlayDescription = SKSpriteNode(imageNamed: "DropDiary")
     
     let cameraNode = SKCameraNode()
     
@@ -320,6 +325,37 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
             view?.presentScene(newScene)
         }
         
+        if(touchedNode.name == "diary"){
+            print("vedi diario")
+//            cameraNode.addChild(keyLabel1)
+            if(LanguageHandler.instance.language == "English"){
+                self.isPaused = true
+                infoDiary.text = LanguageHandler.instance.objectiveEnglishDiary
+                infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
+                infoDiaryy2.text = LanguageHandler.instance.objectiveEnglishDiary2
+            }else
+            if(LanguageHandler.instance.language == "Italian"){
+                infoDiary.text = LanguageHandler.instance.objectiveItalianDiary
+                infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
+                infoDiaryy2.text = LanguageHandler.instance.objectiveItalianDiary2
+            }
+            cameraNode.addChild(infoOpacityOverlayDiary)
+            cameraNode.addChild(overlayDescription)
+            cameraNode.addChild(infoDiary)
+            cameraNode.addChild(infoDiary1)
+            cameraNode.addChild(infoDiaryy2)
+        }
+        
+        if(touchedNode.name == "overlayDescription"){
+//            self.isPaused = false
+            infoOpacityOverlayDiary.removeFromParent()
+            infoDiary.removeFromParent()
+            infoDiary1.removeFromParent()
+            infoDiaryy2.removeFromParent()
+            overlayDescription.removeFromParent()
+        }
+        
+        
         //Se clicco il bottone per chiudere il menu di pausa rimuovo tutti gli oggetti che compongono il menu di pausa dal cameraNode e rimuovo la pausa dalla scena di gioco
         if(touchedNode.name == "closePause"){
             PauseMenuHandler.instance.backgroundSettings.removeFromParent()
@@ -548,7 +584,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         } else{
             if(booksCollided){
                 booksCollided = false
-                characterAvatar.zPosition = 11
+                characterAvatar.zPosition = 12
                 books.zPosition = 10
             }
         }
@@ -809,11 +845,36 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
         
         diary.position = CGPoint(x: gameArea.size.width*0.7, y: gameArea.size.height*0.5)
-        diary.zRotation = 3.14/4
-        diary.xScale = 0.07
-        diary.yScale = 0.07
-        diary.zPosition = 20
+        diary.xScale = 0.1
+        diary.yScale = 0.1
+        diary.zPosition = 11
         diary.name = "diary"
+        
+        overlayDescription.zPosition = 20
+        overlayDescription.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescription.xScale = size.width*0.0012
+        overlayDescription.yScale = size.width*0.0012
+        overlayDescription.name = "overlayDescription"
+        
+        infoOpacityOverlayDiary.strokeColor = .black
+        infoOpacityOverlayDiary.fillColor = .black
+        infoOpacityOverlayDiary.alpha = 0.6
+        infoOpacityOverlayDiary.zPosition = 3
+        infoOpacityOverlayDiary.position = CGPoint(x: size.width*0, y: size.height*0)
+        
+        infoDiary.fontSize = size.width*0.05
+        infoDiary.fontColor = SKColor.white
+        infoDiary.zPosition = 20
+        infoDiary.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+        infoDiary.fontSize = size.width*0.05
+        infoDiary1.zPosition = 20
+        infoDiary1.fontColor = SKColor.white
+        infoDiary1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        infoDiaryy2.fontSize = size.width*0.05
+        infoDiaryy2.fontColor = SKColor.white
+        infoDiaryy2.zPosition = 29
+        infoDiaryy2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+
         
     }
 }

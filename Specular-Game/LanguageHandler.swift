@@ -34,7 +34,7 @@ class LanguageHandler {
     public let objectiveItalian5 = "scena, potresti trovare qualcosa di utile..."
     public let objectiveItalian6 = "...oppure incotrare una morte orribile! :)"
     
-    
+//    chiave
     public let objectiveEnglish11 = "A very old key!"
     public let objectiveEnglish21 = "L"
     public let objectiveEnglish31 = ""
@@ -42,6 +42,14 @@ class LanguageHandler {
     public let objectiveItalian11 = "Una chiave molto vecchia!"
     public let objectiveItalian21 = ""
     public let objectiveItalian31 = ""
+//  diario
+    public let objectiveEnglishDiary = "Dear Diary,"
+    public let objectiveEnglishDiary1 = "L"
+    public let objectiveEnglishDiary2 = ""
+    
+    public let objectiveItalianDiary = "Caro Diario,"
+    public let objectiveItalianDiary1 = ""
+    public let objectiveItalianDiary2 = ""
     
     
     public let infoTextOneEnglish = "Hello there! \n\nYou are a kid that has to reach the closet at the end of the level. \n\nInteract with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a gruesome death! :)"
