@@ -197,8 +197,8 @@ class GameScene: SKScene {
             }
             
             if(LanguageHandler.instance.language == "Italian"){
-                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "italianFlag")))
-                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "chiudi")))
+                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
+                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
             } else if(LanguageHandler.instance.language == "English") {
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
                 closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
@@ -238,10 +238,10 @@ class GameScene: SKScene {
         if (touchedNode.name == "languageButton"){
             if(LanguageHandler.instance.language == "English"){
                 LanguageHandler.instance.language = "Italian"
-                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "italianFlag")))
+                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
                 settingsLabel.removeFromParent()
                 closeSettingsButton.removeFromParent()
-                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "chiudi")))
+                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
                 addChild(settingsLabel)
                 addChild(closeSettingsButton)
             } else if(LanguageHandler.instance.language == "Italian"){
