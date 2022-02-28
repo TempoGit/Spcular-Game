@@ -176,7 +176,7 @@ class GameScene: SKScene {
             addChild(blackCover)
             blackCover.run(fadeInAction)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
-                let startGameScene = Level00_4(size: self.size)
+                let startGameScene = Level00(size: self.size)
 //                self.view?.presentScene(startGameScene, transition: SKTransition.fade(with: UIColor.black, duration:  7))
                 self.view?.presentScene(startGameScene)
             }

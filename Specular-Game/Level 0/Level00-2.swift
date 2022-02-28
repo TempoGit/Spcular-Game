@@ -127,9 +127,11 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         blackCover.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
         blackCover.zPosition = 100
         cameraNode.addChild(blackCover)
-        blackCover.run(fadeOutAction)
+        blackCover.run(fadeOutAction, completion: {
+            musicHandler.instance.playBackgroundMusic()
+        })
         
-        musicHandler.instance.playBackgroundMusic()
+        
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
@@ -736,6 +738,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                     cameraNode.addChild(blackCover)
                     blackCover.run(fadeInAction)
                     
+                    musicHandler.instance.pauseBackgroundMusic()
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         let room1 = Level00(size: self.size)
                         self.view?.presentScene(room1)
@@ -755,6 +759,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                     blackCover.alpha = 0
                     cameraNode.addChild(blackCover)
                     blackCover.run(fadeInAction)
+                    
+                    musicHandler.instance.pauseBackgroundMusic()
+
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         let room3 = Level00_3(size: self.size)

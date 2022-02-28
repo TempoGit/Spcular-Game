@@ -9,20 +9,12 @@ import UIKit
 import SpriteKit
 import SwiftUI
 
-//let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkRightUpFrame1"), SKTexture(imageNamed: "WalkRightUpFrame2")]
-//let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "RightWalkBackFrame1"), SKTexture(imageNamed: "RightWalkBackFrame2")]
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
 
-//let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "Frame1"), SKTexture(imageNamed: "Frame2")]
-//let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "RightWalkDownFrame1"), SKTexture(imageNamed: "RightWalkDownFrame2")]
 let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "WalkingBigRightFrame1"), SKTexture(imageNamed: "WalkingBigRightFrame2")]
 
-//let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkLeftUpFrame1"), SKTexture(imageNamed: "WalkLeftUpFrame2")]
-//let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "LeftWalkBackFrame1"), SKTexture(imageNamed: "LeftWalkBackFrame2")]
 let walkingAnimationFramesLeftUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackLeftFrame1"), SKTexture(imageNamed: "WalkingBigBackLeftFrame2")]
 
-//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkLeftFrame1"), SKTexture(imageNamed: "WalkLeftFrame2")]
-//let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "LeftWalkDownFrame1"), SKTexture(imageNamed: "LeftWalkDownFrame2")]
 let walkingAnimationFramesLeftDown: [SKTexture] = [SKTexture(imageNamed: "WalkingBigFrame1"), SKTexture(imageNamed: "WalkingBigFrame2")]
 
 let walkingAnimationRightUp: SKAction = SKAction.animate(with: walkingAnimationFramesRightUp, timePerFrame: 0.25)
@@ -38,7 +30,6 @@ struct PhysicsCategories {
     static let Player : UInt32 = 0x1 << 0
     static let MapEdge : UInt32 = 0x1 << 1
     static let LowerDoor : UInt32 = 0x1 << 2
-//    static let Redball : UInt32 = 0x1 << 2
 }
 
 class Level00: SKScene, SKPhysicsContactDelegate {
@@ -141,7 +132,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(lowerDoor)
         addChild(wardrobe)
         addChild(wardrobeCollider)
-//        addChild(wardrobeShadow)
         addChild(box2andShadow)
         addChild(box2Single)
         addChild(box2Collider)
@@ -153,15 +143,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(box1TransparencyCollider)
         addChild(wardrobeTransparencyCollider)
         
-        
-//        worldGroup.addChild(room)
-//        worldGroup.addChild(rightBarrier)
-//        worldGroup.addChild(lowerBarrier)
-//        worldGroup.addChild(topBarrier)
-//        worldGroup.addChild(leftBarrier)
-//        worldGroup.addChild(lowerDoor)
-        
-//        addChild(worldGroup)
         
         addChild(characterAvatar)
         addChild(characterFeetCollider)
@@ -182,10 +163,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         blackCover.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
         blackCover.zPosition = 100
         cameraNode.addChild(blackCover)
-        blackCover.run(fadeOutAction)
-        
-        //Avvio la musica del livello
-        musicHandler.instance.playBackgroundMusic()
+        blackCover.run(fadeOutAction, completion: {
+            musicHandler.instance.playBackgroundMusic()
+        })
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
@@ -591,6 +571,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                     cameraNode.addChild(blackCover)
                     blackCover.run(fadeInAction)
                     
+                    musicHandler.instance.pauseBackgroundMusic()
+                    
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         let room2 = Level00_2(size: self.size)
                         self.view?.presentScene(room2)
@@ -732,10 +714,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         wardrobe.yScale = 0.4
         wardrobe.zPosition = 3
         
-//        wardrobeShadow.position = CGPoint(x: size.width*1.05, y: size.height*0.42)
-//        wardrobeShadow.xScale = 0.4
-//        wardrobeShadow.yScale = 0.4
-//        wardrobeShadow.zPosition = 3
         wardrobeTransparencyCollider.position = CGPoint(x: size.width*0.905, y: size.height*0.33)
         wardrobeTransparencyCollider.xScale = 0.4
         wardrobeTransparencyCollider.yScale = 0.4

@@ -21,14 +21,6 @@ final class musicHandler {
     var backgroundMusicPlayerMenu: AVAudioPlayer = AVAudioPlayer()
     var backgroundMusicPlayer: AVAudioPlayer = AVAudioPlayer()
     var playingMusic: Bool = false
-//    var mutedMusic: Bool = false
-    
-    var mutedSounds: Bool = false
-    
-    
-    private init() {
-        
-    }
     
     
     func playBackgroundMusicMenu(){
@@ -82,30 +74,39 @@ final class musicHandler {
     }
     
     func playBackgroundMusic() {
-      let resourceUrl = Bundle.main.url(forResource:
-        backgroundMusicName, withExtension: nil)
-      guard let url = resourceUrl else {
-        print("Could not find file: \(backgroundMusicName)")
-    return
-    }
-      do {
-        try backgroundMusicPlayer = AVAudioPlayer(contentsOf: url)
-          backgroundMusicPlayer.numberOfLoops = -1
-          backgroundMusicPlayer.prepareToPlay()
-          backgroundMusicPlayer.play()
-          playingMusic = true
-          if(mutedMusic){
-              backgroundMusicPlayer.volume = 0
+        if(!playingMusic){
+            let resourceUrl = Bundle.main.url(forResource:
+              backgroundMusicName, withExtension: nil)
+            guard let url = resourceUrl else {
+              print("Could not find file: \(backgroundMusicName)")
+          return
           }
-        } catch {
-          print("Could not create audio player!")
-      return
-      }
+            do {
+              try backgroundMusicPlayer = AVAudioPlayer(contentsOf: url)
+                backgroundMusicPlayer.numberOfLoops = -1
+                backgroundMusicPlayer.prepareToPlay()
+                backgroundMusicPlayer.play()
+                playingMusic = true
+                if(mutedMusic){
+                    backgroundMusicPlayer.volume = 0
+                }
+              } catch {
+                print("Could not create audio player!")
+            return
+            }
+        } else {
+            backgroundMusicPlayer.play()
+        }
         
+    }
+    
+    func pauseBackgroundMusic(){
+        backgroundMusicPlayer.pause()
     }
     
     func stopLevelBackgroundMusic() {
         backgroundMusicPlayer.stop()
+        playingMusic = false
     }
     
     
