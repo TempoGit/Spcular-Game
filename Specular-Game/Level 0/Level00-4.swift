@@ -33,7 +33,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let infoKey1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish21)
     let infoKey2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish31)
     let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-
+    let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     
     var keyObject : Bool = false
     
@@ -369,7 +369,6 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             keyOpen = true
 //            cameraNode.addChild(keyLabel1)
             if(LanguageHandler.instance.language == "English"){
-                self.isPaused = true
                 infoKey.text = LanguageHandler.instance.objectiveEnglish11
                 infoKey1.text = LanguageHandler.instance.objectiveEnglish21
                 infoKey2.text = LanguageHandler.instance.objectiveEnglish31
@@ -384,8 +383,10 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             cameraNode.addChild(infoKey)
             cameraNode.addChild(infoKey1)
             cameraNode.addChild(infoKey2)
+            cameraNode.addChild(bigOverlay)
 //            keyLabel1.run(SKAction.fadeOut(withDuration: 5))
             Key.removeFromParent()
+            self.isPaused = true
             keyLabel.removeFromParent()
         }
         
@@ -396,6 +397,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             infoKey1.removeFromParent()
             infoKey2.removeFromParent()
             overlayDescription.removeFromParent()
+            bigOverlay.removeFromParent()
+            self.isPaused = false
         }
         
         
@@ -856,29 +859,37 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 //        keyLabel1.fontSize = size.width*0.04
 //        keyLabel1.zPosition = 150
         
-        overlayDescription.zPosition = 8
+        infoOpacityOverlayKey.strokeColor = .black
+        infoOpacityOverlayKey.fillColor = .black
+        infoOpacityOverlayKey.alpha = 0.6
+        infoOpacityOverlayKey.zPosition = 50
+        infoOpacityOverlayKey.position = CGPoint(x: size.width*0, y: size.height*0)
+        
+        overlayDescription.zPosition = 51
         overlayDescription.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
         overlayDescription.xScale = size.width*0.0012
         overlayDescription.yScale = size.width*0.0012
         overlayDescription.name = "overlayDescription"
         
-        infoOpacityOverlayKey.strokeColor = .black
-        infoOpacityOverlayKey.fillColor = .black
-        infoOpacityOverlayKey.alpha = 0.6
-        infoOpacityOverlayKey.zPosition = 3
-        infoOpacityOverlayKey.position = CGPoint(x: size.width*0, y: size.height*0)
+        
+        bigOverlay.strokeColor = .black
+        bigOverlay.fillColor = .black
+        bigOverlay.alpha = 0.01
+        bigOverlay.zPosition = 100
+        bigOverlay.position = CGPoint(x: size.width*0, y: size.height*0)
+        bigOverlay.name = "overlayDescription"
         
         infoKey.fontSize = size.width*0.05
         infoKey.fontColor = SKColor.white
-        infoKey.zPosition = 15
+        infoKey.zPosition = 52
         infoKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
         infoKey1.fontSize = size.width*0.05
-        infoKey1.zPosition = 15
+        infoKey1.zPosition = 52
         infoKey1.fontColor = SKColor.white
         infoKey1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
         infoKey2.fontSize = size.width*0.05
         infoKey2.fontColor = SKColor.white
-        infoKey2.zPosition = 15
+        infoKey2.zPosition = 52
         infoKey2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
 
     }
