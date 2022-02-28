@@ -32,6 +32,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let infoKey1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish21)
     let infoKey2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish31)
     let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+
     
     var keyObject : Bool = false
     
@@ -68,7 +69,6 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 //    cose relative alla chiave nel cassetto
     let Key = SKSpriteNode(imageNamed: "Key")
     let keyLabel = SKLabelNode(fontNamed: "MonoSF")
-    let keyLabel1 = SKLabelNode(fontNamed: "MonoSF")
     let overlayDescription = SKSpriteNode(imageNamed: "DropKey2")
 
     
@@ -366,7 +366,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         if(touchedNode.name == "key"){
             print("chiave presa")
             keyOpen = true
-            cameraNode.addChild(keyLabel1)
+//            cameraNode.addChild(keyLabel1)
             if(LanguageHandler.instance.language == "English"){
                 self.isPaused = true
                 infoKey.text = LanguageHandler.instance.objectiveEnglish11

@@ -71,6 +71,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     var chairCollider: Bool = false
     var booksCollided: Bool = false
     
+    let diary = SKSpriteNode(imageNamed: "Diary")
     
     let cameraNode = SKCameraNode()
     
@@ -112,6 +113,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         addChild(colliderArmchairRight)
         addChild(colliderTrasparencyChair)
         addChild(armchairsTransparencyCollider)
+        addChild(diary)
         cameraNode.addChild(iButton)
         addChild(cameraNode)
         camera = cameraNode
@@ -798,6 +800,13 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         infoText6.name = "closeInfo"
         infoText6.fontSize = size.width*0.05
         infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        
+        diary.position = CGPoint(x: gameArea.size.width*0.7, y: gameArea.size.height*0.5)
+        diary.zRotation = 3.14/4
+        diary.xScale = 0.07
+        diary.yScale = 0.07
+        diary.zPosition = 20
+        diary.name = "diary"
         
     }
 }
