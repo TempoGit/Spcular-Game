@@ -37,9 +37,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     //Bottone che apre il menu di pausa
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
+    //Variabili che uso per fare le transizioni tra le diverse stanze
     let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     var transitioning: Bool = false
     
+    @AppStorage ("firstOpening") var firstOpening: Bool = true
     //Variabili che compongono il menu di guida al gioco
     let iButton = SKSpriteNode(imageNamed: "Info")
     let infoText = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish)
@@ -50,6 +52,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let infoText6 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish6)
     let infoOpacityOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let infoBackground = SKSpriteNode(imageNamed: "Drop Menu 2")
+    var infoNavigation: Bool = true
+    
     
     //Definisco i nodi che creano la stanza di gioco
     let room = SKSpriteNode(imageNamed: "Level0-Room1")
@@ -106,7 +110,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     
     let gameArea: CGRect
     
+    let textField: UITextView
+    
     override init(size: CGSize) {
+        textField = UITextView(frame: CGRect(x: size.width*0.05, y: size.height*0.3, width: size.width*0.9, height: size.height*0.3))
+        
       let playableHeight = size.width
       let playableMargin = (size.height-playableHeight)/2.0
         gameArea = CGRect(x: 0, y: playableMargin,
@@ -119,6 +127,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        
         //Per non imputtanire troppo il codice, metto le impostazioni più lunghe in un'altra funzione definita sempre nella classe e la richiamo qui, così almeno sembra un po' più pulito
         roomSetup()
         
@@ -142,12 +151,13 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(box1Collider)
         addChild(box1TransparencyCollider)
         addChild(wardrobeTransparencyCollider)
-        
-        
+
+
         addChild(characterAvatar)
         addChild(characterFeetCollider)
 
         addChild(wardrobeInteractionCollider)
+        addChild(worldGroup)
         //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
@@ -165,12 +175,30 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         cameraNode.addChild(blackCover)
         blackCover.run(fadeOutAction, completion: {
             musicHandler.instance.playBackgroundMusic()
+            if(self.firstOpening){
+//                self.infoBackground.xScale = self.size.width*0
+//                self.infoBackground.yScale = self.size.width*0
+//                let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.5)
+//                let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.5)
+                self.isPaused = true
+                self.cameraNode.addChild(self.infoOpacityOverlay)
+                self.cameraNode.addChild(self.infoBackground)
+//                self.infoBackground.run(xScaleAction)
+//                self.infoBackground.run(yScaleAction, completion: {
+//                    self.cameraNode.addChild(self.infoText)
+//                })
+//                self.infoBackground.isPaused = false
+                self.cameraNode.addChild(self.infoText)
+            }
         })
         
         //Per abilitare le collisioni nella scena
         self.scene?.physicsWorld.contactDelegate = self
         
         previousRoom = "Room1"
+        
+        
+        
     }
     
     //Funzione che rileva il tocco
@@ -370,40 +398,34 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "infoButton"){
             self.isPaused = true
-            if(LanguageHandler.instance.language == "English"){
-                infoText.text = LanguageHandler.instance.objectiveEnglish
-                infoText2.text = LanguageHandler.instance.objectiveEnglish2
-                infoText3.text = LanguageHandler.instance.objectiveEnglish3
-                infoText4.text = LanguageHandler.instance.objectiveEnglish4
-                infoText5.text = LanguageHandler.instance.objectiveEnglish5
-                infoText6.text = LanguageHandler.instance.objectiveEnglish6
+            if (LanguageHandler.instance.language == "English"){
+                infoText.text = LanguageHandler.instance.infoTextOneEnglish
+                infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
             } else if (LanguageHandler.instance.language == "Italian"){
-                infoText.text = LanguageHandler.instance.objectiveItalian
-                infoText2.text = LanguageHandler.instance.objectiveItalian2
-                infoText3.text = LanguageHandler.instance.objectiveItalian3
-                infoText4.text = LanguageHandler.instance.objectiveItalian4
-                infoText5.text = LanguageHandler.instance.objectiveItalian5
-                infoText6.text = LanguageHandler.instance.objectiveItalian6
+                infoText.text = LanguageHandler.instance.infoTextOneItalian
+                infoText2.text = LanguageHandler.instance.infoTextTwoItalian
             }
             cameraNode.addChild(infoOpacityOverlay)
             cameraNode.addChild(infoBackground)
             cameraNode.addChild(infoText)
-            cameraNode.addChild(infoText2)
-            cameraNode.addChild(infoText3)
-            cameraNode.addChild(infoText4)
-            cameraNode.addChild(infoText5)
-            cameraNode.addChild(infoText6)
+
         }
         if(touchedNode.name == "closeInfo"){
-            infoOpacityOverlay.removeFromParent()
-            infoBackground.removeFromParent()
-            infoText.removeFromParent()
-            infoText2.removeFromParent()
-            infoText3.removeFromParent()
-            infoText4.removeFromParent()
-            infoText5.removeFromParent()
-            infoText6.removeFromParent()
-            self.isPaused = false
+            if(infoNavigation){
+                infoText.removeFromParent()
+                cameraNode.addChild(infoText2)
+                infoNavigation = false
+            } else {
+                infoOpacityOverlay.removeFromParent()
+                infoBackground.removeFromParent()
+                infoText.removeFromParent()
+                infoText2.removeFromParent()
+                infoNavigation = true
+                if(firstOpening){
+                    firstOpening = false
+                }
+                self.isPaused = false
+            }
         }
         
         
@@ -832,23 +854,54 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         infoText2.name = "closeInfo"
         infoText2.fontSize = size.width*0.05
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
-        infoText3.zPosition = 102
-        infoText3.name = "closeInfo"
-        infoText3.fontSize = size.width*0.05
-        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
-        infoText4.zPosition = 102
-        infoText4.name = "closeInfo"
-        infoText4.fontSize = size.width*0.05
-        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
-        infoText5.zPosition = 102
-        infoText5.name = "closeInfo"
-        infoText5.fontSize = size.width*0.05
-        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-        infoText6.zPosition = 102
-        infoText6.name = "closeInfo"
-        infoText6.fontSize = size.width*0.05
-        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+//        infoText3.zPosition = 102
+//        infoText3.name = "closeInfo"
+//        infoText3.fontSize = size.width*0.05
+//        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+//        infoText4.zPosition = 102
+//        infoText4.name = "closeInfo"
+//        infoText4.fontSize = size.width*0.05
+//        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
+//        infoText5.zPosition = 102
+//        infoText5.name = "closeInfo"
+//        infoText5.fontSize = size.width*0.05
+//        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+//        infoText6.zPosition = 102
+//        infoText6.name = "closeInfo"
+//        infoText6.fontSize = size.width*0.05
+//        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
         
+        
+        if(LanguageHandler.instance.language == "English"){
+            infoText.text = LanguageHandler.instance.infoTextOneEnglish
+            infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
+        } else if (LanguageHandler.instance.language == "Italian"){
+            infoText.text = LanguageHandler.instance.infoTextOneItalian
+            infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+        }
+        infoText.preferredMaxLayoutWidth = size.width*0.9
+        infoText.numberOfLines = 0
+        infoText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoText.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.32)
+        infoText2.preferredMaxLayoutWidth = size.width*0.9
+        infoText2.numberOfLines = 0
+        infoText2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+//        infoText.lineBreakMode = NSLineBreakMode.
+        
+        
+//        textField.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2)
+//        textField.isEditable = false
+//        textField.isSelectable = false
+//        textField.font = UIFont.systemFont(ofSize: size.width*0.05)
+//
+//        textField.textAlignment = NSTextAlignment.center
+//
+//        textField.text = "Hello there! \n You are a kid that has to reach the closet at the end of the level. \n Interact with the objects and furniture in the scene, you might find something useful... \n ...or you might encounter a gruesome death! :)"
     }
+    
+    
+    
+    
 }
 
