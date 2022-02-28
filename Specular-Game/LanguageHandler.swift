@@ -43,4 +43,11 @@ class LanguageHandler {
     public let objectiveItalian21 = ""
     public let objectiveItalian31 = ""
     
+    
+    public let infoTextOneEnglish = "Hello there! \n\nYou are a kid that has to reach the closet at the end of the level. \n\nInteract with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a gruesome death! :)"
+    public let infoTextTwoEnglish = "You can move by tapping and holding on the screen. \n\nTo interact with the objects simply click on them."
+ 
+    public let infoTextOneItalian = "Ciao! \n\nSei un fanciullo che deve raggiungere lo sgabuzzino alla fine del livello. \n\nInteragisci con gli oggetti e i mobili nella scena, potresti trovare qualcosa di utile... \n\n...oppure incotrare una morte orribile! :)"
+    public let infoTextTwoItalian = "Per muoverti clicca sullo schermo e tieni premuto. \n\nPer interagire con gli oggetti cliccaci sopra."
+
 }

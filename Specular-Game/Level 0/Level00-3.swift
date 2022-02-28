@@ -27,6 +27,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     let infoText6 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish6)
     let infoOpacityOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let infoBackground = SKSpriteNode(imageNamed: "Drop Menu 2")
+    var infoNavigation: Bool = true
     
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     let room = SKSpriteNode(imageNamed: "Level0-Room3")
@@ -259,40 +260,31 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         
         if(touchedNode.name == "infoButton"){
             self.isPaused = true
-            if(LanguageHandler.instance.language == "English"){
-                infoText.text = LanguageHandler.instance.objectiveEnglish
-                infoText2.text = LanguageHandler.instance.objectiveEnglish2
-                infoText3.text = LanguageHandler.instance.objectiveEnglish3
-                infoText4.text = LanguageHandler.instance.objectiveEnglish4
-                infoText5.text = LanguageHandler.instance.objectiveEnglish5
-                infoText6.text = LanguageHandler.instance.objectiveEnglish6
+            if (LanguageHandler.instance.language == "English"){
+                infoText.text = LanguageHandler.instance.infoTextOneEnglish
+                infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
             } else if (LanguageHandler.instance.language == "Italian"){
-                infoText.text = LanguageHandler.instance.objectiveItalian
-                infoText2.text = LanguageHandler.instance.objectiveItalian2
-                infoText3.text = LanguageHandler.instance.objectiveItalian3
-                infoText4.text = LanguageHandler.instance.objectiveItalian4
-                infoText5.text = LanguageHandler.instance.objectiveItalian5
-                infoText6.text = LanguageHandler.instance.objectiveItalian6
+                infoText.text = LanguageHandler.instance.infoTextOneItalian
+                infoText2.text = LanguageHandler.instance.infoTextTwoItalian
             }
             cameraNode.addChild(infoOpacityOverlay)
             cameraNode.addChild(infoBackground)
             cameraNode.addChild(infoText)
-            cameraNode.addChild(infoText2)
-            cameraNode.addChild(infoText3)
-            cameraNode.addChild(infoText4)
-            cameraNode.addChild(infoText5)
-            cameraNode.addChild(infoText6)
+
         }
         if(touchedNode.name == "closeInfo"){
-            infoOpacityOverlay.removeFromParent()
-            infoBackground.removeFromParent()
-            infoText.removeFromParent()
-            infoText2.removeFromParent()
-            infoText3.removeFromParent()
-            infoText4.removeFromParent()
-            infoText5.removeFromParent()
-            infoText6.removeFromParent()
-            self.isPaused = false
+            if(infoNavigation){
+                infoText.removeFromParent()
+                cameraNode.addChild(infoText2)
+                infoNavigation = false
+            } else {
+                infoOpacityOverlay.removeFromParent()
+                infoBackground.removeFromParent()
+                infoText.removeFromParent()
+                infoText2.removeFromParent()
+                infoNavigation = true
+                self.isPaused = false
+            }
         }
         
         
@@ -782,22 +774,37 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         infoText2.name = "closeInfo"
         infoText2.fontSize = size.width*0.05
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
-        infoText3.zPosition = 102
-        infoText3.name = "closeInfo"
-        infoText3.fontSize = size.width*0.05
-        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
-        infoText4.zPosition = 102
-        infoText4.name = "closeInfo"
-        infoText4.fontSize = size.width*0.05
-        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
-        infoText5.zPosition = 102
-        infoText5.name = "closeInfo"
-        infoText5.fontSize = size.width*0.05
-        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-        infoText6.zPosition = 102
-        infoText6.name = "closeInfo"
-        infoText6.fontSize = size.width*0.05
-        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+//        infoText3.zPosition = 102
+//        infoText3.name = "closeInfo"
+//        infoText3.fontSize = size.width*0.05
+//        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+//        infoText4.zPosition = 102
+//        infoText4.name = "closeInfo"
+//        infoText4.fontSize = size.width*0.05
+//        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
+//        infoText5.zPosition = 102
+//        infoText5.name = "closeInfo"
+//        infoText5.fontSize = size.width*0.05
+//        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+//        infoText6.zPosition = 102
+//        infoText6.name = "closeInfo"
+//        infoText6.fontSize = size.width*0.05
+//        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        if(LanguageHandler.instance.language == "English"){
+            infoText.text = LanguageHandler.instance.infoTextOneEnglish
+            infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
+        } else if (LanguageHandler.instance.language == "Italian"){
+            infoText.text = LanguageHandler.instance.infoTextOneItalian
+            infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+        }
+        infoText.preferredMaxLayoutWidth = size.width*0.9
+        infoText.numberOfLines = 0
+        infoText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoText.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.32)
+        infoText2.preferredMaxLayoutWidth = size.width*0.9
+        infoText2.numberOfLines = 0
+        infoText2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
         
     }
 }
