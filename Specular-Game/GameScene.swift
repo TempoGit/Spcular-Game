@@ -31,8 +31,7 @@ class GameScene: SKScene {
     
     let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     
-    let settingsLabel = SKSpriteNode(imageNamed: "Settings")
-    let impostazioniLabel = SKSpriteNode(imageNamed: "ImpostazioniITA")
+    let impostazioniLabel = SKSpriteNode(imageNamed: "Settings")
     //Variabili che compongono il menu di impostazioni contenenti impostazioni per l'audio e per la lingua
     let settingsButton = SKSpriteNode(imageNamed: "Setting")
     
@@ -97,17 +96,10 @@ class GameScene: SKScene {
         
         settingsBackground.zPosition = 8
         settingsBackground.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
-//        settingsBackground.xScale = 0.45
-//        settingsBackground.yScale = 0.45
         settingsBackground.xScale = size.width*0.0011
         settingsBackground.yScale = size.width*0.0011
 
         
-        settingsLabel.zPosition = 9
-        settingsLabel.position = CGPoint(x: size.width*0.51, y: size.height*0.64)
-        settingsLabel.xScale = size.width*0.0005
-        settingsLabel.yScale = size.width*0.0005
-        settingsLabel.name = "settingsLabel"
         
         impostazioniLabel.zPosition = 9
         impostazioniLabel.position = CGPoint(x: size.width*0.51, y: size.height*0.64)
@@ -165,9 +157,6 @@ class GameScene: SKScene {
         
         if(touchedNode.name == "playGameName"){
             musicHandler.instance.stopBackgroundMusicMenu()
-//            let startGameScene = Level00(size: size)
-//            view?.presentScene(startGameScene)
-//            blackCover.alpha = 0
             let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
             blackCover.alpha = 0
             blackCover.fillColor = .black
@@ -177,7 +166,6 @@ class GameScene: SKScene {
             blackCover.run(fadeInAction)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){
                 let startGameScene = Level00(size: self.size)
-//                self.view?.presentScene(startGameScene, transition: SKTransition.fade(with: UIColor.black, duration:  7))
                 self.view?.presentScene(startGameScene)
             }
         }
@@ -199,15 +187,16 @@ class GameScene: SKScene {
             if(LanguageHandler.instance.language == "Italian"){
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
                 closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
+                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
             } else if(LanguageHandler.instance.language == "English") {
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
                 closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
+                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
             }
 
             
             addChild(settingsBackground)
             addChild(backgroundSettings)
-            addChild(settingsLabel)
             addChild(impostazioniLabel)
             addChild(musicIcon)
             addChild(sfxButton)
@@ -239,19 +228,17 @@ class GameScene: SKScene {
             if(LanguageHandler.instance.language == "English"){
                 LanguageHandler.instance.language = "Italian"
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
-                settingsLabel.removeFromParent()
                 closeSettingsButton.removeFromParent()
                 closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
-                addChild(settingsLabel)
+                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
                 addChild(closeSettingsButton)
             } else if(LanguageHandler.instance.language == "Italian"){
                 LanguageHandler.instance.language = "English"
-                settingsLabel.removeFromParent()
                 closeSettingsButton.removeFromParent()
                 closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
-                addChild(settingsLabel)
                 addChild(closeSettingsButton)
                 languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
+                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
             }
         }
         
@@ -259,7 +246,7 @@ class GameScene: SKScene {
         if(touchedNode.name == "closeSettings"){
             backgroundSettings.removeFromParent()
             settingsBackground.removeFromParent()
-            settingsLabel.removeFromParent()
+            impostazioniLabel.removeFromParent()
             musicIcon.removeFromParent()
             sfxButton.removeFromParent()
             languageButton.removeFromParent()
