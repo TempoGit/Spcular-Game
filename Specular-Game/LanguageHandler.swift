@@ -36,7 +36,11 @@ class LanguageHandler {
     
     
     public let objectiveEnglish11 = "A very old key!"
-    public let objectiveEnglish21 = "You are a kid that has"
-    public let objectiveEnglish31 = "to reach the closet at the end of the level."
+    public let objectiveEnglish21 = "L"
+    public let objectiveEnglish31 = ""
+    
+    public let objectiveItalian11 = "Una chiave molto vecchia!"
+    public let objectiveItalian21 = ""
+    public let objectiveItalian31 = ""
     
 }

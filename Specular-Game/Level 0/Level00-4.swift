@@ -374,20 +374,26 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                 infoKey2.text = LanguageHandler.instance.objectiveEnglish31
             }else
             if(LanguageHandler.instance.language == "Italian"){
+                infoKey.text = LanguageHandler.instance.objectiveItalian11
+                infoKey1.text = LanguageHandler.instance.objectiveItalian21
+                infoKey2.text = LanguageHandler.instance.objectiveItalian21
             }
             cameraNode.addChild(infoOpacityOverlayKey)
             cameraNode.addChild(overlayDescription)
             cameraNode.addChild(infoKey)
             cameraNode.addChild(infoKey1)
             cameraNode.addChild(infoKey2)
-            keyLabel1.run(SKAction.fadeOut(withDuration: 5))
+//            keyLabel1.run(SKAction.fadeOut(withDuration: 5))
             Key.removeFromParent()
             keyLabel.removeFromParent()
         }
         
         if(touchedNode.name == "overlayDescription"){
+//            self.isPaused = false
             infoOpacityOverlayKey.removeFromParent()
-            infoText.removeFromParent()
+            infoKey.removeFromParent()
+            infoKey1.removeFromParent()
+            infoKey2.removeFromParent()
             overlayDescription.removeFromParent()
         }
         
@@ -838,10 +844,10 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         keyLabel.fontSize = size.width*0.04
         keyLabel.zPosition = 150
         
-        keyLabel1.fontColor = SKColor.white
-        keyLabel1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
-        keyLabel1.fontSize = size.width*0.04
-        keyLabel1.zPosition = 150
+//        keyLabel1.fontColor = SKColor.white
+//        keyLabel1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+//        keyLabel1.fontSize = size.width*0.04
+//        keyLabel1.zPosition = 150
         
         overlayDescription.zPosition = 8
         overlayDescription.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
@@ -855,5 +861,18 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         infoOpacityOverlayKey.zPosition = 3
         infoOpacityOverlayKey.position = CGPoint(x: size.width*0, y: size.height*0)
         
+        infoKey.fontSize = size.width*0.05
+        infoKey.fontColor = SKColor.white
+        infoKey.zPosition = 15
+        infoKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+        infoKey1.fontSize = size.width*0.05
+        infoKey1.zPosition = 15
+        infoKey1.fontColor = SKColor.white
+        infoKey1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        infoKey2.fontSize = size.width*0.05
+        infoKey2.fontColor = SKColor.white
+        infoKey2.zPosition = 15
+        infoKey2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+
     }
 }
