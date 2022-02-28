@@ -107,7 +107,13 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var walkingUp: Bool = false
     var walkingDown: Bool = false
     
+//    cose relative alla bambola
     let doll = SKSpriteNode(imageNamed: "Doll")
+    let dollLable = SKLabelNode(fontNamed: "MonoSF")
+    let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
+    var dollObject: Bool = false
 
     
     let gameArea: CGRect
@@ -223,16 +229,45 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "furniture"){
-            if(!interaction){
-            interaction = true
-            wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
-            }else{
-                if(interaction){
-                    interaction = false
-                    wardrobe.run(SKAction.setTexture((SKTexture(imageNamed: "WardrobeOpenRoom1"))))
+            if(!interaction && !dollObject){
+                dollObject = true
+                interaction = true
+                wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
+                cameraNode.addChild(dollLable)
+                dollLable.run(SKAction.fadeOut(withDuration: 5))
+                doll.zPosition = 13
+                if(LanguageHandler.instance.language == "English"){
+                    dollLable.text = "What is this?"
+                }else
+                if(LanguageHandler.instance.language == "Italian"){
+                    dollLable.text = "Cos'è?"
                 }
+            } else if (interaction && dollObject){
+                wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
+                interaction = false
+                dollLable.removeFromParent()
+                dollObject = false
+                doll.zPosition = 1
             }
-            
+        }
+        
+        if(touchedNode.name == "bambola"){
+            print("bambola presa")
+            if(LanguageHandler.instance.language == "English"){
+               
+            }else
+            if(LanguageHandler.instance.language == "Italian"){
+               
+            }
+            cameraNode.addChild(infoOpacityOverlayKey)
+            cameraNode.addChild(overlayDescription)
+            self.isPaused = true
+        }
+        if(touchedNode.name == "overlayDescription"){
+            infoOpacityOverlayKey.removeFromParent()
+            overlayDescription.removeFromParent()
+            bigOverlay.removeFromParent()
+            self.isPaused = false
         }
         //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
         //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
@@ -398,6 +433,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 
             self.isPaused = false
         }
+        
         
         if(touchedNode.name == "infoButton"){
             self.isPaused = true
@@ -892,6 +928,38 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         infoText2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
 //        infoText.lineBreakMode = NSLineBreakMode.
+      
+        doll.position = CGPoint(x: size.width*0.94, y: size.height*0.44)
+        doll.xScale = 0.09
+        doll.yScale = 0.09
+        doll.name = "bambola"
+        
+        dollLable.fontColor = SKColor.white
+        dollLable.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        dollLable.fontSize = size.width*0.04
+        dollLable.zPosition = 150
+        
+        
+        infoOpacityOverlayKey.strokeColor = .black
+        infoOpacityOverlayKey.fillColor = .black
+        infoOpacityOverlayKey.alpha = 0.6
+        infoOpacityOverlayKey.zPosition = 50
+        infoOpacityOverlayKey.position = CGPoint(x: size.width*0, y: size.height*0)
+        
+        overlayDescription.zPosition = 51
+        overlayDescription.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescription.xScale = size.width*0.0012
+        overlayDescription.yScale = size.width*0.0012
+        overlayDescription.name = "overlayDescription"
+        
+        
+        bigOverlay.strokeColor = .black
+        bigOverlay.fillColor = .black
+        bigOverlay.alpha = 0.01
+        bigOverlay.zPosition = 100
+        bigOverlay.position = CGPoint(x: size.width*0, y: size.height*0)
+        bigOverlay.name = "overlayDescription"
+
         
         
 //        textField.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2)

@@ -29,6 +29,11 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let infoBackground = SKSpriteNode(imageNamed: "Drop Menu 2")
     var infoNavigation: Bool = true
     
+    //    cose relative alla chiave nel cassetto
+    let Key = SKSpriteNode(imageNamed: "Key")
+    let keyLabel = SKLabelNode(fontNamed: "MonoSF")
+    let overlayDescription = SKSpriteNode(imageNamed: "DropKey2")
+    
     let infoKey = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish11)
     let infoKey1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish21)
     let infoKey2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish31)
@@ -67,12 +72,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let boxCollider = SKSpriteNode(imageNamed: "Level0-Room4-BoxCollider")
     let lowerDoor = SKSpriteNode(imageNamed: "Level0-Room4-LowerDoor")
     let rightDoor = SKSpriteNode(imageNamed: "Level0-Room4-RightRoom")
-//    cose relative alla chiave nel cassetto
-    let Key = SKSpriteNode(imageNamed: "Key")
-    let keyLabel = SKLabelNode(fontNamed: "MonoSF")
-    let overlayDescription = SKSpriteNode(imageNamed: "DropKey2")
-
-    
+ 
     //Variabili usate per il movimento del personaggio
     var move: Bool = false
     var moveSingle: Bool = false
@@ -853,11 +853,6 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         keyLabel.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
         keyLabel.fontSize = size.width*0.04
         keyLabel.zPosition = 150
-        
-//        keyLabel1.fontColor = SKColor.white
-//        keyLabel1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
-//        keyLabel1.fontSize = size.width*0.04
-//        keyLabel1.zPosition = 150
         
         infoOpacityOverlayKey.strokeColor = .black
         infoOpacityOverlayKey.fillColor = .black
