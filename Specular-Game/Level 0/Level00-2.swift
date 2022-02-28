@@ -77,6 +77,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     var worldGroup = SKSpriteNode()
 
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
+    
 
     
     let gameArea: CGRect
@@ -117,6 +118,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         addChild(lampInteractionCollider)
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
+                
         addChild(cameraNode)
         camera = cameraNode
         cameraNode.position = characterAvatar.position
@@ -706,6 +708,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
 //        infoText6.name = "closeInfo"
 //        infoText6.fontSize = size.width*0.05
 //        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        
+
 
         if(LanguageHandler.instance.language == "English"){
             infoText.text = LanguageHandler.instance.infoTextOneEnglish

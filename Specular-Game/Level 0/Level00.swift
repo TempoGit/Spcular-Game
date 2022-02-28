@@ -107,6 +107,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var walkingUp: Bool = false
     var walkingDown: Bool = false
     
+    let doll = SKSpriteNode(imageNamed: "Doll")
+
     
     let gameArea: CGRect
     
@@ -152,6 +154,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(box1TransparencyCollider)
         addChild(wardrobeTransparencyCollider)
 
+        addChild(doll)
 
         addChild(characterAvatar)
         addChild(characterFeetCollider)
@@ -870,6 +873,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //        infoText6.name = "closeInfo"
 //        infoText6.fontSize = size.width*0.05
 //        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+
         
         
         if(LanguageHandler.instance.language == "English"){
