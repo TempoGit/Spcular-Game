@@ -55,9 +55,9 @@ class LanguageHandler {
     public let objectiveEnglishDoll1 = "L"
     public let objectiveEnglishDoll2 = ""
     
-    public let objectiveItalianDoll = "Bambola,"
-    public let objectiveItalianDoll1 = ""
-    public let objectiveItalianDoll2 = ""
+    public let objectiveItalianDoll = "Una bambola"
+    public let objectiveItalianDoll1 = "dall'aspetto raccapricciante!"
+    public let objectiveItalianDoll2 = "Sarà sicuro prenderla?"
     
     
     public let infoTextOneEnglish = "Hello there! \n\nYou are a kid that has to reach the closet at the end of the level. \n\nInteract with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a gruesome death! :)"

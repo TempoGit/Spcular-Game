@@ -114,6 +114,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
     var dollObject: Bool = false
+    let infoDoll = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll)
+    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
+    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
 
     
     let gameArea: CGRect
@@ -235,7 +238,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
                 cameraNode.addChild(dollLable)
                 dollLable.run(SKAction.fadeOut(withDuration: 5))
-                doll.zPosition = 13
+                doll.zPosition = 20
                 if(LanguageHandler.instance.language == "English"){
                     dollLable.text = "What is this?"
                 }else
@@ -252,18 +255,28 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "bambola"){
-            print("bambola presa")
+            print("bambola interazione")
+            self.isPaused = true
             if(LanguageHandler.instance.language == "English"){
-               
+                infoDoll.text = LanguageHandler.instance.objectiveEnglishDoll
+                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
+                infoDoll2.text = LanguageHandler.instance.objectiveEnglishDoll2
             }else
             if(LanguageHandler.instance.language == "Italian"){
-               
+                infoDoll.text = LanguageHandler.instance.objectiveItalianDoll
+                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
+                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
             }
+            cameraNode.addChild(infoDoll)
+            cameraNode.addChild(infoDoll1)
+            cameraNode.addChild(infoDoll2)
             cameraNode.addChild(infoOpacityOverlayKey)
             cameraNode.addChild(overlayDescription)
-            self.isPaused = true
         }
         if(touchedNode.name == "overlayDescription"){
+            infoDoll.removeFromParent()
+            infoDoll1.removeFromParent()
+            infoDoll2.removeFromParent()
             infoOpacityOverlayKey.removeFromParent()
             overlayDescription.removeFromParent()
             bigOverlay.removeFromParent()
@@ -959,6 +972,19 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         bigOverlay.zPosition = 100
         bigOverlay.position = CGPoint(x: size.width*0, y: size.height*0)
         bigOverlay.name = "overlayDescription"
+
+        infoDoll.fontSize = size.width*0.05
+        infoDoll.fontColor = SKColor.white
+        infoDoll.zPosition = 52
+        infoDoll.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+        infoDoll1.fontSize = size.width*0.05
+        infoDoll1.fontColor = SKColor.white
+        infoDoll1.zPosition = 52
+        infoDoll1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        infoDoll2.fontSize = size.width*0.05
+        infoDoll2.fontColor = SKColor.white
+        infoDoll2.zPosition = 52
+        infoDoll2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
 
         
         
