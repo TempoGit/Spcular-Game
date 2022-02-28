@@ -34,4 +34,9 @@ class LanguageHandler {
     public let objectiveItalian5 = "scena, potresti trovare qualcosa di utile..."
     public let objectiveItalian6 = "...oppure incotrare una morte orribile! :)"
     
+    
+    public let objectiveEnglish11 = "A very old key!"
+    public let objectiveEnglish21 = "You are a kid that has"
+    public let objectiveEnglish31 = "to reach the closet at the end of the level."
+    
 }

@@ -28,6 +28,11 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let infoOpacityOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let infoBackground = SKSpriteNode(imageNamed: "Drop Menu 2")
     
+    let infoKey = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish11)
+    let infoKey1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish21)
+    let infoKey2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish31)
+    let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    
     var keyObject : Bool = false
     
     //    prova animazione cassettone
@@ -64,6 +69,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let Key = SKSpriteNode(imageNamed: "Key")
     let keyLabel = SKLabelNode(fontNamed: "MonoSF")
     let keyLabel1 = SKLabelNode(fontNamed: "MonoSF")
+    let overlayDescription = SKSpriteNode(imageNamed: "DropKey2")
+
     
     //Variabili usate per il movimento del personaggio
     var move: Bool = false
@@ -341,6 +348,12 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                 cameraNode.addChild(keyLabel)
                 keyLabel.run(SKAction.fadeOut(withDuration: 5))
                 Key.zPosition = 11
+                if(LanguageHandler.instance.language == "English"){
+                    keyLabel.text = "This looks like a very old key..."
+                }else
+                if(LanguageHandler.instance.language == "Italian"){
+                    keyLabel.text = "Sembra una chiave molto vecchia..."
+                }
             } else if (open && keyObject){
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
                 open = false
@@ -354,9 +367,28 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             print("chiave presa")
             keyOpen = true
             cameraNode.addChild(keyLabel1)
+            if(LanguageHandler.instance.language == "English"){
+                self.isPaused = true
+                infoKey.text = LanguageHandler.instance.objectiveEnglish11
+                infoKey1.text = LanguageHandler.instance.objectiveEnglish21
+                infoKey2.text = LanguageHandler.instance.objectiveEnglish31
+            }else
+            if(LanguageHandler.instance.language == "Italian"){
+            }
+            cameraNode.addChild(infoOpacityOverlayKey)
+            cameraNode.addChild(overlayDescription)
+            cameraNode.addChild(infoKey)
+            cameraNode.addChild(infoKey1)
+            cameraNode.addChild(infoKey2)
             keyLabel1.run(SKAction.fadeOut(withDuration: 5))
             Key.removeFromParent()
             keyLabel.removeFromParent()
+        }
+        
+        if(touchedNode.name == "overlayDescription"){
+            infoOpacityOverlayKey.removeFromParent()
+            infoText.removeFromParent()
+            overlayDescription.removeFromParent()
         }
         
         
@@ -801,16 +833,27 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         Key.yScale = 0.04
         Key.name = "key"
         
-        keyLabel.text = "This looks like an old key..."
-        keyLabel.fontColor = SKColor.black
-        keyLabel.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.9)
-        keyLabel.fontSize = size.width*0.05
+        keyLabel.fontColor = SKColor.white
+        keyLabel.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        keyLabel.fontSize = size.width*0.04
         keyLabel.zPosition = 150
         
-        keyLabel1.text = "Could be useful..."
-        keyLabel1.fontColor = SKColor.black
-        keyLabel1.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.9)
-        keyLabel1.fontSize = size.width*0.05
+        keyLabel1.fontColor = SKColor.white
+        keyLabel1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        keyLabel1.fontSize = size.width*0.04
         keyLabel1.zPosition = 150
+        
+        overlayDescription.zPosition = 8
+        overlayDescription.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescription.xScale = size.width*0.0012
+        overlayDescription.yScale = size.width*0.0012
+        overlayDescription.name = "overlayDescription"
+        
+        infoOpacityOverlayKey.strokeColor = .black
+        infoOpacityOverlayKey.fillColor = .black
+        infoOpacityOverlayKey.alpha = 0.6
+        infoOpacityOverlayKey.zPosition = 3
+        infoOpacityOverlayKey.position = CGPoint(x: size.width*0, y: size.height*0)
+        
     }
 }
