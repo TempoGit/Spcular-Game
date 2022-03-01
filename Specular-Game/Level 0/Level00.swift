@@ -80,8 +80,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     
     
     let smalDoorClosed = SKSpriteNode(imageNamed: "SmallDoorClosed")
-    var smallDorTouched: Bool = false
     let smalDoorInteraction = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
+    let bigKey = SKSpriteNode(imageNamed: "KeyFinalDoor")
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
     var interaction: Bool = false
@@ -102,7 +102,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var box1RightCollided: Bool = false
     var box1Collided: Bool = false
     
-    var boxLeftTouched: Bool = false
     
     //Camera di gioco
     let cameraNode = SKCameraNode()
@@ -171,6 +170,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(smalDoorClosed)
         addChild(smalDoorInteraction)
 
+        addChild(bigKey)
+        
         addChild(doll)
 
         addChild(characterAvatar)
@@ -240,15 +241,27 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "smallDor"){
-            if(!smallDorTouched){
-            smallDorTouched = true
+            if(!Level0VariableHadnler.instance.smallDorTouched && !Level0VariableHadnler.instance.bigKeyVar){
+            Level0VariableHadnler.instance.smallDorTouched = true
+            Level0VariableHadnler.instance.bigKeyVar = true
             smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
             }else
-            if(smallDorTouched){
-                smallDorTouched = false
+            if(Level0VariableHadnler.instance.smallDorTouched && Level0VariableHadnler.instance.bigKeyVar){
+                Level0VariableHadnler.instance.smallDorTouched = true
+                Level0VariableHadnler.instance.bigKeyVar = false
+                bigKey.zPosition = 13
                 smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
             }
         }
+        
+        if(touchedNode.name == "bigKey"){
+            print("prendi chiave grande")
+            Level0VariableHadnler.instance.bigKeyPick = true
+            bigKey.removeFromParent()
+        }
+        
+        
+        
         
         if(touchedNode.name == "furniture"){
             if(!interaction && !dollObject){
@@ -500,13 +513,15 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "boxesLeft"){
-            boxLeftTouched = true
+            print(Level0VariableHadnler.instance.boxLeftTouched)
+           Level0VariableHadnler.instance.boxLeftTouched = true
 //            box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
             box1Left.run(SKAction.moveTo(x: size.width*0.0001, duration: 3))
             box2Collider.run(SKAction.moveTo(x: size.width*0.4, duration: 3))
 //            box2Collider.run(SKAction.moveTo(x: size.width*0.00000001, duration: 3))
             smalDoorInteraction.zPosition = 11
         }
+        
         
       
         
@@ -870,6 +885,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         smalDoorClosed.xScale = 0.2
         smalDoorClosed.yScale = 0.2
         smalDoorClosed.zPosition = 2
+        
+        bigKey.position = CGPoint(x: size.width*0.27, y: size.height*0.48)
+        bigKey.zRotation = 3.14/4
+        bigKey.xScale = 0.05
+        bigKey.yScale = 0.05
+        bigKey.name = "bigKey"
 
         smalDoorInteraction.position = CGPoint(x: size.width*0.28, y: size.height*0.52)
         smalDoorInteraction.xScale = 0.1
