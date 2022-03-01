@@ -278,6 +278,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
+            
         }
         
         

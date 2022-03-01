@@ -75,6 +75,10 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     var walkingUp: Bool = false
     var walkingDown: Bool = false
     
+//    frame info
+    let frame1 = SKSpriteNode(imageNamed: "Frame")
+    let infoOpacityOverlayDiary = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    let overlayDescription = SKSpriteNode(imageNamed: "DropFrame")
     
     var worldGroup = SKSpriteNode()
 
@@ -125,6 +129,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         addChild(lampZoneInteractionCollider2)
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
+        addChild(frame1)
                 
         addChild(cameraNode)
         camera = cameraNode
@@ -161,6 +166,19 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
+        }
+        
+        if(touchedNode.name == "frame"){
+            print("cornice")
+            cameraNode.addChild(infoOpacityOverlayDiary)
+            cameraNode.addChild(overlayDescription)
+        }
+        
+        if(touchedNode.name == "overlayDescription"){
+//            stopScene = false
+            infoOpacityOverlayDiary.removeFromParent()
+            overlayDescription.removeFromParent()
+//            tappableQuit.removeFromParent()
         }
         
         if(touchedNode.name == "interaction" && (characterFeetCollider.frame.intersects(lampZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(lampZoneInteractionCollider2.frame))){
@@ -534,6 +552,12 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lamp.yScale = 0.4
         lamp.zPosition = 4
         
+        frame1.position = CGPoint(x: size.width*0.01, y: size.height*0.45)
+        frame1.xScale = 0.07
+        frame1.yScale = 0.07
+        frame1.zPosition = 13
+        frame1.name = "frame"
+        
         lampCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         lampCollider.xScale = 0.4
         lampCollider.yScale = 0.4
@@ -740,6 +764,18 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         infoText2.numberOfLines = 0
         infoText2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+        
+        overlayDescription.zPosition = 121
+        overlayDescription.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescription.xScale = size.width*0.0012
+        overlayDescription.yScale = size.width*0.0012
+        overlayDescription.name = "overlayDescription"
+        
+        infoOpacityOverlayDiary.strokeColor = .black
+        infoOpacityOverlayDiary.fillColor = .black
+        infoOpacityOverlayDiary.alpha = 0.6
+        infoOpacityOverlayDiary.zPosition = 120
+        infoOpacityOverlayDiary.position = CGPoint(x: size.width*0, y: size.height*0)
     }
     
     

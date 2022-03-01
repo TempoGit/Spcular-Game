@@ -910,18 +910,40 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         infoOpacityOverlayDiary.zPosition = 120
         infoOpacityOverlayDiary.position = CGPoint(x: size.width*0, y: size.height*0)
         
+        
+        infoDiary.preferredMaxLayoutWidth = size.width*0.9
+        infoDiary.numberOfLines = 0
+        infoDiary.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoDiary.fontSize = size.width*0.05
         infoDiary.fontColor = SKColor.white
-        infoDiary.zPosition = 122
-        infoDiary.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-        infoDiary.fontSize = size.width*0.05
-        infoDiary1.zPosition = 122
+        infoDiary.zPosition = 102
+        infoDiary.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        infoDiary1.preferredMaxLayoutWidth = size.width*0.9
+        infoDiary1.numberOfLines = 0
+        infoDiary1.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoDiary1.fontSize = size.width*0.05
         infoDiary1.fontColor = SKColor.white
-        infoDiary1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+        infoDiary1.zPosition = 102
+        infoDiary1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        infoDiaryy2.preferredMaxLayoutWidth = size.width*0.9
+        infoDiaryy2.numberOfLines = 0
+        infoDiaryy2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoDiaryy2.fontSize = size.width*0.05
         infoDiaryy2.fontColor = SKColor.white
-        infoDiaryy2.zPosition = 122
+        infoDiaryy2.zPosition = 102
         infoDiaryy2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+//        infoDiary.fontSize = size.width*0.05
+//        infoDiary.fontColor = SKColor.white
+//        infoDiary.zPosition = 122
+//        infoDiary.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+//        infoDiary.fontSize = size.width*0.05
+//        infoDiary1.zPosition = 122
+//        infoDiary1.fontColor = SKColor.white
+//        infoDiary1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+//        infoDiaryy2.fontSize = size.width*0.05
+//        infoDiaryy2.fontColor = SKColor.white
+//        infoDiaryy2.zPosition = 122
+//        infoDiaryy2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
 
         tappableQuit.strokeColor = .black
         tappableQuit.fillColor = .black

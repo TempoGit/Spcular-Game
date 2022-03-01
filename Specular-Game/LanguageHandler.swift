@@ -45,14 +45,14 @@ class LanguageHandler {
     
 //  diario
     public let objectiveEnglishDiary = "Dear Diary,"
-    public let objectiveEnglishDiary1 = "L"
-    public let objectiveEnglishDiary2 = ""
+    public let objectiveEnglishDiary1 = "It's moving day and I couldn't be happier! \nI really want to explore the whole house and \nsee what secrets is going to hide!"
+    public let objectiveEnglishDiary2 = "Will keep you informed."
     
     public let objectiveItalianDiary = "Caro Diario,"
-    public let objectiveItalianDiary1 = ""
-    public let objectiveItalianDiary2 = ""
+    public let objectiveItalianDiary1 = "è la giornata del trasloco e non potevo essere più felice! \nHo tanta voglia di esporare tutta la casa e \nvedere che segreti nasconde!"
+    public let objectiveItalianDiary2 = "Ti terrò informato."
 //    doll
-    public let objectiveEnglishDoll = "Doll,"
+    public let objectiveEnglishDoll = "Such a creepy looking doll! \nWill it be safe to pick it?,"
 //    public let objectiveEnglishDoll1 = "L"
 //    public let objectiveEnglishDoll2 = ""
     
