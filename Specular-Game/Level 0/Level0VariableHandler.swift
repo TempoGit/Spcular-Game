@@ -19,8 +19,11 @@ class Level0VariableHadnler {
     public var boxLeftTouched: Bool = false
 //  var di controllo per le posizioni degli scatoloni room1 level00
     public var controlloBox: Bool = false
-    
-    
+//    var aprire porta finale
+    var keyOpen: Bool = false
+//    var aprire porta piccola level0
+    public var keyOpenSmall: Bool = false
+
 }
 
 

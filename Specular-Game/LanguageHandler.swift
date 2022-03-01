@@ -35,13 +35,14 @@ class LanguageHandler {
     public let objectiveItalian6 = "...oppure incotrare una morte orribile! :)"
     
 //    chiave
-    public let objectiveEnglish11 = "A very old key!"
-    public let objectiveEnglish21 = "L"
-    public let objectiveEnglish31 = ""
+    public let objectiveEnglish11 = "It's a very small key,\nit could open a \nvery small door "
+//    public let objectiveEnglish21 = "L"
+//    public let objectiveEnglish31 = ""
     
-    public let objectiveItalian11 = "Una chiave molto vecchia!"
-    public let objectiveItalian21 = ""
-    public let objectiveItalian31 = ""
+    public let objectiveItalian11 = "È una chiave molto piccola,\npotrebbe aprire una \nporta molto piccola"
+//    public let objectiveItalian21 = ""
+//    public let objectiveItalian31 = ""
+    
 //  diario
     public let objectiveEnglishDiary = "Dear Diary,"
     public let objectiveEnglishDiary1 = "L"
@@ -52,12 +53,12 @@ class LanguageHandler {
     public let objectiveItalianDiary2 = ""
 //    doll
     public let objectiveEnglishDoll = "Doll,"
-    public let objectiveEnglishDoll1 = "L"
-    public let objectiveEnglishDoll2 = ""
+//    public let objectiveEnglishDoll1 = "L"
+//    public let objectiveEnglishDoll2 = ""
     
-    public let objectiveItalianDoll = "Una bambola"
-    public let objectiveItalianDoll1 = "dall'aspetto raccapricciante!"
-    public let objectiveItalianDoll2 = "Sarà sicuro prenderla?"
+    public let objectiveItalianDoll = "Una bambola dall'aspetto \nraccapricciante! \nSarà sicuro prenderla?"
+//    public let objectiveItalianDoll1 = "dall'aspetto raccapricciante!"
+//    public let objectiveItalianDoll2 = "Sarà sicuro prenderla?"
     
     
     public let infoTextOneEnglish = "Hello there! \n\nYou are a kid that has to reach the closet at the end of the level. \n\nInteract with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a gruesome death! :)"

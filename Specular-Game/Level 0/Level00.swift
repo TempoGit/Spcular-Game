@@ -82,6 +82,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let smalDoorClosed = SKSpriteNode(imageNamed: "SmallDoorClosed")
     let smalDoorInteraction = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
     let bigKey = SKSpriteNode(imageNamed: "KeyFinalDoor")
+    let bigKeyLabel = SKLabelNode(fontNamed: "MonoSF")
+    let smallDoorLabel = SKLabelNode(fontNamed: "MonoSF")
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
     var interaction: Bool = false
@@ -120,8 +122,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
     var dollObject: Bool = false
     let infoDoll = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll)
-    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
-    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
+//    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
+//    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
 
     
     let gameArea: CGRect
@@ -245,17 +247,35 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             Level0VariableHadnler.instance.smallDorTouched = true
             Level0VariableHadnler.instance.bigKeyVar = true
             smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
+            cameraNode.addChild(smallDoorLabel)
+            smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))
+                if(LanguageHandler.instance.language == "English"){
+                    smallDoorLabel.text = "Maybe is locked..."
+                }else
+                if(LanguageHandler.instance.language == "Italian"){
+                    smallDoorLabel.text = "Forse è chiuso..."
+                }
             }else
-            if(Level0VariableHadnler.instance.smallDorTouched && Level0VariableHadnler.instance.bigKeyVar){
+            if(Level0VariableHadnler.instance.smallDorTouched && Level0VariableHadnler.instance.bigKeyVar && Level0VariableHadnler.instance.keyOpenSmall){
+                Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.smallDorTouched = true
-                Level0VariableHadnler.instance.bigKeyVar = false
+                Level0VariableHadnler.instance.bigKeyVar = true
                 bigKey.zPosition = 13
+                cameraNode.addChild(bigKeyLabel)
+                bigKeyLabel.run(SKAction.fadeOut(withDuration: 5))
                 smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
+                if(LanguageHandler.instance.language == "English"){
+                    bigKeyLabel.text = "This looks like a very old key..."
+                }else
+                if(LanguageHandler.instance.language == "Italian"){
+                    bigKeyLabel.text = "Sembra una chiave molto vecchia..."
+                }
             }
         }
         
         if(touchedNode.name == "bigKey"){
             print("prendi chiave grande")
+            Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
         }
@@ -291,24 +311,24 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             self.isPaused = true
             if(LanguageHandler.instance.language == "English"){
                 infoDoll.text = LanguageHandler.instance.objectiveEnglishDoll
-                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
-                infoDoll2.text = LanguageHandler.instance.objectiveEnglishDoll2
+//                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
+//                infoDoll2.text = LanguageHandler.instance.objectiveEnglishDoll2
             }else
             if(LanguageHandler.instance.language == "Italian"){
                 infoDoll.text = LanguageHandler.instance.objectiveItalianDoll
-                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
-                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
+//                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
+//                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
             }
             cameraNode.addChild(infoDoll)
-            cameraNode.addChild(infoDoll1)
-            cameraNode.addChild(infoDoll2)
+//            cameraNode.addChild(infoDoll1)
+//            cameraNode.addChild(infoDoll2)
             cameraNode.addChild(infoOpacityOverlayKey)
             cameraNode.addChild(overlayDescription)
         }
         if(touchedNode.name == "overlayDescription"){
             infoDoll.removeFromParent()
-            infoDoll1.removeFromParent()
-            infoDoll2.removeFromParent()
+//            infoDoll1.removeFromParent()
+//            infoDoll2.removeFromParent()
             infoOpacityOverlayKey.removeFromParent()
             overlayDescription.removeFromParent()
             bigOverlay.removeFromParent()
@@ -513,7 +533,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "boxesLeft"){
-            print(Level0VariableHadnler.instance.boxLeftTouched)
            Level0VariableHadnler.instance.boxLeftTouched = true
 //            box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
             box1Left.run(SKAction.moveTo(x: size.width*0.0001, duration: 3))
@@ -521,10 +540,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //            box2Collider.run(SKAction.moveTo(x: size.width*0.00000001, duration: 3))
             smalDoorInteraction.zPosition = 11
         }
-        
-        
-      
-        
+            
         
         //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
         //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
@@ -1041,19 +1057,32 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         bigOverlay.position = CGPoint(x: size.width*0, y: size.height*0)
         bigOverlay.name = "overlayDescription"
 
+        
+        infoDoll.preferredMaxLayoutWidth = size.width*0.9
+        infoDoll.numberOfLines = 0
+        infoDoll.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoDoll.fontSize = size.width*0.05
         infoDoll.fontColor = SKColor.white
         infoDoll.zPosition = 52
-        infoDoll.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-        infoDoll1.fontSize = size.width*0.05
-        infoDoll1.fontColor = SKColor.white
-        infoDoll1.zPosition = 52
-        infoDoll1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
-        infoDoll2.fontSize = size.width*0.05
-        infoDoll2.fontColor = SKColor.white
-        infoDoll2.zPosition = 52
-        infoDoll2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
-
+        infoDoll.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+//        infoDoll1.fontSize = size.width*0.05
+//        infoDoll1.fontColor = SKColor.white
+//        infoDoll1.zPosition = 52
+//        infoDoll1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+//        infoDoll2.fontSize = size.width*0.05
+//        infoDoll2.fontColor = SKColor.white
+//        infoDoll2.zPosition = 52
+//        infoDoll2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        
+        bigKeyLabel.fontColor = SKColor.white
+        bigKeyLabel.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        bigKeyLabel.fontSize = size.width*0.04
+        bigKeyLabel.zPosition = 150
+        
+        smallDoorLabel.fontColor = SKColor.white
+        smallDoorLabel.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        smallDoorLabel.fontSize = size.width*0.04
+        smallDoorLabel.zPosition = 150
         
         
 //        textField.backgroundColor = UIColor(red: 255/255, green: 255/255, blue: 255/255, alpha: 0.2)

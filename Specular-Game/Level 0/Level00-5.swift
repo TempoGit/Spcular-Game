@@ -10,7 +10,6 @@ import SpriteKit
 import SwiftUI
 
 
-var keyOpen: Bool = false
 
 class Level00_5: SKScene, SKPhysicsContactDelegate {
     @AppStorage("language") var language: String = "English"
@@ -232,11 +231,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 interaction = true
                 doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 closed")))
             } else {
-                if(interaction){
-                    if(keyOpen){
+                if(interaction && Level0VariableHadnler.instance.keyOpen){
                     doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
                     interaction = false
-                    }
                 }
             }
         }

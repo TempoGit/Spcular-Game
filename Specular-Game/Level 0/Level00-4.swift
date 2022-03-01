@@ -35,8 +35,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     let overlayDescription = SKSpriteNode(imageNamed: "DropKey2")
     
     let infoKey = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish11)
-    let infoKey1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish21)
-    let infoKey2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish31)
+//    let infoKey1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish21)
+//    let infoKey2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglish31)
     let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     
@@ -350,10 +350,10 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                 keyLabel.run(SKAction.fadeOut(withDuration: 5))
                 Key.zPosition = 11
                 if(LanguageHandler.instance.language == "English"){
-                    keyLabel.text = "This looks like a very old key..."
+                    keyLabel.text = "Such a small key..."
                 }else
                 if(LanguageHandler.instance.language == "Italian"){
-                    keyLabel.text = "Sembra una chiave molto vecchia..."
+                    keyLabel.text = "È una chave molto piccola..."
                 }
             } else if (open && keyObject){
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
@@ -366,23 +366,22 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "key"){
             print("chiave presa")
-            keyOpen = true
-//            cameraNode.addChild(keyLabel1)
+            Level0VariableHadnler.instance.keyOpenSmall = true
             if(LanguageHandler.instance.language == "English"){
                 infoKey.text = LanguageHandler.instance.objectiveEnglish11
-                infoKey1.text = LanguageHandler.instance.objectiveEnglish21
-                infoKey2.text = LanguageHandler.instance.objectiveEnglish31
+//                infoKey1.text = LanguageHandler.instance.objectiveEnglish21
+//                infoKey2.text = LanguageHandler.instance.objectiveEnglish31
             }else
             if(LanguageHandler.instance.language == "Italian"){
                 infoKey.text = LanguageHandler.instance.objectiveItalian11
-                infoKey1.text = LanguageHandler.instance.objectiveItalian21
-                infoKey2.text = LanguageHandler.instance.objectiveItalian21
+//                infoKey1.text = LanguageHandler.instance.objectiveItalian21
+//                infoKey2.text = LanguageHandler.instance.objectiveItalian21
             }
             cameraNode.addChild(infoOpacityOverlayKey)
             cameraNode.addChild(overlayDescription)
             cameraNode.addChild(infoKey)
-            cameraNode.addChild(infoKey1)
-            cameraNode.addChild(infoKey2)
+//            cameraNode.addChild(infoKey1)
+//            cameraNode.addChild(infoKey2)
             cameraNode.addChild(bigOverlay)
 //            keyLabel1.run(SKAction.fadeOut(withDuration: 5))
             Key.removeFromParent()
@@ -394,8 +393,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 //            self.isPaused = false
             infoOpacityOverlayKey.removeFromParent()
             infoKey.removeFromParent()
-            infoKey1.removeFromParent()
-            infoKey2.removeFromParent()
+//            infoKey1.removeFromParent()
+//            infoKey2.removeFromParent()
             overlayDescription.removeFromParent()
             bigOverlay.removeFromParent()
             self.isPaused = false
@@ -874,18 +873,28 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         bigOverlay.position = CGPoint(x: size.width*0, y: size.height*0)
         bigOverlay.name = "overlayDescription"
         
+        
+        infoKey.preferredMaxLayoutWidth = size.width*0.9
+        infoKey.numberOfLines = 0
+        infoKey.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoKey.fontSize = size.width*0.05
         infoKey.fontColor = SKColor.white
         infoKey.zPosition = 52
-        infoKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-        infoKey1.fontSize = size.width*0.05
-        infoKey1.zPosition = 52
-        infoKey1.fontColor = SKColor.white
-        infoKey1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
-        infoKey2.fontSize = size.width*0.05
-        infoKey2.fontColor = SKColor.white
-        infoKey2.zPosition = 52
-        infoKey2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        infoKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        
+        
+//        infoKey.fontSize = size.width*0.05
+//        infoKey.fontColor = SKColor.white
+//        infoKey.zPosition = 52
+//        infoKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
+//        infoKey1.fontSize = size.width*0.05
+//        infoKey1.zPosition = 52
+//        infoKey1.fontColor = SKColor.white
+//        infoKey1.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
+//        infoKey2.fontSize = size.width*0.05
+//        infoKey2.fontColor = SKColor.white
+//        infoKey2.zPosition = 52
+//        infoKey2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
 
     }
 }
