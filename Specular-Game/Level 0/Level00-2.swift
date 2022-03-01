@@ -381,27 +381,29 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
         //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
         if(touchLocation != characterFeetCollider.position){
-            if(!stopScene){
-                location = touchLocation
-                moveSingle = true
-                //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-                if(location.x > characterFeetCollider.position.x){
-                    walkingRight = true
-                    if (location.y > characterFeetCollider.position.y) {
-                        walkingUp = true
-                        characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-                    } else if (location.y < characterFeetCollider.position.y){
-                        walkingDown = true
-                        characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-                    }
-                } else if (location.x < characterFeetCollider.position.x){
-                    walkingLeft = true
-                    if (location.y > characterFeetCollider.position.y) {
-                        walkingUp = true
-                        characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                    } else if (location.y < characterFeetCollider.position.y){
-                        walkingDown = true
-                        characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+            if(touchedNode.name != "closePause" && touchedNode.name != "closeInfo" && !(touchedNode.name == "interaction" && (characterFeetCollider.frame.intersects(lampZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(lampZoneInteractionCollider2.frame)))){
+                if(!stopScene){
+                    location = touchLocation
+                    moveSingle = true
+                    //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
+                    if(location.x > characterFeetCollider.position.x){
+                        walkingRight = true
+                        if (location.y > characterFeetCollider.position.y) {
+                            walkingUp = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                        } else if (location.y < characterFeetCollider.position.y){
+                            walkingDown = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                        }
+                    } else if (location.x < characterFeetCollider.position.x){
+                        walkingLeft = true
+                        if (location.y > characterFeetCollider.position.y) {
+                            walkingUp = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                        } else if (location.y < characterFeetCollider.position.y){
+                            walkingDown = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                        }
                     }
                 }
             }
