@@ -81,6 +81,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     
     let smalDoorClosed = SKSpriteNode(imageNamed: "SmallDoorClosed")
     var smallDorTouched: Bool = false
+    let smalDoorInteraction = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
     var interaction: Bool = false
@@ -168,6 +169,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(box1TransparencyCollider)
         addChild(wardrobeTransparencyCollider)
         addChild(smalDoorClosed)
+        addChild(smalDoorInteraction)
 
         addChild(doll)
 
@@ -501,6 +503,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             boxLeftTouched = true
             box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
             box2Collider.run(SKAction.moveTo(x: 0.01, duration: 3))
+            smalDoorInteraction.zPosition = 11
         }
         
       
@@ -698,6 +701,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(characterFeetCollider.frame.intersects(self.box2TransparencyCollider.frame)){
             box2Collided = true
             box1Left.zPosition = 11
+//            smalDoorClosed.zPosition = 10
 //            box2Single.zPosition = 11
 //            box2andShadow.zPosition = 11
             characterAvatar.zPosition = 10
@@ -705,6 +709,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             if(box2Collided){
                box2Collided = false
                 box1Left.zPosition = 10
+//                smalDoorClosed.zPosition = 9
 //                box2Single.zPosition = 10
 //                box2andShadow.zPosition = 10
                 characterAvatar.zPosition = 11
@@ -859,11 +864,17 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         box1Left.zPosition = 3
         box1Left.name = "boxesLeft"
         
-        smalDoorClosed.position = CGPoint(x: size.width*0.35, y: size.height*0.5)
+        smalDoorClosed.position = CGPoint(x: size.width*0.35, y: size.height*0.52)
         smalDoorClosed.xScale = 0.2
         smalDoorClosed.yScale = 0.2
-        smalDoorClosed.zPosition = 3
-        smalDoorClosed.name = "smallDor"
+        smalDoorClosed.zPosition = 2
+
+        smalDoorInteraction.position = CGPoint(x: size.width*0.28, y: size.height*0.52)
+        smalDoorInteraction.xScale = 0.1
+        smalDoorInteraction.yScale = 0.2
+        smalDoorInteraction.zPosition = 1
+        smalDoorInteraction.alpha = 0.01
+        smalDoorInteraction.name = "smallDor"
         
         box1Right.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         box1Right.xScale = 0.4
