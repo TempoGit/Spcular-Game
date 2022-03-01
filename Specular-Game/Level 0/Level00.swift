@@ -66,18 +66,21 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let wardrobeCollider = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeCollider")
     let wardrobeTransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeTransparencyCollider")
 //    let wardrobeShadow = SKSpriteNode(imageNamed: "Level0-Room1-WardrobeShadow")
-    let box2andShadow = SKSpriteNode(imageNamed: "Level0-Room1-Box2AndShadow")
-    let box2Single = SKSpriteNode(imageNamed: "Level0-Room1-Box2part2")
+//    let box2andShadow = SKSpriteNode(imageNamed: "Level0-Room1-Box2AndShadow")
+//    let box2Single = SKSpriteNode(imageNamed: "Level0-Room1-Box2part2")
     let box2Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box2Collider")
     let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes2TransparencyCollider")
 //    let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Box2TransparencyCollider")
     let box1Left = SKSpriteNode(imageNamed: "Level0-Room1-Box1Left")
-    let box1Right = SKSpriteNode(imageNamed: "Level0-Room1-Box1Right")
+    let box1Right = SKSpriteNode(imageNamed: "Boxes1 room1")
     let box1TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes1TransparencyCollider")
-    let box1Shadow = SKSpriteNode(imageNamed: "Level0-Room1-Box1Shadow")
+//    let box1Shadow = SKSpriteNode(imageNamed: "Level0-Room1-Box1Shadow")
     let box1Collider = SKSpriteNode(imageNamed: "Level0-Room1-Box1Collider")
     let wardrobeInteractionCollider = SKSpriteNode(imageNamed: "Level0-Room4-FurnitureInteractionCollider")
     
+    
+    let smalDoorClosed = SKSpriteNode(imageNamed: "SmallDoorClosed")
+    var smallDorTouched: Bool = false
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
     var interaction: Bool = false
@@ -97,6 +100,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var box1LeftCollided: Bool = false
     var box1RightCollided: Bool = false
     var box1Collided: Bool = false
+    
+    var boxLeftTouched: Bool = false
     
     //Camera di gioco
     let cameraNode = SKCameraNode()
@@ -152,16 +157,17 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(lowerDoor)
         addChild(wardrobe)
         addChild(wardrobeCollider)
-        addChild(box2andShadow)
-        addChild(box2Single)
+//        addChild(box2andShadow)
+//        addChild(box2Single)
         addChild(box2Collider)
         addChild(box2TransparencyCollider)
         addChild(box1Left)
         addChild(box1Right)
-        addChild(box1Shadow)
+//        addChild(box1Shadow)
         addChild(box1Collider)
         addChild(box1TransparencyCollider)
         addChild(wardrobeTransparencyCollider)
+        addChild(smalDoorClosed)
 
         addChild(doll)
 
@@ -229,6 +235,17 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
+        }
+        
+        if(touchedNode.name == "smallDor"){
+            if(!smallDorTouched){
+            smallDorTouched = true
+            smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
+            }else
+            if(smallDorTouched){
+                smallDorTouched = false
+                smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
+            }
         }
         
         if(touchedNode.name == "furniture"){
@@ -480,6 +497,13 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        if(touchedNode.name == "boxesLeft"){
+            boxLeftTouched = true
+            box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
+            box2Collider.run(SKAction.moveTo(x: 0.01, duration: 3))
+        }
+        
+      
         
         
         //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
@@ -673,28 +697,30 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(characterFeetCollider.frame.intersects(self.box2TransparencyCollider.frame)){
             box2Collided = true
-            box2Single.zPosition = 11
-            box2andShadow.zPosition = 11
+            box1Left.zPosition = 11
+//            box2Single.zPosition = 11
+//            box2andShadow.zPosition = 11
             characterAvatar.zPosition = 10
         } else {
             if(box2Collided){
                box2Collided = false
-                box2Single.zPosition = 10
-                box2andShadow.zPosition = 10
+                box1Left.zPosition = 10
+//                box2Single.zPosition = 10
+//                box2andShadow.zPosition = 10
                 characterAvatar.zPosition = 11
             }
         }
         
         if(characterFeetCollider.frame.intersects(self.box1TransparencyCollider.frame)){
             box1Collided = true
-            box1Left.zPosition = 11
+//            box1Left.zPosition = 11
             characterAvatar.zPosition = 10
             box1Right.zPosition = 11
             characterAvatar.zPosition = 10
         } else {
             if(box1Collided){
                 box1Collided = false
-                box1Left.zPosition = 10
+//                box1Left.zPosition = 10
                 characterAvatar.zPosition = 11
                 box1Right.zPosition = 10
                 characterAvatar.zPosition = 11
@@ -802,15 +828,15 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         wardrobeInteractionCollider.alpha = 0.01
         wardrobeInteractionCollider.name = "furniture"
         
-        //Impostazioni riguardanti le scatole in alto
-        box2andShadow.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        box2andShadow.xScale = 0.4
-        box2andShadow.yScale = 0.4
-        box2andShadow.zPosition = 3
-        box2Single.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        box2Single.xScale = 0.4
-        box2Single.yScale = 0.4
-        box2Single.zPosition = 3
+//        //Impostazioni riguardanti le scatole in alto
+//        box2andShadow.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+//        box2andShadow.xScale = 0.4
+//        box2andShadow.yScale = 0.4
+//        box2andShadow.zPosition = 3
+//        box2Single.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+//        box2Single.xScale = 0.4
+//        box2Single.yScale = 0.4
+//        box2Single.zPosition = 3
         box2Collider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         box2Collider.xScale = 0.4
         box2Collider.yScale = 0.4
@@ -827,18 +853,26 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         box2TransparencyCollider.zPosition = 3
         box2TransparencyCollider.alpha = 0.01
         //Impostazioni riguardanti le scatole in basso
-        box1Left.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        box1Left.position = CGPoint(x: size.width*0.09, y: size.height*0.4)
         box1Left.xScale = 0.4
         box1Left.yScale = 0.4
         box1Left.zPosition = 3
+        box1Left.name = "boxesLeft"
+        
+        smalDoorClosed.position = CGPoint(x: size.width*0.35, y: size.height*0.5)
+        smalDoorClosed.xScale = 0.2
+        smalDoorClosed.yScale = 0.2
+        smalDoorClosed.zPosition = 3
+        smalDoorClosed.name = "smallDor"
+        
         box1Right.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         box1Right.xScale = 0.4
         box1Right.yScale = 0.4
         box1Right.zPosition = 3
-        box1Shadow.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        box1Shadow.xScale = 0.4
-        box1Shadow.yScale = 0.4
-        box1Shadow.zPosition = 3
+//        box1Shadow.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+//        box1Shadow.xScale = 0.4
+//        box1Shadow.yScale = 0.4
+//        box1Shadow.zPosition = 3
         box1Collider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         box1Collider.xScale = 0.4
         box1Collider.yScale = 0.4
