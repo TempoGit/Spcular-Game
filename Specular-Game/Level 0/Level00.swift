@@ -501,8 +501,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "boxesLeft"){
             boxLeftTouched = true
-            box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
-            box2Collider.run(SKAction.moveTo(x: 0.01, duration: 3))
+//            box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
+            box1Left.run(SKAction.moveTo(x: size.width*0.0001, duration: 3))
+            box2Collider.run(SKAction.moveTo(x: size.width*0.4, duration: 3))
+//            box2Collider.run(SKAction.moveTo(x: size.width*0.00000001, duration: 3))
             smalDoorInteraction.zPosition = 11
         }
         
