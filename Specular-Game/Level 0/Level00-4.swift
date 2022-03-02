@@ -364,7 +364,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             }
         }
         
-        if(touchedNode.name == "key"){
+        if(touchedNode.name == "key" && !Level0VariableHadnler.instance.keyOpenSmall){
             print("chiave presa")
             Level0VariableHadnler.instance.keyOpenSmall = true
             if(LanguageHandler.instance.language == "English"){

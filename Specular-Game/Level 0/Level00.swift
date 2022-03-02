@@ -248,7 +248,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "smallDor" && characterFeetCollider.frame.intersects(box2TransparencyCollider.frame)){
-            if(!Level0VariableHadnler.instance.smallDorTouched && !Level0VariableHadnler.instance.bigKeyVar){
+            if(!Level0VariableHadnler.instance.smallDorTouched && !Level0VariableHadnler.instance.bigKeyVar && !Level0VariableHadnler.instance.keyOpenSmall){
+                Level0VariableHadnler.instance.keyOpenSmall = false
             Level0VariableHadnler.instance.smallDorTouched = true
             Level0VariableHadnler.instance.bigKeyVar = false
             smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
@@ -261,8 +262,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                     smallDoorLabel.text = "Forse è chiuso..."
                 }
             }else if(Level0VariableHadnler.instance.smallDorTouched && Level0VariableHadnler.instance.bigKeyVar && Level0VariableHadnler.instance.keyOpenSmall){
-                Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.smallDorTouched = true
+                Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.bigKeyVar = true
                 bigKey.zPosition = 13
                 cameraNode.addChild(bigKeyLabel)
