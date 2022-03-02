@@ -33,6 +33,7 @@ struct PhysicsCategories {
 }
 
 class Level00: SKScene, SKPhysicsContactDelegate {
+    var stopScene: Bool = false
     
     //Bottone che apre il menu di pausa
     let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
@@ -309,7 +310,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "bambola"){
             print("bambola interazione")
-            self.isPaused = true
+            stopScene = true
+//            self.isPaused = true
+            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
             if(LanguageHandler.instance.language == "English"){
                 infoDoll.text = LanguageHandler.instance.objectiveEnglishDoll
 //                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
@@ -320,13 +324,20 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
 //                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
             }
-            cameraNode.addChild(infoDoll)
+            overlayDescription.xScale = 0
+            overlayDescription.yScale = 0
+//            cameraNode.addChild(infoDoll)
 //            cameraNode.addChild(infoDoll1)
 //            cameraNode.addChild(infoDoll2)
             cameraNode.addChild(infoOpacityOverlayKey)
             cameraNode.addChild(overlayDescription)
+            overlayDescription.run(xScaleInfo)
+            overlayDescription.run(yScaleInfo, completion: {
+                self.cameraNode.addChild(self.infoDoll)
+            })
         }
         if(touchedNode.name == "overlayDescription"){
+            stopScene = false
             infoDoll.removeFromParent()
 //            infoDoll1.removeFromParent()
 //            infoDoll2.removeFromParent()
