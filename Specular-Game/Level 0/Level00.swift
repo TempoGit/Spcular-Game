@@ -9,6 +9,8 @@ import UIKit
 import SpriteKit
 import SwiftUI
 
+let movementSpeed: CGFloat = 3
+
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
 
 let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "WalkingBigRightFrame1"), SKTexture(imageNamed: "WalkingBigRightFrame2")]
@@ -654,9 +656,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(!stopScene){
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
-                    characterFeetCollider.position.x += 0.8
+                    characterFeetCollider.position.x += movementSpeed
                     if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += 0.8
+                        characterFeetCollider.position.y += movementSpeed
                         if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
                             if(!walkingRight || !walkingUp){
                                 walkingLeft = false
@@ -668,7 +670,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= 0.8
+                        characterFeetCollider.position.y -= movementSpeed
                         if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
                             if(!walkingRight || !walkingDown){
                                 walkingRight = true
@@ -681,9 +683,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 } else if (location.x < characterFeetCollider.position.x){
-                    characterFeetCollider.position.x -= 0.8
+                    characterFeetCollider.position.x -= movementSpeed
                     if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += 0.8
+                        characterFeetCollider.position.y += movementSpeed
                         if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
                             if(!walkingLeft || !walkingUp){
                                 walkingLeft = true
@@ -695,7 +697,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= 0.8
+                        characterFeetCollider.position.y -= movementSpeed
                         if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
                             if(!walkingLeft || !walkingDown){
                                 walkingLeft = true
@@ -708,9 +710,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 } else if (location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += 0.8
+                    characterFeetCollider.position.y += movementSpeed
                 } else if (location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= 0.8
+                    characterFeetCollider.position.y -= movementSpeed
                 }
             }
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi

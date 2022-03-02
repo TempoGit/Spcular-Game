@@ -602,9 +602,9 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         if(!stopScene){
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
-                    characterFeetCollider.position.x += 0.8
+                    characterFeetCollider.position.x += movementSpeed
                     if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += 0.8
+                        characterFeetCollider.position.y += movementSpeed
                         if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
                             if(!walkingRight || !walkingUp){
                                 walkingLeft = false
@@ -616,7 +616,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= 0.8
+                        characterFeetCollider.position.y -= movementSpeed
                         if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
                             if(!walkingRight || !walkingDown){
                                 walkingRight = true
@@ -629,9 +629,9 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 } else if (location.x < characterFeetCollider.position.x){
-                    characterFeetCollider.position.x -= 0.8
+                    characterFeetCollider.position.x -= movementSpeed
                     if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += 0.8
+                        characterFeetCollider.position.y += movementSpeed
                         if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
                             if(!walkingLeft || !walkingUp){
                                 walkingLeft = true
@@ -643,7 +643,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= 0.8
+                        characterFeetCollider.position.y -= movementSpeed
                         if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
                             if(!walkingLeft || !walkingDown){
                                 walkingLeft = true
@@ -656,9 +656,9 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 } else if (location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += 0.8
+                    characterFeetCollider.position.y += movementSpeed
                 } else if (location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= 0.8
+                    characterFeetCollider.position.y -= movementSpeed
                 }
             }
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
