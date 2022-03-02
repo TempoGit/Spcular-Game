@@ -129,6 +129,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
 //    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
 
+    var fadeOutDoorHandler: Bool = false
         
     let gameArea: CGRect
         
@@ -248,19 +249,22 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "smallDor" && characterFeetCollider.frame.intersects(box2TransparencyCollider.frame)){
-            if(!Level0VariableHadnler.instance.smallDorTouched && !Level0VariableHadnler.instance.bigKeyVar){
-            Level0VariableHadnler.instance.smallDorTouched = true
-            Level0VariableHadnler.instance.bigKeyVar = false
-            smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
-            cameraNode.addChild(smallDoorLabel)
-            smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))
+            
+            if(!Level0VariableHadnler.instance.smallKeyPick){
+//            Level0VariableHadnler.instance.smallDorTouched = true
+                print("Tapped on door, it's closed")
+                smallDoorLabel.removeFromParent()
+                smallDoorLabel.removeAllActions()
+                Level0VariableHadnler.instance.bigKeyVar = false
+                smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
+                cameraNode.addChild(smallDoorLabel)
+                smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))
                 if(LanguageHandler.instance.language == "English"){
-                    smallDoorLabel.text = "Maybe is locked..."
-                }else
-                if(LanguageHandler.instance.language == "Italian"){
-                    smallDoorLabel.text = "Forse è chiuso..."
-                }
-            }else if(Level0VariableHadnler.instance.smallDorTouched && Level0VariableHadnler.instance.bigKeyVar && Level0VariableHadnler.instance.keyOpenSmall){
+                        smallDoorLabel.text = "Maybe is locked..."
+                }else if(LanguageHandler.instance.language == "Italian"){
+                        smallDoorLabel.text = "Forse è chiuso..."
+                    }
+            }else if(Level0VariableHadnler.instance.smallKeyPick){
                 Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.smallDorTouched = true
                 Level0VariableHadnler.instance.bigKeyVar = true

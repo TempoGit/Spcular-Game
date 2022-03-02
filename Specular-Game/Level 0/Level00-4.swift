@@ -363,12 +363,12 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                 keyObject = true
                 open = true
 //                Key.removeFromParent()
-                if(!Level0VariableHadnler.instance.bigKeyPick){
+                if(!Level0VariableHadnler.instance.smallKeyPick){
                     addChild(Key)
+                    cameraNode.addChild(keyLabel)
+                    keyLabel.run(SKAction.fadeOut(withDuration: 5))
                 }
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpen")))
-                cameraNode.addChild(keyLabel)
-                keyLabel.run(SKAction.fadeOut(withDuration: 5))
                 Key.zPosition = 11
                 if(LanguageHandler.instance.language == "English"){
                     keyLabel.text = "Such a small key..."
@@ -381,7 +381,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                 open = false
                 keyLabel.removeFromParent()
                 keyObject = false
-                if(!Level0VariableHadnler.instance.bigKeyPick){
+                if(!Level0VariableHadnler.instance.smallKeyPick){
                     Key.removeFromParent()
                 }
 //                addChild(Key)
@@ -391,7 +391,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "key" && ((characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)))){
             print("chiave presa")
-            Level0VariableHadnler.instance.bigKeyPick = true
+            Level0VariableHadnler.instance.smallKeyPick = true
             stopScene = true
             let xScaleKey = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
             let yScaleKey = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
