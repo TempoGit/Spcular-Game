@@ -54,7 +54,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let boxCollider = SKSpriteNode(imageNamed: "BoxesCollider")
     
     let colliderDoorClosed = SKSpriteNode(imageNamed: "DoorColliderRT-1")
-    let doorZoneIteractionZoneCollider: SKShapeNode
+    
+    let doorZoneInteractionCollider: SKShapeNode
+    let doorZoneInteractionCollider2: SKShapeNode
     
     var interaction: Bool = false
   
@@ -73,7 +75,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     var stopScene: Bool = false
     
     override init(size: CGSize) {
-        doorZoneIteractionZoneCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.5, height: size.height*0.3))
+        doorZoneInteractionCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.7, height: size.height*0.1))
+        doorZoneInteractionCollider2 = SKShapeNode(rectOf: CGSize(width: size.width*0.7, height: size.height*0.1))
+        
         let playableHeight = size.width
         let playableMargin = (size.height-playableHeight)/2.0
         gameArea = CGRect(x: 0, y: playableMargin,
@@ -111,6 +115,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
         addChild(doorInteractionCollider)
+        addChild(doorZoneInteractionCollider)
+        addChild(doorZoneInteractionCollider2)
         addChild(colliderDoorClosed)
         
         let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
@@ -230,7 +236,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        if(touchedNode.name == "doorInteractionCollider"){
+        if(touchedNode.name == "doorInteractionCollider" && (characterFeetCollider.frame.intersects(doorZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(doorZoneInteractionCollider2.frame))) {
             print("interazione")
             if(!interaction){
                 interaction = true
@@ -365,7 +371,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchLocation != characterFeetCollider.position){
-            if(touchedNode.name != "pause" && touchedNode.name != "closeInfo" && touchedNode.name != "infoButton" && touchedNode.name != "closePause" && touchedNode.name != "doorInteractionCollider"){
+            if(touchedNode.name != "pause" && touchedNode.name != "closeInfo" && touchedNode.name != "infoButton" && touchedNode.name != "closePause" &&
+            !(touchedNode.name == "doorInteractionCollider" && (characterFeetCollider.frame.intersects(doorZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(doorZoneInteractionCollider2.frame)))){
                 if(!stopScene){
                     location = touchLocation
                     moveSingle = true
@@ -741,22 +748,6 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         infoText2.name = "closeInfo"
         infoText2.fontSize = size.width*0.05
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
-//        infoText3.zPosition = 102
-//        infoText3.name = "closeInfo"
-//        infoText3.fontSize = size.width*0.05
-//        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
-//        infoText4.zPosition = 102
-//        infoText4.name = "closeInfo"
-//        infoText4.fontSize = size.width*0.05
-//        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
-//        infoText5.zPosition = 102
-//        infoText5.name = "closeInfo"
-//        infoText5.fontSize = size.width*0.05
-//        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-//        infoText6.zPosition = 102
-//        infoText6.name = "closeInfo"
-//        infoText6.fontSize = size.width*0.05
-//        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
         if(LanguageHandler.instance.language == "English"){
             infoText.text = LanguageHandler.instance.infoTextOneEnglish
             infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
@@ -773,11 +764,22 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         infoText2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
         
-        doorInteractionCollider.zPosition = 20
+        doorInteractionCollider.zPosition = 22
         doorInteractionCollider.xScale = 0.5
         doorInteractionCollider.yScale = 0.5
         doorInteractionCollider.position = CGPoint(x: size.width*0.9, y: size.height*0.05)
         doorInteractionCollider.alpha = 0.01
         doorInteractionCollider.name = "doorInteractionCollider"
+        
+        doorZoneInteractionCollider.zPosition = 21
+        doorZoneInteractionCollider.fillColor = .red
+        doorZoneInteractionCollider.strokeColor = .red
+        doorZoneInteractionCollider.alpha = 0.01
+        doorZoneInteractionCollider.position = CGPoint(x: size.width*0.7, y: -size.height*0.05)
+        doorZoneInteractionCollider2.zPosition = 21
+        doorZoneInteractionCollider2.fillColor = .blue
+        doorZoneInteractionCollider2.strokeColor = .blue
+        doorZoneInteractionCollider2.position = CGPoint(x: size.width*0.78, y: size.height*0)
+        doorZoneInteractionCollider2.alpha = 0.01
     }
 }
