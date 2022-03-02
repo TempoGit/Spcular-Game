@@ -79,6 +79,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let frame1 = SKSpriteNode(imageNamed: "Frame")
     let infoOpacityOverlayDiary = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let overlayDescription = SKSpriteNode(imageNamed: "DropFrame")
+    let infoFrame = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishFrame)
     
     var worldGroup = SKSpriteNode()
 
@@ -170,13 +171,14 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "frame"){
             print("cornice")
+            stopScene = true
             let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
             let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
             if(LanguageHandler.instance.language == "English"){
-            
+                infoFrame.text = LanguageHandler.instance.objectiveEnglishFrame
             }else
             if(LanguageHandler.instance.language == "Italian"){
-               
+                infoFrame.text = LanguageHandler.instance.objectiveItalianFrame
             }
             overlayDescription.xScale = 0
             overlayDescription.yScale = 0
@@ -184,14 +186,15 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             cameraNode.addChild(overlayDescription)
             overlayDescription.run(xScaleInfo)
             overlayDescription.run(yScaleInfo, completion: {
-//                self.cameraNode.addChild(self.infoDoll)
+                self.cameraNode.addChild(self.infoFrame)
             })
         }
         
         if(touchedNode.name == "overlayDescription"){
-//            stopScene = false
+            stopScene = false
             infoOpacityOverlayDiary.removeFromParent()
             overlayDescription.removeFromParent()
+            infoFrame.removeFromParent()
 //            tappableQuit.removeFromParent()
         }
         
@@ -790,6 +793,14 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         infoOpacityOverlayDiary.alpha = 0.6
         infoOpacityOverlayDiary.zPosition = 120
         infoOpacityOverlayDiary.position = CGPoint(x: size.width*0, y: size.height*0)
+        
+        infoFrame.preferredMaxLayoutWidth = size.width*0.9
+        infoFrame.numberOfLines = 0
+        infoFrame.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoFrame.fontSize = size.width*0.05
+        infoFrame.fontColor = SKColor.white
+        infoFrame.zPosition = 122
+        infoFrame.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
     }
     
     
