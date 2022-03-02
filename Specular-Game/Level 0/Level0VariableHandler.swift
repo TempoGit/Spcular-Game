@@ -13,7 +13,7 @@ class Level0VariableHadnler {
 //    chiave nella room1 level00
     public var bigKeyVar: Bool = false
     public var bigKeyPick: Bool = false
-    public var smallKeyPick: Bool = true
+    public var smallKeyPick: Bool = false
 //    var per aprire la porticina in room1 level00
     public var smallDorTouched: Bool = false
 //  var per far spostare gli scatoloni in room1 level00
