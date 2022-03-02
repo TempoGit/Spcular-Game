@@ -180,7 +180,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(smalDoorClosed)
         addChild(smalDoorInteraction)
 
-        addChild(bigKey)
+//        addChild(bigKey)
         
         addChild(doll)
 
@@ -271,6 +271,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 Level0VariableHadnler.instance.smallDorTouched = true
                 Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.bigKeyVar = true
+                if(!Level0VariableHadnler.instance.bigKeyPick){
+                    addChild(bigKey)
+                }
                 bigKey.zPosition = 13
                 cameraNode.addChild(bigKeyLabel)
                 bigKeyLabel.run(SKAction.fadeOut(withDuration: 5))
@@ -289,7 +292,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
-            
         }
         
         

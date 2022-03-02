@@ -661,7 +661,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         colliderDoorClosed.physicsBody?.isDynamic = false
         colliderDoorClosed.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
         colliderDoorClosed.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        colliderDoorClosed.alpha = 0.1
+        colliderDoorClosed.alpha = 0.01
        
         
         doorColliderRT.position = CGPoint(x: size.width*0.35, y: size.height*0.27)
