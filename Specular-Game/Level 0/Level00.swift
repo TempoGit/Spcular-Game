@@ -9,6 +9,8 @@ import UIKit
 import SpriteKit
 import SwiftUI
 
+let movementSpeed: CGFloat = 3
+
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
 
 let walkingAnimationFramesRightDown: [SKTexture] = [SKTexture(imageNamed: "WalkingBigRightFrame1"), SKTexture(imageNamed: "WalkingBigRightFrame2")]
@@ -129,6 +131,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
 //    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
 
+    var fadeOutDoorHandler: Bool = false
         
     let gameArea: CGRect
         
@@ -248,20 +251,23 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "smallDor" && characterFeetCollider.frame.intersects(box2TransparencyCollider.frame)){
-            if(!Level0VariableHadnler.instance.smallDorTouched && !Level0VariableHadnler.instance.bigKeyVar && !Level0VariableHadnler.instance.keyOpenSmall){
-                Level0VariableHadnler.instance.keyOpenSmall = false
-            Level0VariableHadnler.instance.smallDorTouched = true
-            Level0VariableHadnler.instance.bigKeyVar = false
-            smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
-            cameraNode.addChild(smallDoorLabel)
-            smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))
+            
+            if(!Level0VariableHadnler.instance.smallKeyPick){
+//            Level0VariableHadnler.instance.smallDorTouched = true
+                print("Tapped on door, it's closed")
+                smallDoorLabel.removeFromParent()
+                smallDoorLabel.removeAllActions()
+                Level0VariableHadnler.instance.bigKeyVar = false
+                smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
+                cameraNode.addChild(smallDoorLabel)
+                smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))
                 if(LanguageHandler.instance.language == "English"){
-                    smallDoorLabel.text = "Maybe is locked..."
-                }else
-                if(LanguageHandler.instance.language == "Italian"){
-                    smallDoorLabel.text = "Forse è chiuso..."
-                }
-            }else if(Level0VariableHadnler.instance.smallDorTouched && Level0VariableHadnler.instance.bigKeyVar && Level0VariableHadnler.instance.keyOpenSmall){
+                        smallDoorLabel.text = "Maybe is locked..."
+                }else if(LanguageHandler.instance.language == "Italian"){
+                        smallDoorLabel.text = "Forse è chiuso..."
+                    }
+            }else if(Level0VariableHadnler.instance.smallKeyPick){
+                Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.smallDorTouched = true
                 Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.bigKeyVar = true
@@ -651,9 +657,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(!stopScene){
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
-                    characterFeetCollider.position.x += 0.8
+                    characterFeetCollider.position.x += movementSpeed
                     if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += 0.8
+                        characterFeetCollider.position.y += movementSpeed
                         if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
                             if(!walkingRight || !walkingUp){
                                 walkingLeft = false
@@ -665,7 +671,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= 0.8
+                        characterFeetCollider.position.y -= movementSpeed
                         if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
                             if(!walkingRight || !walkingDown){
                                 walkingRight = true
@@ -678,9 +684,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 } else if (location.x < characterFeetCollider.position.x){
-                    characterFeetCollider.position.x -= 0.8
+                    characterFeetCollider.position.x -= movementSpeed
                     if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += 0.8
+                        characterFeetCollider.position.y += movementSpeed
                         if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
                             if(!walkingLeft || !walkingUp){
                                 walkingLeft = true
@@ -692,7 +698,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                             }
                         }
                     } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= 0.8
+                        characterFeetCollider.position.y -= movementSpeed
                         if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
                             if(!walkingLeft || !walkingDown){
                                 walkingLeft = true
@@ -705,9 +711,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         }
                     }
                 } else if (location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += 0.8
+                    characterFeetCollider.position.y += movementSpeed
                 } else if (location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= 0.8
+                    characterFeetCollider.position.y -= movementSpeed
                 }
             }
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi

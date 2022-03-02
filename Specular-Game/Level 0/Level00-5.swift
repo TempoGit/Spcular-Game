@@ -54,6 +54,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let boxCollider = SKSpriteNode(imageNamed: "BoxesCollider")
     
     let colliderDoorClosed = SKSpriteNode(imageNamed: "DoorColliderRT-1")
+    let doorZoneIteractionZoneCollider: SKShapeNode
     
     var interaction: Bool = false
   
@@ -72,8 +73,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     var stopScene: Bool = false
     
     override init(size: CGSize) {
-      let playableHeight = size.width
-      let playableMargin = (size.height-playableHeight)/2.0
+        doorZoneIteractionZoneCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.5, height: size.height*0.3))
+        let playableHeight = size.width
+        let playableMargin = (size.height-playableHeight)/2.0
         gameArea = CGRect(x: 0, y: playableMargin,
                                 width: size.width,
                                 height: playableHeight)
