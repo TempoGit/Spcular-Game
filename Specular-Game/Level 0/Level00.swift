@@ -8,6 +8,7 @@
 import UIKit
 import SpriteKit
 import SwiftUI
+import AVFoundation
 
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
 
@@ -86,6 +87,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var worldGroup = SKSpriteNode()
     var interaction: Bool = false
     
+//    suoni
+    var portasbatte : String = "open-door"
+    let sbattimento = SKAction.playSoundFileNamed("open-door", waitForCompletion: false)
+
     //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
@@ -255,6 +260,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 dollObject = true
                 interaction = true
                 wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
+                run(sbattimento)
                 cameraNode.addChild(dollLable)
                 dollLable.run(SKAction.fadeOut(withDuration: 5))
                 doll.zPosition = 20
