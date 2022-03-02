@@ -106,6 +106,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var box1LeftCollided: Bool = false
     var box1RightCollided: Bool = false
     var box1Collided: Bool = false
+
     
     
     //Camera di gioco
@@ -128,9 +129,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
 //    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
 
-    
-    var stopScene: Bool = false
-    
+        
     let gameArea: CGRect
         
     override init(size: CGSize) {
@@ -251,7 +250,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(touchedNode.name == "smallDor" && characterFeetCollider.frame.intersects(box2TransparencyCollider.frame)){
             if(!Level0VariableHadnler.instance.smallDorTouched && !Level0VariableHadnler.instance.bigKeyVar){
             Level0VariableHadnler.instance.smallDorTouched = true
-            Level0VariableHadnler.instance.bigKeyVar = true
+            Level0VariableHadnler.instance.bigKeyVar = false
             smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
             cameraNode.addChild(smallDoorLabel)
             smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))

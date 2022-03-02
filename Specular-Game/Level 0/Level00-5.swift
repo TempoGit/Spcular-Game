@@ -234,6 +234,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 if(interaction && Level0VariableHadnler.instance.keyOpen){
                     doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
                     interaction = false
+//                    doorRTclosed.removeFromParent()
+                    colliderDoorClosed.removeFromParent()
                 }
             }
         }
@@ -632,7 +634,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         colliderDoorClosed.physicsBody?.isDynamic = false
         colliderDoorClosed.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
         colliderDoorClosed.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        colliderDoorClosed.alpha = 0.9
+        colliderDoorClosed.alpha = 0.1
        
         
         doorColliderRT.position = CGPoint(x: size.width*0.35, y: size.height*0.27)

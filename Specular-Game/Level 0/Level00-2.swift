@@ -170,8 +170,22 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "frame"){
             print("cornice")
+            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
+            if(LanguageHandler.instance.language == "English"){
+            
+            }else
+            if(LanguageHandler.instance.language == "Italian"){
+               
+            }
+            overlayDescription.xScale = 0
+            overlayDescription.yScale = 0
             cameraNode.addChild(infoOpacityOverlayDiary)
             cameraNode.addChild(overlayDescription)
+            overlayDescription.run(xScaleInfo)
+            overlayDescription.run(yScaleInfo, completion: {
+//                self.cameraNode.addChild(self.infoDoll)
+            })
         }
         
         if(touchedNode.name == "overlayDescription"){
