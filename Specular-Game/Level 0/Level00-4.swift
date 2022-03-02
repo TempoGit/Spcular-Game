@@ -142,7 +142,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         addChild(boxCollider)
         addChild(lowerDoor)
         addChild(rightDoor)
-        addChild(Key)
+//        addChild(Key)
         addChild(furnitureZoneInteractionCollider3)
         addChild(furnitureZoneInteractionCollider2)
         addChild(furnitureZoneInteractionCollider)
@@ -359,9 +359,13 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         //Se tocco il cassettone si apre, se ritocco si chiude, TO DO: Aggiungere una condizione che permette di aprire e chiudere il cassettone solamente se si è nelle vicinanz del cassettone
         if(touchedNode.name == "furniture" && ((characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)))){
-            if(!open && !keyObject){
+            if(!open){
                 keyObject = true
                 open = true
+//                Key.removeFromParent()
+                if(!Level0VariableHadnler.instance.bigKeyPick){
+                    addChild(Key)
+                }
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-FurnitureOpen")))
                 cameraNode.addChild(keyLabel)
                 keyLabel.run(SKAction.fadeOut(withDuration: 5))
@@ -372,17 +376,22 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                 if(LanguageHandler.instance.language == "Italian"){
                     keyLabel.text = "È una chave molto piccola..."
                 }
-            } else if (open && keyObject){
+            } else if (open){
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
                 open = false
                 keyLabel.removeFromParent()
                 keyObject = false
-                Key.zPosition = 1
+                if(!Level0VariableHadnler.instance.bigKeyPick){
+                    Key.removeFromParent()
+                }
+//                addChild(Key)
+//                Key.zPosition = 1
             }
         }
         
         if(touchedNode.name == "key" && ((characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)))){
             print("chiave presa")
+            Level0VariableHadnler.instance.bigKeyPick = true
             stopScene = true
             let xScaleKey = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
             let yScaleKey = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
