@@ -9,7 +9,7 @@ import UIKit
 import SpriteKit
 import SwiftUI
 
-let movementSpeed: CGFloat = 3
+let movementSpeed: CGFloat = 1.1
 
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
 
@@ -109,7 +109,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     var box1RightCollided: Bool = false
     var box1Collided: Bool = false
 
-    
+    var smallDoorOpen: Bool = false
     
     //Camera di gioco
     let cameraNode = SKCameraNode()
@@ -266,17 +266,20 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 }else if(LanguageHandler.instance.language == "Italian"){
                         smallDoorLabel.text = "Forse è chiuso..."
                     }
+                bigKey.removeFromParent()
             }else if(Level0VariableHadnler.instance.smallKeyPick){
                 Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.smallDorTouched = true
                 Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.bigKeyVar = true
+                bigKey.removeFromParent()
+                bigKeyLabel.removeFromParent()
                 if(!Level0VariableHadnler.instance.bigKeyPick){
                     addChild(bigKey)
+                    cameraNode.addChild(bigKeyLabel)
+                    bigKeyLabel.run(SKAction.fadeOut(withDuration: 5))
                 }
                 bigKey.zPosition = 13
-                cameraNode.addChild(bigKeyLabel)
-                bigKeyLabel.run(SKAction.fadeOut(withDuration: 5))
                 smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
                 if(LanguageHandler.instance.language == "English"){
                     bigKeyLabel.text = "This looks like a very old key..."
