@@ -10,7 +10,6 @@ import SpriteKit
 import SwiftUI
 
 
-var keyOpen: Bool = false
 
 class Level00_5: SKScene, SKPhysicsContactDelegate {
     @AppStorage("language") var language: String = "English"
@@ -56,6 +55,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     
     let colliderDoorClosed = SKSpriteNode(imageNamed: "DoorColliderRT-1")
     
+    let doorZoneInteractionCollider: SKShapeNode
+    let doorZoneInteractionCollider2: SKShapeNode
+    
     var interaction: Bool = false
   
     var moveSingle: Bool = false
@@ -70,9 +72,14 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     
     let gameArea: CGRect
     
+    var stopScene: Bool = false
+    
     override init(size: CGSize) {
-      let playableHeight = size.width
-      let playableMargin = (size.height-playableHeight)/2.0
+        doorZoneInteractionCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.7, height: size.height*0.1))
+        doorZoneInteractionCollider2 = SKShapeNode(rectOf: CGSize(width: size.width*0.7, height: size.height*0.1))
+        
+        let playableHeight = size.width
+        let playableMargin = (size.height-playableHeight)/2.0
         gameArea = CGRect(x: 0, y: playableMargin,
                                 width: size.width,
                                 height: playableHeight)
@@ -108,6 +115,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
         addChild(doorInteractionCollider)
+        addChild(doorZoneInteractionCollider)
+        addChild(doorZoneInteractionCollider2)
         addChild(colliderDoorClosed)
         
         let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
@@ -144,7 +153,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
         //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
         if(touchedNode.name == "pause"){
-            self.isPaused = true
+//            self.isPaused = true
+            stopScene = true
             if(PauseMenuHandler.instance.firstSet == false){
                 PauseMenuHandler.instance.settingsBackground.xScale = size.width*0.0011
                 PauseMenuHandler.instance.settingsBackground.yScale = size.width*0.0011
@@ -226,23 +236,26 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
             
         }
         
-        if(touchedNode.name == "doorInteractionCollider"){
+        if(touchedNode.name == "doorInteractionCollider" && (characterFeetCollider.frame.intersects(doorZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(doorZoneInteractionCollider2.frame))) {
             print("interazione")
             if(!interaction){
                 interaction = true
                 doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 closed")))
             } else {
-                if(interaction){
-                    if(keyOpen){
+                if(interaction && Level0VariableHadnler.instance.keyOpen){
                     doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
                     interaction = false
-                    }
+//                    doorRTclosed.removeFromParent()
+                    colliderDoorClosed.removeFromParent()
                 }
             }
         }
         
         if(touchedNode.name == "infoButton"){
-            self.isPaused = true
+//            self.isPaused = true
+            stopScene = true
+            let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.3)
+            let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.3)
             if (LanguageHandler.instance.language == "English"){
                 infoText.text = LanguageHandler.instance.infoTextOneEnglish
                 infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
@@ -252,8 +265,12 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
             }
             cameraNode.addChild(infoOpacityOverlay)
             cameraNode.addChild(infoBackground)
-            cameraNode.addChild(infoText)
-
+            infoBackground.xScale = 0
+            infoBackground.yScale = 0
+            self.infoBackground.run(xScaleAction)
+            self.infoBackground.run(yScaleAction, completion: {
+                self.cameraNode.addChild(self.infoText)
+            })
         }
         if(touchedNode.name == "closeInfo"){
             if(infoNavigation){
@@ -266,7 +283,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 infoText.removeFromParent()
                 infoText2.removeFromParent()
                 infoNavigation = true
-                self.isPaused = false
+                stopScene = false
+//                self.isPaused = false
             }
         }
         
@@ -348,30 +366,36 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
             PauseMenuHandler.instance.mainMenuButtonEnglish.removeFromParent()
             PauseMenuHandler.instance.mainMenuButtonItalian.removeFromParent()
 
-            self.isPaused = false
+            stopScene = false
+//            self.isPaused = false
         }
         
         if(touchLocation != characterFeetCollider.position){
-            location = touchLocation
-            moveSingle = true
-            //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-            if(location.x > characterFeetCollider.position.x){
-                walkingRight = true
-                if (location.y > characterFeetCollider.position.y) {
-                    walkingUp = true
-                    characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-                } else if (location.y < characterFeetCollider.position.y){
-                    walkingDown = true
-                    characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-                }
-            } else if (location.x < characterFeetCollider.position.x){
-                walkingLeft = true
-                if (location.y > characterFeetCollider.position.y) {
-                    walkingUp = true
-                    characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                } else if (location.y < characterFeetCollider.position.y){
-                    walkingDown = true
-                    characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+            if(touchedNode.name != "pause" && touchedNode.name != "closeInfo" && touchedNode.name != "infoButton" && touchedNode.name != "closePause" &&
+            !(touchedNode.name == "doorInteractionCollider" && (characterFeetCollider.frame.intersects(doorZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(doorZoneInteractionCollider2.frame)))){
+                if(!stopScene){
+                    location = touchLocation
+                    moveSingle = true
+                    //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
+                    if(location.x > characterFeetCollider.position.x){
+                        walkingRight = true
+                        if (location.y > characterFeetCollider.position.y) {
+                            walkingUp = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                        } else if (location.y < characterFeetCollider.position.y){
+                            walkingDown = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                        }
+                    } else if (location.x < characterFeetCollider.position.x){
+                        walkingLeft = true
+                        if (location.y > characterFeetCollider.position.y) {
+                            walkingUp = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                        } else if (location.y < characterFeetCollider.position.y){
+                            walkingDown = true
+                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                        }
+                    }
                 }
             }
         }
@@ -408,75 +432,77 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        checkCollision()
-        //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
-        //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
-        //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
-        if(move || moveSingle){
-            if(location.x > characterFeetCollider.position.x) {
-                characterFeetCollider.position.x += 0.8
-                if(location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += 0.8
-                    if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
-                        if(!walkingRight || !walkingUp){
-                            walkingLeft = false
-                            walkingDown = false
-                            walkingRight = true
-                            walkingUp = true
-                            characterAvatar.removeAllActions()
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+        if(!stopScene){
+            checkCollision()
+            //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
+            //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
+            //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
+            if(move || moveSingle){
+                if(location.x > characterFeetCollider.position.x) {
+                    characterFeetCollider.position.x += movementSpeed
+                    if(location.y > characterFeetCollider.position.y){
+                        characterFeetCollider.position.y += movementSpeed
+                        if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
+                            if(!walkingRight || !walkingUp){
+                                walkingLeft = false
+                                walkingDown = false
+                                walkingRight = true
+                                walkingUp = true
+                                characterAvatar.removeAllActions()
+                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+                            }
+                        }
+                    } else if(location.y < characterFeetCollider.position.y){
+                        characterFeetCollider.position.y -= movementSpeed
+                        if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
+                            if(!walkingRight || !walkingDown){
+                                walkingRight = true
+                                walkingDown = true
+                                walkingLeft = false
+                                walkingUp = false
+                                characterAvatar.removeAllActions()
+                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                            }
                         }
                     }
-                } else if(location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= 0.8
-                    if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
-                        if(!walkingRight || !walkingDown){
-                            walkingRight = true
-                            walkingDown = true
-                            walkingLeft = false
-                            walkingUp = false
-                            characterAvatar.removeAllActions()
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+                } else if (location.x < characterFeetCollider.position.x){
+                    characterFeetCollider.position.x -= movementSpeed
+                    if(location.y > characterFeetCollider.position.y){
+                        characterFeetCollider.position.y += movementSpeed
+                        if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
+                            if(!walkingLeft || !walkingUp){
+                                walkingLeft = true
+                                walkingUp = true
+                                walkingRight = false
+                                walkingDown = false
+                                characterAvatar.removeAllActions()
+                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+                            }
+                        }
+                    } else if(location.y < characterFeetCollider.position.y){
+                        characterFeetCollider.position.y -= movementSpeed
+                        if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
+                            if(!walkingLeft || !walkingDown){
+                                walkingLeft = true
+                                walkingDown = true
+                                walkingRight = false
+                                walkingUp = false
+                                characterAvatar.removeAllActions()
+                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+                            }
                         }
                     }
+                } else if (location.y > characterFeetCollider.position.y){
+                    characterFeetCollider.position.y += movementSpeed
+                } else if (location.y < characterFeetCollider.position.y){
+                    characterFeetCollider.position.y -= movementSpeed
                 }
-            } else if (location.x < characterFeetCollider.position.x){
-                characterFeetCollider.position.x -= 0.8
-                if(location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += 0.8
-                    if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
-                        if(!walkingLeft || !walkingUp){
-                            walkingLeft = true
-                            walkingUp = true
-                            walkingRight = false
-                            walkingDown = false
-                            characterAvatar.removeAllActions()
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                        }
-                    }
-                } else if(location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= 0.8
-                    if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
-                        if(!walkingLeft || !walkingDown){
-                            walkingLeft = true
-                            walkingDown = true
-                            walkingRight = false
-                            walkingUp = false
-                            characterAvatar.removeAllActions()
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
-                        }
-                    }
-                }
-            } else if (location.y > characterFeetCollider.position.y){
-                characterFeetCollider.position.y += 0.8
-            } else if (location.y < characterFeetCollider.position.y){
-                characterFeetCollider.position.y -= 0.8
             }
+            characterAvatar.position = characterFeetCollider.position
+            characterAvatar.position.y = characterAvatar.position.y - 8
+            cameraNode.position = characterAvatar.position
+            cameraNode.position.y += size.height*0.2
         }
-        characterAvatar.position = characterFeetCollider.position
-        characterAvatar.position.y = characterAvatar.position.y - 8
-        cameraNode.position = characterAvatar.position
-        cameraNode.position.y += size.height*0.2
         
     }
     
@@ -635,7 +661,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         colliderDoorClosed.physicsBody?.isDynamic = false
         colliderDoorClosed.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
         colliderDoorClosed.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        colliderDoorClosed.alpha = 0.9
+        colliderDoorClosed.alpha = 0.01
        
         
         doorColliderRT.position = CGPoint(x: size.width*0.35, y: size.height*0.27)
@@ -722,22 +748,6 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         infoText2.name = "closeInfo"
         infoText2.fontSize = size.width*0.05
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
-//        infoText3.zPosition = 102
-//        infoText3.name = "closeInfo"
-//        infoText3.fontSize = size.width*0.05
-//        infoText3.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
-//        infoText4.zPosition = 102
-//        infoText4.name = "closeInfo"
-//        infoText4.fontSize = size.width*0.05
-//        infoText4.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.1)
-//        infoText5.zPosition = 102
-//        infoText5.name = "closeInfo"
-//        infoText5.fontSize = size.width*0.05
-//        infoText5.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
-//        infoText6.zPosition = 102
-//        infoText6.name = "closeInfo"
-//        infoText6.fontSize = size.width*0.05
-//        infoText6.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.3)
         if(LanguageHandler.instance.language == "English"){
             infoText.text = LanguageHandler.instance.infoTextOneEnglish
             infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
@@ -754,11 +764,22 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         infoText2.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
         
-        doorInteractionCollider.zPosition = 20
+        doorInteractionCollider.zPosition = 22
         doorInteractionCollider.xScale = 0.5
         doorInteractionCollider.yScale = 0.5
         doorInteractionCollider.position = CGPoint(x: size.width*0.9, y: size.height*0.05)
         doorInteractionCollider.alpha = 0.01
         doorInteractionCollider.name = "doorInteractionCollider"
+        
+        doorZoneInteractionCollider.zPosition = 21
+        doorZoneInteractionCollider.fillColor = .red
+        doorZoneInteractionCollider.strokeColor = .red
+        doorZoneInteractionCollider.alpha = 0.01
+        doorZoneInteractionCollider.position = CGPoint(x: size.width*0.7, y: -size.height*0.05)
+        doorZoneInteractionCollider2.zPosition = 21
+        doorZoneInteractionCollider2.fillColor = .blue
+        doorZoneInteractionCollider2.strokeColor = .blue
+        doorZoneInteractionCollider2.position = CGPoint(x: size.width*0.78, y: size.height*0)
+        doorZoneInteractionCollider2.alpha = 0.01
     }
 }
