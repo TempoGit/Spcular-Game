@@ -15,9 +15,20 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
     
     let gameArea: CGRect
     
+    let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
+    var transitioning: Bool = false
+    
+    let blackScreenBackground: SKShapeNode
+    let mainMenuButton: SKSpriteNode = SKSpriteNode(imageNamed: "MainMenu")
+    let creditsText: SKLabelNode = SKLabelNode(text: LanguageHandler.instance.creditsTextEnglish)
+    
+    
     override init(size: CGSize) {
-      let playableHeight = size.width
-      let playableMargin = (size.height-playableHeight)/2.0
+        blackScreenBackground = SKShapeNode(rectOf: CGSize(width: size.width, height: size.height))
+        
+        
+        let playableHeight = size.width
+        let playableMargin = (size.height-playableHeight)/2.0
         gameArea = CGRect(x: 0, y: playableMargin,
                                 width: size.width,
                                 height: playableHeight)
@@ -27,9 +38,41 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
           fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
+    
+    
     override func didMove(to view: SKView) {
-        addChild(pauseButton)
+        
+        
+//        addChild(pauseButton)
         setUp()
+        
+        
+//        let fadeOutAction = SKAction.fadeOut(withDuration: 1)
+//        blackCover.alpha = 1
+//        blackCover.fillColor = .black
+//        blackCover.strokeColor = .black
+//        blackCover.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+//        blackCover.zPosition = 10
+//        addChild(blackCover)
+//        blackCover.run(fadeOutAction)
+        self.addChild(self.blackScreenBackground)
+        self.addChild(self.mainMenuButton)
+        self.addChild(self.creditsText)
+        self.blackCover.removeFromParent()
+        creditsText.xScale = 0
+        creditsText.yScale = 0
+        let scaleX = SKAction.scaleX(to: size.width*0.0025, duration: 1)
+        let scaleY = SKAction.scaleY(to: size.width*0.0025, duration: 1)
+        creditsText.run(scaleX)
+        creditsText.run(scaleY)
+        let moveFromRight = SKAction.moveTo(x: size.width*0.45, duration: 1.5)
+        let moveToLeft = SKAction.moveTo(x: size.width*0.5, duration: 0.7)
+        let moveToRight = SKAction.moveTo(x: size.width*0.52, duration: 0.5)
+        
+        let sequenceOfActions = SKAction.sequence([moveFromRight, moveToRight, moveToLeft])
+        mainMenuButton.run(sequenceOfActions)
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -41,64 +84,38 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
         let touchedNode = atPoint(touchLocation)
 
         if(touchedNode.name == "goToMenu"){
-            musicHandler.instance.stopLevelBackgroundMusic()
             let gameScene = GameScene(size: size)
             view?.presentScene(gameScene)
         }
-        if(touchedNode.name == "pause"){
-            self.isPaused = true
-            if(PauseMenuHandler.instance.firstSet == false){
-                PauseMenuHandler.instance.settingsBackground.xScale = size.width*0.0011
-                PauseMenuHandler.instance.settingsBackground.yScale = size.width*0.0011
-                
-                PauseMenuHandler.instance.pauseLabel.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.32)
-                PauseMenuHandler.instance.pauseLabel.xScale = size.width*0.0007
-                PauseMenuHandler.instance.pauseLabel.yScale = size.width*0.0007
-                PauseMenuHandler.instance.pauseLabelItalian.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.32)
-                PauseMenuHandler.instance.pauseLabelItalian.xScale = size.width*0.0007
-                PauseMenuHandler.instance.pauseLabelItalian.yScale = size.width*0.0007
-                
-                PauseMenuHandler.instance.musicIcon.xScale = size.width*0.0005
-                PauseMenuHandler.instance.musicIcon.yScale = size.width*0.0005
-                PauseMenuHandler.instance.musicIcon.position = CGPoint(x: gameArea.size.width*0.13, y: gameArea.size.height*0.15)
-                PauseMenuHandler.instance.musicIconOff.xScale = size.width*0.0005
-                PauseMenuHandler.instance.musicIconOff.yScale = size.width*0.0005
-                PauseMenuHandler.instance.musicIconOff.position = CGPoint(x: gameArea.size.width*0.13, y: gameArea.size.height*0.15)
-                
-                PauseMenuHandler.instance.sfxButton.xScale = size.width*0.0005
-                PauseMenuHandler.instance.sfxButton.yScale = size.width*0.0005
-                PauseMenuHandler.instance.sfxButton.position = CGPoint(x: -gameArea.size.width*0.12, y: gameArea.size.height*0.15)
-                PauseMenuHandler.instance.sfxButtonOff.xScale = size.width*0.0005
-                PauseMenuHandler.instance.sfxButtonOff.yScale = size.width*0.0005
-                PauseMenuHandler.instance.sfxButtonOff.position = CGPoint(x: -gameArea.size.width*0.12, y: gameArea.size.height*0.15)
-                
-                PauseMenuHandler.instance.languageButton.xScale = size.width*0.00035
-                PauseMenuHandler.instance.languageButton.yScale = size.width*0.00035
-                PauseMenuHandler.instance.languageButton.position = CGPoint(x: gameArea.size.width*0.01, y: -gameArea.size.height*0.05)
-                PauseMenuHandler.instance.languageButtonItalian.xScale = size.width*0.00035
-                PauseMenuHandler.instance.languageButtonItalian.yScale = size.width*0.00035
-                PauseMenuHandler.instance.languageButtonItalian.position = CGPoint(x: gameArea.size.width*0.01, y: -gameArea.size.height*0.05)
-                
-                PauseMenuHandler.instance.mainMenuButtonEnglish.xScale = size.width*0.0005
-                PauseMenuHandler.instance.mainMenuButtonEnglish.yScale = size.width*0.0005
-                PauseMenuHandler.instance.mainMenuButtonEnglish.position = CGPoint(x: gameArea.size.width*0.01, y: -gameArea.size.height*0.25)
-                PauseMenuHandler.instance.mainMenuButtonItalian.xScale = size.width*0.0005
-                PauseMenuHandler.instance.mainMenuButtonItalian.yScale = size.width*0.0005
-                PauseMenuHandler.instance.mainMenuButtonItalian.position = CGPoint(x: gameArea.size.width*0.01, y: -gameArea.size.height*0.25)
-                
-                PauseMenuHandler.instance.closePauseButtonEnglish.xScale = size.width*0.0007
-                PauseMenuHandler.instance.closePauseButtonEnglish.yScale = size.width*0.0007
-                PauseMenuHandler.instance.closePauseButtonEnglish.position = CGPoint(x: gameArea.size.width*0.01, y: -gameArea.size.height*0.4)
-                PauseMenuHandler.instance.closePauseButtonItalian.xScale = size.width*0.0007
-                PauseMenuHandler.instance.closePauseButtonItalian.yScale = size.width*0.0007
-                PauseMenuHandler.instance.closePauseButtonItalian.position = CGPoint(x: gameArea.size.width*0.01, y: -gameArea.size.height*0.4)
-            }
-            PauseMenuHandler.instance.initializeNodeSettings()
-            
-    }
 }
     
     func setUp(){
+        blackScreenBackground.fillColor = .black
+        blackScreenBackground.strokeColor = .black
+        blackScreenBackground.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        
+        if(LanguageHandler.instance.language == "English"){
+            mainMenuButton.run(SKAction.setTexture(SKTexture(imageNamed: "MainMenu")))
+            creditsText.text = LanguageHandler.instance.creditsTextEnglish
+        } else if(LanguageHandler.instance.language == "Italian"){
+            mainMenuButton.run(SKAction.setTexture(SKTexture(imageNamed: "MenuPrincipale")))
+            creditsText.text = LanguageHandler.instance.creditsTextItalian
+        }
+        mainMenuButton.position = CGPoint(x: size.width*2, y: size.height*0.1)
+        mainMenuButton.xScale = size.width*0.0007
+        mainMenuButton.yScale = size.width*0.0007
+        mainMenuButton.name = "goToMenu"
+        creditsText.numberOfLines = 0
+        creditsText.preferredMaxLayoutWidth = size.width*0.9
+        creditsText.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        creditsText.fontColor = .white
+        creditsText.zPosition = 3
+        creditsText.fontSize = size.width*0.085
+//        creditsText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        
+        
+        
+        
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20

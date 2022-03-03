@@ -34,6 +34,13 @@ class LanguageHandler {
     public let objectiveItalian5 = "scena, potresti trovare qualcosa di utile..."
     public let objectiveItalian6 = "...oppure incotrare una morte orribile! :)"
     
+    //Crediti
+    public let creditsTextEnglish = "AYO!\n\nYou finished the demo, congrats!\n\nNow you can go back to whatever you were doing before."
+    public let creditsTextEnglish1 = "You finished the demo, congrats!"
+    public let creditsTextEnglish2 = "Now you can go back to whatever you were doing before."
+    public let creditsTextItalian = "YOO!\n\nHai finito la demo, congratulazioni!\n\nAdesso puoi tornare a fare qulasiasi cosa tu stessi facendo prima."
+    
+    
 //    chiave
     public let objectiveEnglish11 = "It's a very small key,\nit could open a \nvery small door "
     
