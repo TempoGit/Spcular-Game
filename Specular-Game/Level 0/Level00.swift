@@ -129,7 +129,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
-    let overlayDescription1 = SKSpriteNode(imageNamed: "DropBigKey")
+    let overlayDescriptionKey = SKSpriteNode(imageNamed: "DropBigKey")
 
     var dollObject: Bool = false
     let infoDoll = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll)
@@ -306,22 +306,22 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 infoBigKey.text = LanguageHandler.instance.objectiveItalianBigKey1
             }
             cameraNode.addChild(infoOpacityOverlayKey)
-            cameraNode.addChild(overlayDescription1)
-            overlayDescription1.xScale = 0
-            overlayDescription1.yScale = 0
-            overlayDescription1.run(xScaleKey)
-            overlayDescription1.run(yScaleKey, completion: {
+            cameraNode.addChild(overlayDescriptionKey)
+            overlayDescriptionKey.xScale = 0
+            overlayDescriptionKey.yScale = 0
+            overlayDescriptionKey.run(xScaleKey)
+            overlayDescriptionKey.run(yScaleKey, completion: {
                 self.cameraNode.addChild(self.infoBigKey)
-                self.cameraNode.addChild(self.bigOverlay)
+//                self.cameraNode.addChild(self.bigOverlay)
             })
             Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
         }
-        if(touchedNode.name == "overlayDescription1"){
+        if(touchedNode.name == "overlayDescriptionKey"){
             infoOpacityOverlayKey.removeFromParent()
             infoBigKey.removeFromParent()
-            overlayDescription1.removeFromParent()
+            overlayDescriptionKey.removeFromParent()
             bigOverlay.removeFromParent()
             stopScene = false
         }
@@ -1161,11 +1161,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         infoBigKey.zPosition = 120
         infoBigKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
         
-        overlayDescription1.zPosition = 51
-        overlayDescription1.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
-        overlayDescription1.xScale = size.width*0.0012
-        overlayDescription1.yScale = size.width*0.0012
-        overlayDescription1.name = "overlayDescription1"
+        overlayDescriptionKey.zPosition = 51
+        overlayDescriptionKey.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescriptionKey.xScale = size.width*0.0012
+        overlayDescriptionKey.yScale = size.width*0.0012
+        overlayDescriptionKey.name = "overlayDescriptionKey"
         
         
     }
