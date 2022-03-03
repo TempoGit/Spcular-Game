@@ -96,6 +96,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
     let characterFeetCollider = SKSpriteNode(imageNamed: "CharacterFeet2")
     
+    //suoni
+    var portasbatte : String = "open-door"
+    let sbattimento = SKAction.playSoundFileNamed("open-door", waitForCompletion: false)
+    
     //Variabili usate per il movimento del personaggio
     var move: Bool = false
     var moveSingle: Bool = false
@@ -332,6 +336,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             if(!interaction && !dollObject){
                 dollObject = true
                 interaction = true
+                run(sbattimento)
                 wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
                 cameraNode.addChild(dollLable)
                 dollLable.run(SKAction.fadeOut(withDuration: 5))
