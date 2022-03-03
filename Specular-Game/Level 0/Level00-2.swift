@@ -75,6 +75,10 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     var walkingUp: Bool = false
     var walkingDown: Bool = false
     
+    //    suoni
+        var Cassetto : String = "cassetto"
+        let cassettiera = SKAction.playSoundFileNamed("cassetto", waitForCompletion: false)
+    
 //    frame info
     let frame1 = SKSpriteNode(imageNamed: "Frame")
     let infoOpacityOverlayDiary = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
