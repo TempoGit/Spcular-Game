@@ -10,6 +10,9 @@ import SwiftUI
 
 class Level0VariableHadnler {
     static let instance = Level0VariableHadnler()
+    
+//  suoni mutati
+    public var muto: Bool = false
 //    chiave nella room1 level00
     public var bigKeyVar: Bool = false
     public var bigKeyPick: Bool = false

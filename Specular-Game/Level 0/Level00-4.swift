@@ -88,6 +88,10 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     var walkingUp: Bool = false
     var walkingDown: Bool = false
     
+//    suoni
+    var cassetto2 : String = "cassetto"
+    let cassettiera2 = SKAction.playSoundFileNamed("cassetto", waitForCompletion: false)
+    
     //Camera di gioco
     let cameraNode = SKCameraNode()
  
@@ -359,6 +363,9 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         //Se tocco il cassettone si apre, se ritocco si chiude, TO DO: Aggiungere una condizione che permette di aprire e chiudere il cassettone solamente se si è nelle vicinanz del cassettone
         if(touchedNode.name == "furniture" && ((characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)))){
+            if(musicHandler.instance.mutedSFX){
+                run(cassettiera2)
+            }
             if(!open){
                 keyObject = true
                 open = true

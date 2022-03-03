@@ -336,11 +336,13 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             if(!interaction && !dollObject){
                 dollObject = true
                 interaction = true
-                run(sbattimento)
                 wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
                 cameraNode.addChild(dollLable)
                 dollLable.run(SKAction.fadeOut(withDuration: 5))
                 doll.zPosition = 20
+                if(musicHandler.instance.mutedSFX){
+                    run(sbattimento)
+                }
                 if(LanguageHandler.instance.language == "English"){
                     dollLable.text = "What is this?"
                 }else
@@ -492,6 +494,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 cameraNode.addChild(PauseMenuHandler.instance.musicIconOff)
             }
         }
+        
         
         if(touchedNode.name == "sfxButton"){
             if(musicHandler.instance.mutedSFX == true){
