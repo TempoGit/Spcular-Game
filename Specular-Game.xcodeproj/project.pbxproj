@@ -29,6 +29,7 @@
 		528D100E27C541F100BC4BB7 /* TheEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D100D27C541F100BC4BB7 /* TheEnd.swift */; };
 		52FF066F27C3D57D0041C232 /* Level00-3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF066E27C3D57D0041C232 /* Level00-3.swift */; };
 		52FF067127C3D5920041C232 /* Level00-4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF067027C3D5920041C232 /* Level00-4.swift */; };
+		A607285F27D103FC008E7910 /* cassetto.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = A607285E27D103FC008E7910 /* cassetto.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -55,6 +56,7 @@
 		528D100D27C541F100BC4BB7 /* TheEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheEnd.swift; sourceTree = "<group>"; };
 		52FF066E27C3D57D0041C232 /* Level00-3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-3.swift"; sourceTree = "<group>"; };
 		52FF067027C3D5920041C232 /* Level00-4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-4.swift"; sourceTree = "<group>"; };
+		A607285E27D103FC008E7910 /* cassetto.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = cassetto.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +105,7 @@
 				4A2A3BC627BFEBDB0061788A /* LaunchScreen.storyboard */,
 				4A2A3BD427BFEC5F0061788A /* academy.wav */,
 				4A959B8127D10393001FF748 /* open-door.mp3 */,
+				A607285E27D103FC008E7910 /* cassetto.mp3 */,
 			);
 			path = "Specular-Game";
 			sourceTree = "<group>";
@@ -184,6 +187,7 @@
 				4A2A3BC527BFEBDB0061788A /* Assets.xcassets in Resources */,
 				4A2A3BD527BFEC5F0061788A /* academy.wav in Resources */,
 				4A2A3BC827BFEBDB0061788A /* LaunchScreen.storyboard in Resources */,
+				A607285F27D103FC008E7910 /* cassetto.mp3 in Resources */,
 				528D100C27C5282700BC4BB7 /* frame.atlas in Resources */,
 				4A959B8227D10393001FF748 /* open-door.mp3 in Resources */,
 				4A2A3BBC27BFEBDA0061788A /* Actions.sks in Resources */,
