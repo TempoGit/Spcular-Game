@@ -27,6 +27,7 @@ let walkingAnimationLeftDown: SKAction = SKAction.animate(with: walkingAnimation
 var previousRoom: String = "Room1"
 
 let blurWardrobe = SKSpriteNode(imageNamed: "BlurWardrobeRoom1")
+let blurBoxes = SKSpriteNode(imageNamed: "BlurBoxesRoom1-1")
 
 struct PhysicsCategories {
     static let Player : UInt32 = 0x1 << 0
@@ -200,6 +201,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(wardrobeZoneInteractionCollider2)
         addChild(worldGroup)
         addChild(blurWardrobe)
+        addChild(blurBoxes)
         //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
@@ -699,10 +701,15 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
             if(characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame)){
-                        blurWardrobe.alpha = 1
+                blurWardrobe.alpha = 0.8
                     }else{
                         blurWardrobe.alpha = 0.01
                     }
+            if(characterFeetCollider.frame.intersects(box2Collider.frame)){
+                blurBoxes.alpha = 1
+            }else{
+                blurBoxes.alpha = 0.01
+            }
             
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
@@ -1184,10 +1191,16 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         overlayDescriptionKey.name = "overlayDescriptionKey"
         
         blurWardrobe.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-                blurWardrobe.xScale = 0.4
-                blurWardrobe.yScale = 0.4
-                blurWardrobe.zPosition = 3
-                blurWardrobe.alpha = 0.01
+        blurWardrobe.xScale = 0.4
+        blurWardrobe.yScale = 0.4
+        blurWardrobe.zPosition = 3
+        blurWardrobe.alpha = 0.01
+        
+        blurBoxes.position = CGPoint(x: size.width*0.07, y: size.height*0.38)
+        blurBoxes.xScale = 0.3
+        blurBoxes.xScale = 0.3
+        blurBoxes.zPosition = 3
+        blurBoxes.alpha = 0.9
     }
     
     
