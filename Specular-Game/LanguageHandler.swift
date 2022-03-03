@@ -59,6 +59,12 @@ class LanguageHandler {
   
     public let objectiveItalianFrame = "Chi è questa persona!? \nForse il proprietario \nprecedente...\nÈ una foto strana!"
     
+//    big key description
+    public let objectiveEnglishBigKey1 = "It'a a very old key,\nit could open a \nlocked door. \nLet's find it!"
+    
+    public let objectiveItalianBigKey1 = "È una chiave molto vecchia,\npotrebbe aprire una \nporta bloccata. \nCerchiamola!"
+    
+//    info
     public let infoTextOneEnglish = "Hello there! \n\nYou are a kid that has to reach the closet at the end of the level. \n\nInteract with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a gruesome death! :)"
     public let infoTextTwoEnglish = "You can move by tapping and holding on the screen. \n\nTo interact with the objects simply click on them."
  

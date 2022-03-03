@@ -793,6 +793,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         furniture.xScale = 0.4
         furniture.yScale = 0.4
         furniture.zPosition = 4
+        
 //        furniture.name = "furniture"
         furnitureInteractionCollider.position = CGPoint(x: size.width*0.05, y: size.height*0.45)
         furnitureInteractionCollider.xScale = 0.4

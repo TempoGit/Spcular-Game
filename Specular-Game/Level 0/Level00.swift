@@ -111,6 +111,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 
     var smallDoorOpen: Bool = false
     
+    let infoBigKey = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishBigKey1)
+
+    
+    
     //Camera di gioco
     let cameraNode = SKCameraNode()
     
@@ -126,10 +130,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
+    let overlayDescription1 = SKSpriteNode(imageNamed: "DropBigKey")
+
     var dollObject: Bool = false
     let infoDoll = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll)
-//    let infoDoll1 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll1)
-//    let infoDoll2 = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll2)
 
     var fadeOutDoorHandler: Bool = false
         
@@ -292,11 +296,36 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "bigKey"){
             print("prendi chiave grande")
+            stopScene = true
+            let xScaleKey = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+            let yScaleKey = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
+            Level0VariableHadnler.instance.keyOpenSmall = true
+            if(LanguageHandler.instance.language == "English"){
+                infoBigKey.text = LanguageHandler.instance.objectiveEnglishBigKey1
+            }else
+            if(LanguageHandler.instance.language == "Italian"){
+                infoBigKey.text = LanguageHandler.instance.objectiveItalianBigKey1
+            }
+            cameraNode.addChild(infoOpacityOverlayKey)
+            cameraNode.addChild(overlayDescription1)
+            overlayDescription1.xScale = 0
+            overlayDescription1.yScale = 0
+            overlayDescription1.run(xScaleKey)
+            overlayDescription1.run(yScaleKey, completion: {
+                self.cameraNode.addChild(self.infoBigKey)
+                self.cameraNode.addChild(self.bigOverlay)
+            })
             Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
         }
-        
+        if(touchedNode.name == "overlayDescription1"){
+            infoOpacityOverlayKey.removeFromParent()
+            infoBigKey.removeFromParent()
+            overlayDescription1.removeFromParent()
+            bigOverlay.removeFromParent()
+            stopScene = false
+        }
         
         
         
@@ -1125,6 +1154,19 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         smallDoorLabel.fontSize = size.width*0.04
         smallDoorLabel.zPosition = 150
         
+        infoBigKey.preferredMaxLayoutWidth = size.width*0.9
+        infoBigKey.numberOfLines = 0
+        infoBigKey.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
+        infoBigKey.fontSize = size.width*0.05
+        infoBigKey.fontColor = SKColor.white
+        infoBigKey.zPosition = 120
+        infoBigKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        
+        overlayDescription1.zPosition = 51
+        overlayDescription1.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescription1.xScale = size.width*0.0012
+        overlayDescription1.yScale = size.width*0.0012
+        overlayDescription1.name = "overlayDescription1"
         
         
     }
