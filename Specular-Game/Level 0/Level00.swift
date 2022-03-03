@@ -26,6 +26,7 @@ let walkingAnimationLeftDown: SKAction = SKAction.animate(with: walkingAnimation
 
 var previousRoom: String = "Room1"
 
+let blurWardrobe = SKSpriteNode(imageNamed: "BlurWardrobeRoom1")
 
 struct PhysicsCategories {
     static let Player : UInt32 = 0x1 << 0
@@ -198,6 +199,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(wardrobeZoneInteractionCollider)
         addChild(wardrobeZoneInteractionCollider2)
         addChild(worldGroup)
+        addChild(blurWardrobe)
         //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
@@ -333,30 +335,30 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         
         if(touchedNode.name == "furniture" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-            if(!interaction && !dollObject){
-                dollObject = true
-                interaction = true
-                wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
-                cameraNode.addChild(dollLable)
-                dollLable.run(SKAction.fadeOut(withDuration: 5))
-                doll.zPosition = 20
-                if(musicHandler.instance.mutedSFX){
-                    run(sbattimento)
+                    print("boxes collision")
+                    if(!interaction && !dollObject){
+                        dollObject = true
+                        interaction = true
+                        run(sbattimento)
+                        wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
+                        cameraNode.addChild(dollLable)
+                        dollLable.run(SKAction.fadeOut(withDuration: 5))
+                        doll.zPosition = 20
+                        if(LanguageHandler.instance.language == "English"){
+                            dollLable.text = "What is this?"
+                        }else
+                        if(LanguageHandler.instance.language == "Italian"){
+                            dollLable.text = "Cos'è?"
+                        }
+                    } else if (interaction && dollObject){
+                        wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
+                        interaction = false
+                        dollLable.removeFromParent()
+                        dollObject = false
+                        doll.zPosition = 1
+
+                    }
                 }
-                if(LanguageHandler.instance.language == "English"){
-                    dollLable.text = "What is this?"
-                }else
-                if(LanguageHandler.instance.language == "Italian"){
-                    dollLable.text = "Cos'è?"
-                }
-            } else if (interaction && dollObject){
-                wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
-                interaction = false
-                dollLable.removeFromParent()
-                dollObject = false
-                doll.zPosition = 1
-            }
-        }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
             print("bambola interazione")
@@ -696,6 +698,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
+            if(characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame)){
+                        blurWardrobe.alpha = 1
+                    }else{
+                        blurWardrobe.alpha = 0.01
+                    }
+            
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
                     characterFeetCollider.position.x += movementSpeed
@@ -1175,7 +1183,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         overlayDescription1.yScale = size.width*0.0012
         overlayDescription1.name = "overlayDescription1"
         
-        
+        blurWardrobe.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+                blurWardrobe.xScale = 0.4
+                blurWardrobe.yScale = 0.4
+                blurWardrobe.zPosition = 3
+                blurWardrobe.alpha = 0.01
     }
     
     
