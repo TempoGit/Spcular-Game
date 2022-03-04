@@ -649,12 +649,14 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         if(characterFeetCollider.frame.intersects(bookTransparencyCollider.frame)){
             booksCollided = true
             characterAvatar.zPosition = 10
+            diary.zPosition = 11
             books.zPosition = 11
             diary.zPosition = 11
         } else{
             if(booksCollided){
                 booksCollided = false
                 characterAvatar.zPosition = 12
+                diary.zPosition = 10
                 books.zPosition = 10
                 diary.zPosition = 10
             }
@@ -902,7 +904,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         diary.position = CGPoint(x: gameArea.size.width*0.7, y: gameArea.size.height*0.5)
         diary.xScale = size.width*0.00023
         diary.yScale = size.width*0.00023
-        diary.zPosition = 5
+        diary.zPosition = 3
         diary.name = "diary"
         
         diaryZoneInteractionCollider.position = CGPoint(x: gameArea.size.width*0.65, y: gameArea.size.height*0.45)
