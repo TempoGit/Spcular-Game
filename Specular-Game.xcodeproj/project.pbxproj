@@ -19,6 +19,7 @@
 		4A2A3BD327BFEC330061788A /* Music.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD227BFEC330061788A /* Music.swift */; };
 		4A2A3BD527BFEC5F0061788A /* academy.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4A2A3BD427BFEC5F0061788A /* academy.wav */; };
 		4A4BB0D527D259FA00FFA534 /* CharacterMovementHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB0D427D259FA00FFA534 /* CharacterMovementHandler.swift */; };
+		4A4BB0D727D26CA400FFA534 /* UIAnimationsHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A4BB0D627D26CA400FFA534 /* UIAnimationsHandler.swift */; };
 		4A6E625227C56AE800FAC06C /* LanguageHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A6E625127C56AE800FAC06C /* LanguageHandler.swift */; };
 		4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */; };
 		4A87769727C3A38B002B966F /* LevelSelectionScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */; };
@@ -47,6 +48,7 @@
 		4A2A3BD227BFEC330061788A /* Music.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Music.swift; sourceTree = "<group>"; };
 		4A2A3BD427BFEC5F0061788A /* academy.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = academy.wav; sourceTree = "<group>"; };
 		4A4BB0D427D259FA00FFA534 /* CharacterMovementHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterMovementHandler.swift; sourceTree = "<group>"; };
+		4A4BB0D627D26CA400FFA534 /* UIAnimationsHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIAnimationsHandler.swift; sourceTree = "<group>"; };
 		4A6E625127C56AE800FAC06C /* LanguageHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageHandler.swift; sourceTree = "<group>"; };
 		4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-5.swift"; sourceTree = "<group>"; };
 		4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LevelSelectionScreen.swift; sourceTree = "<group>"; };
@@ -123,6 +125,7 @@
 				4A7B1D3B27C4ED9B0084F509 /* Level00-5.swift */,
 				528D100D27C541F100BC4BB7 /* TheEnd.swift */,
 				4A4BB0D427D259FA00FFA534 /* CharacterMovementHandler.swift */,
+				4A4BB0D627D26CA400FFA534 /* UIAnimationsHandler.swift */,
 			);
 			path = "Level 0";
 			sourceTree = "<group>";
@@ -207,6 +210,7 @@
 				4A7B1D3C27C4ED9B0084F509 /* Level00-5.swift in Sources */,
 				4A2A3BBE27BFEBDA0061788A /* GameScene.swift in Sources */,
 				4A87769927C3A3BB002B966F /* PauseMenuHandler.swift in Sources */,
+				4A4BB0D727D26CA400FFA534 /* UIAnimationsHandler.swift in Sources */,
 				4A2A3BC027BFEBDA0061788A /* GameViewController.swift in Sources */,
 				4A4BB0D527D259FA00FFA534 /* CharacterMovementHandler.swift in Sources */,
 				4A87769727C3A38B002B966F /* LevelSelectionScreen.swift in Sources */,

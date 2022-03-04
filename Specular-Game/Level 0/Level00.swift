@@ -106,8 +106,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let sbattimento = SKAction.playSoundFileNamed("open-door", waitForCompletion: false)
     
     //Variabili usate per il movimento del personaggio
-    var move: Bool = false
-    var moveSingle: Bool = false
     var location = CGPoint.zero
     
     //Variabili usate per gestire le collisioni con gli oggetti della stanza
@@ -126,11 +124,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     //Camera di gioco
     let cameraNode = SKCameraNode()
     
-    //Variabili per gestire le animazioni
-    var walkingRight: Bool = false
-    var walkingLeft: Bool = false
-    var walkingUp: Bool = false
-    var walkingDown: Bool = false
     
 //    cose relative alla bambola
     let doll = SKSpriteNode(imageNamed: "Doll")
@@ -145,6 +138,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 
     var fadeOutDoorHandler: Bool = false
         
+    
+    
+    var dollInteractible: Bool = false
+    
     let gameArea: CGRect
         
     override init(size: CGSize) {
@@ -333,8 +330,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         if(touchedNode.name == "bigKey"){
             print("prendi chiave grande")
             stopScene = true
-            let xScaleKey = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
-            let yScaleKey = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
+//            let xScaleKey = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+//            let yScaleKey = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
             Level0VariableHadnler.instance.keyOpenSmall = true
             if(LanguageHandler.instance.language == "English"){
                 infoBigKey.text = LanguageHandler.instance.objectiveEnglishBigKey1
@@ -342,15 +339,16 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             if(LanguageHandler.instance.language == "Italian"){
                 infoBigKey.text = LanguageHandler.instance.objectiveItalianBigKey1
             }
-            cameraNode.addChild(infoOpacityOverlayKey)
-            cameraNode.addChild(overlayDescriptionKey)
-            overlayDescriptionKey.xScale = 0
-            overlayDescriptionKey.yScale = 0
-            overlayDescriptionKey.run(xScaleKey)
-            overlayDescriptionKey.run(yScaleKey, completion: {
-                self.cameraNode.addChild(self.infoBigKey)
-//                self.cameraNode.addChild(self.bigOverlay)
-            })
+            
+            UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescriptionKey, infoText: infoBigKey, infoOpacityOverlay: infoOpacityOverlayKey)
+//            cameraNode.addChild(infoOpacityOverlayKey)
+//            cameraNode.addChild(overlayDescriptionKey)
+//            overlayDescriptionKey.xScale = 0
+//            overlayDescriptionKey.yScale = 0
+//            overlayDescriptionKey.run(xScaleKey)
+//            overlayDescriptionKey.run(yScaleKey, completion: {
+//                self.cameraNode.addChild(self.infoBigKey)
+//            })
             Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
@@ -397,43 +395,50 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-            print("bambola interazione")
-            stopScene = true
-//            self.isPaused = true
-            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
-            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
-            if(LanguageHandler.instance.language == "English"){
-                infoDoll.text = LanguageHandler.instance.objectiveEnglishDoll
-//                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
-//                infoDoll2.text = LanguageHandler.instance.objectiveEnglishDoll2
-            }else
-            if(LanguageHandler.instance.language == "Italian"){
-                infoDoll.text = LanguageHandler.instance.objectiveItalianDoll
-//                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
-//                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
+            if(!dollInteractible){
+                print("bambola interazione")
+                stopScene = true
+    //            self.isPaused = true
+    //            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+    //            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
+                if(LanguageHandler.instance.language == "English"){
+                    infoDoll.text = LanguageHandler.instance.objectiveEnglishDoll
+    //                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
+    //                infoDoll2.text = LanguageHandler.instance.objectiveEnglishDoll2
+                }else
+                if(LanguageHandler.instance.language == "Italian"){
+                    infoDoll.text = LanguageHandler.instance.objectiveItalianDoll
+    //                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
+    //                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
+                }
+    //            overlayDescription.xScale = 0
+    //            overlayDescription.yScale = 0
+    //            cameraNode.addChild(infoDoll)
+    //            cameraNode.addChild(infoDoll1)
+    //            cameraNode.addChild(infoDoll2)
+    //            cameraNode.addChild(infoOpacityOverlayKey)
+    //            cameraNode.addChild(overlayDescription)
+    //            overlayDescription.run(xScaleInfo)
+    //            overlayDescription.run(yScaleInfo, completion: {
+    //                self.cameraNode.addChild(self.infoDoll)
+    //            })
+                dollInteractible = true
+                UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescription, infoText: infoDoll, infoOpacityOverlay: infoOpacityOverlayKey)
             }
-            overlayDescription.xScale = 0
-            overlayDescription.yScale = 0
-//            cameraNode.addChild(infoDoll)
-//            cameraNode.addChild(infoDoll1)
-//            cameraNode.addChild(infoDoll2)
-            cameraNode.addChild(infoOpacityOverlayKey)
-            cameraNode.addChild(overlayDescription)
-            overlayDescription.run(xScaleInfo)
-            overlayDescription.run(yScaleInfo, completion: {
-                self.cameraNode.addChild(self.infoDoll)
-            })
         }
         if(touchedNode.name == "overlayDescription"){
-            stopScene = false
-            infoDoll.removeFromParent()
-//            infoDoll1.removeFromParent()
-//            infoDoll2.removeFromParent()
-            infoOpacityOverlayKey.removeFromParent()
-            overlayDescription.removeFromParent()
-            bigOverlay.removeFromParent()
-            stopScene = false
-//            self.isPaused = false
+            if(dollInteractible){
+                stopScene = false
+                UIAnimationsHandler.instance.removePopUpAnimation(overlayNode: overlayDescription, infoText: infoDoll, infoOpacityOverlay: infoOpacityOverlayKey)
+    //            infoDoll.removeFromParent()
+    //            infoDoll1.removeFromParent()
+    //            infoDoll2.removeFromParent()
+    //            infoOpacityOverlayKey.removeFromParent()
+    //            overlayDescription.removeFromParent()
+    //            bigOverlay.removeFromParent()
+                stopScene = false
+    //            self.isPaused = false
+            }
         }
         //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
         //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
@@ -672,33 +677,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                !(touchedNode.name == "smallDor" && characterFeetCollider.frame.intersects(box2TransparencyCollider.frame)) &&
                touchedNode.name != "closePause" && touchedNode.name != "closeInfo" && touchedNode.name != "overlayDescription"){
             
-//            if((touchedNode.name != "goToMenu" && touchedNode.name != "pause" && touchedNode.name != "closePause" && touchedNode.name != "furniture" && touchedNode.name != "infoButton" && touchedNode.name != "closeInfo") && (touchLocation != characterFeetCollider.position)){
                 if(!stopScene){
-                    location = touchLocation
-                    moveSingle = true
-                    //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-                    
-                    if(location.x > characterFeetCollider.position.x){
-                        walkingRight = true
-                        if (location.y > characterFeetCollider.position.y) {
-                            walkingUp = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-                        } else if (location.y < characterFeetCollider.position.y){
-                            walkingDown = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-                        }
-                    } else if (location.x < characterFeetCollider.position.x){
-                        walkingLeft = true
-                        if (location.y > characterFeetCollider.position.y) {
-                            walkingUp = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                        } else if (location.y < characterFeetCollider.position.y){
-                            walkingDown = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
-                        }
+//                        location = touchLocation
+//                    CharacterMovementHandler.instance.location = touchLocation
+                    CharacterMovementHandler.instance.characterMovementSingle(touchLocation: touchLocation, characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
                     }
                 }
-            }
             }
     }
 
@@ -706,10 +690,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         //Per fare la transizione dal tocco singolo al tocco continuo, quando viene rilevato il tocco continuo, imposto la variabile moveSingle a false, in modo che il movimento col semplice tap si interrompa e poi metto la variabile move a true, così facendo avvio il movimento del personaggio col tocco continuo dello schermo
         //Tengo continuamente traccia di dove sto toccando lo schermo tramite il for ed assegnando il valore della posizione del tocco alla variabile "location", così facendo posso usare il valore del tocco anche al di fuori di questa funzione, in particolare lo uso nella funzione di "update"
-        moveSingle = false
-        move = true
+        CharacterMovementHandler.instance.moveAndMoveSingleToggle()
         for touch in touches {
-            location = touch.location(in: self)
+            CharacterMovementHandler.instance.location = touch.location(in: self)
         }
         
         
@@ -717,24 +700,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
-        move = false
-        moveSingle = false
         //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
-        characterAvatar.removeAllActions()
-        if(walkingLeft && walkingDown){
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Stop")))
-        } else if (walkingRight && walkingDown){
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopRight")))
-        } else if (walkingRight && walkingUp){
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackRight")))
-        } else if (walkingLeft && walkingUp) {
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackLeft")))
-        }
+        CharacterMovementHandler.instance.checkStoppingFrame(characterAvatar: characterAvatar)
         //Reimposto tutte le variabili che si occupano di gestire le animazioni della camminata a false
-        walkingUp = false
-        walkingDown = false
-        walkingLeft = false
-        walkingRight = false
+        CharacterMovementHandler.instance.resetWalkingVariables()
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -754,69 +723,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 blurBoxes.alpha = 0.01
             }
             
-            if(move || moveSingle){
-                CharacterMovementHandler.instance.characterMovement(location: location, characterFeetCollider: characterFeetCollider, walkingRight: &walkingRight, walkingLeft: &walkingLeft, walkingUp: &walkingUp, walkingDown: &walkingDown, characterAvatar: characterAvatar)
+            CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
                 
-//                if(location.x > characterFeetCollider.position.x) {
-//                    characterFeetCollider.position.x += movementSpeed
-//                    if(location.y > characterFeetCollider.position.y){
-//                        characterFeetCollider.position.y += movementSpeed
-//                        if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
-//                            if(!walkingRight || !walkingUp){
-//                                walkingLeft = false
-//                                walkingDown = false
-//                                walkingRight = true
-//                                walkingUp = true
-//                                characterAvatar.removeAllActions()
-//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-//                            }
-//                        }
-//                    } else if(location.y < characterFeetCollider.position.y){
-//                        characterFeetCollider.position.y -= movementSpeed
-//                        if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
-//                            if(!walkingRight || !walkingDown){
-//                                walkingRight = true
-//                                walkingDown = true
-//                                walkingLeft = false
-//                                walkingUp = false
-//                                characterAvatar.removeAllActions()
-//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-//                            }
-//                        }
-//                    }
-//                } else if (location.x < characterFeetCollider.position.x){
-//                    characterFeetCollider.position.x -= movementSpeed
-//                    if(location.y > characterFeetCollider.position.y){
-//                        characterFeetCollider.position.y += movementSpeed
-//                        if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
-//                            if(!walkingLeft || !walkingUp){
-//                                walkingLeft = true
-//                                walkingUp = true
-//                                walkingRight = false
-//                                walkingDown = false
-//                                characterAvatar.removeAllActions()
-//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-//                            }
-//                        }
-//                    } else if(location.y < characterFeetCollider.position.y){
-//                        characterFeetCollider.position.y -= movementSpeed
-//                        if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
-//                            if(!walkingLeft || !walkingDown){
-//                                walkingLeft = true
-//                                walkingDown = true
-//                                walkingRight = false
-//                                walkingUp = false
-//                                characterAvatar.removeAllActions()
-//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
-//                            }
-//                        }
-//                    }
-//                } else if (location.y > characterFeetCollider.position.y){
-//                    characterFeetCollider.position.y += movementSpeed
-//                } else if (location.y < characterFeetCollider.position.y){
-//                    characterFeetCollider.position.y -= movementSpeed
-//                }
-            }
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
             characterAvatar.position = characterFeetCollider.position
             characterAvatar.position.y = characterAvatar.position.y - 8
