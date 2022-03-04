@@ -190,8 +190,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             if(Level0VariableHadnler.instance.smallDoorOpen){
                 smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
                 smallDoorOpen = true
-                addChild(bigKey)
-                bigKey.zPosition = 13
+                if(!Level0VariableHadnler.instance.bigKeyPick){
+                    addChild(bigKey)
+                    bigKey.zPosition = 13
+                }
             }
         }
         addChild(box1Right)
@@ -395,7 +397,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-            if(!dollInteractible){
+            if(!UIAnimationsHandler.instance.dollInteractible){
                 print("bambola interazione")
                 stopScene = true
     //            self.isPaused = true
@@ -422,12 +424,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     //            overlayDescription.run(yScaleInfo, completion: {
     //                self.cameraNode.addChild(self.infoDoll)
     //            })
-                dollInteractible = true
+//                dollInteractible = true
                 UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescription, infoText: infoDoll, infoOpacityOverlay: infoOpacityOverlayKey)
             }
         }
         if(touchedNode.name == "overlayDescription"){
-            if(dollInteractible){
+            if(UIAnimationsHandler.instance.dollInteractible){
                 stopScene = false
                 UIAnimationsHandler.instance.removePopUpAnimation(overlayNode: overlayDescription, infoText: infoDoll, infoOpacityOverlay: infoOpacityOverlayKey)
     //            infoDoll.removeFromParent()

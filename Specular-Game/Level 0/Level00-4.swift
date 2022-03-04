@@ -359,7 +359,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         
         //Se tocco il cassettone si apre, se ritocco si chiude, TO DO: Aggiungere una condizione che permette di aprire e chiudere il cassettone solamente se si è nelle vicinanz del cassettone
         if(touchedNode.name == "furniture" && ((characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame)) || (characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)))){
-            if(musicHandler.instance.mutedSFX){
+            if(!musicHandler.instance.mutedSFX){
                 run(cassettiera2)
             }
             if(!open){
@@ -380,6 +380,9 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
                     keyLabel.text = "È una chave molto piccola..."
                 }
             } else if (open){
+                if(!musicHandler.instance.mutedSFX){
+                    run(cassettiera2)
+                }
                 furniture.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room4-Furniture")))
                 open = false
                 keyLabel.removeFromParent()
