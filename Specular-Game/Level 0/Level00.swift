@@ -161,6 +161,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     }
     
     override func didMove(to view: SKView) {
+        CharacterMovementHandler.instance.resetWalkingVariables()
+        
         
         //Per non imputtanire troppo il codice, metto le impostazioni più lunghe in un'altra funzione definita sempre nella classe e la richiamo qui, così almeno sembra un po' più pulito
         roomSetup()

@@ -116,6 +116,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
     
     
     override func didMove(to view: SKView) {
+        CharacterMovementHandler.instance.resetWalkingVariables()
+
         
 //        TextureAtlas = SKTextureAtlas(named: "frame")
 //        le immagini della texture atlas le metto nel TextureArray

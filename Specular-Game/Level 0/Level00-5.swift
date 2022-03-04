@@ -90,6 +90,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         
+        CharacterMovementHandler.instance.resetWalkingVariables()
+
+        
         roomSetUp()
         
         addChild(room)
