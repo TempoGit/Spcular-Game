@@ -11,9 +11,7 @@ import UIKit
 import SpriteKit
 import SwiftUI
 
-let mannagg_o_cazz: Bool = false
-
-let movementSpeed: CGFloat = 1.1
+let movementSpeed: CGFloat = 1.3
 
 let walkingAnimationFramesRightUp: [SKTexture] = [SKTexture(imageNamed: "WalkingBigBackRightFrame1"), SKTexture(imageNamed: "WalkingBigBackRightFrame2")]
 
@@ -31,6 +29,8 @@ let walkingAnimationLeftDown: SKAction = SKAction.animate(with: walkingAnimation
 
 var previousRoom: String = "Room1"
 
+let blurWardrobe = SKSpriteNode(imageNamed: "BlurWardrobeRoom1")
+let blurBoxes = SKSpriteNode(imageNamed: "BlurBoxesRoom1-1")
 
 struct PhysicsCategories {
     static let Player : UInt32 = 0x1 << 0
@@ -79,6 +79,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes2TransparencyCollider")
 //    let box2TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Box2TransparencyCollider")
     let box1Left = SKSpriteNode(imageNamed: "Level0-Room1-Box1Left")
+    let box1LeftInteractionCollider = SKSpriteNode(imageNamed: "Level0-Room1-Box1Left")
     let box1Right = SKSpriteNode(imageNamed: "Boxes1 room1")
     let box1TransparencyCollider = SKSpriteNode(imageNamed: "Level0-Room1-Boxes1TransparencyCollider")
 //    let box1Shadow = SKSpriteNode(imageNamed: "Level0-Room1-Box1Shadow")
@@ -138,7 +139,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let infoOpacityOverlayKey = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let bigOverlay = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
-    let overlayDescription1 = SKSpriteNode(imageNamed: "DropBigKey")
+    let overlayDescriptionKey = SKSpriteNode(imageNamed: "DropBigKey")
 
     var dollObject: Bool = false
     let infoDoll = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll)
@@ -183,14 +184,26 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(box2Collider)
         addChild(box2TransparencyCollider)
         addChild(box1Left)
+        addChild(smalDoorClosed)
+        addChild(smalDoorInteraction)
+        if(!Level0VariableHadnler.instance.boxLeftTouched){
+            addChild(box1LeftInteractionCollider)
+            addChild(blurBoxes)
+        } else {
+            smalDoorInteraction.zPosition = 12
+            if(Level0VariableHadnler.instance.smallDoorOpen){
+                smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
+                smallDoorOpen = true
+                addChild(bigKey)
+                bigKey.zPosition = 13
+            }
+        }
         addChild(box1Right)
 //        addChild(box1Shadow)
         addChild(box1Collider)
         addChild(box1TransparencyCollider)
         addChild(wardrobeTransparencyCollider)
         
-        addChild(smalDoorClosed)
-        addChild(smalDoorInteraction)
 
 //        addChild(bigKey)
         
@@ -203,6 +216,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         addChild(wardrobeZoneInteractionCollider)
         addChild(wardrobeZoneInteractionCollider2)
         addChild(worldGroup)
+        addChild(blurWardrobe)
         //Aggiungo la camera di gioco
         addChild(cameraNode)
         camera = cameraNode
@@ -269,9 +283,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 print("Tapped on door, it's closed")
                 smallDoorLabel.removeFromParent()
                 smallDoorLabel.removeAllActions()
+                smallDoorLabel.alpha = 0
                 Level0VariableHadnler.instance.bigKeyVar = false
                 smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
                 cameraNode.addChild(smallDoorLabel)
+                smallDoorLabel.alpha = 1
                 smallDoorLabel.run(SKAction.fadeOut(withDuration: 5))
                 if(LanguageHandler.instance.language == "English"){
                         smallDoorLabel.text = "Maybe is locked..."
@@ -285,20 +301,33 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 Level0VariableHadnler.instance.keyOpenSmall = true
                 Level0VariableHadnler.instance.bigKeyVar = true
                 bigKey.removeFromParent()
-                bigKeyLabel.removeFromParent()
-                if(!Level0VariableHadnler.instance.bigKeyPick){
-                    addChild(bigKey)
-                    cameraNode.addChild(bigKeyLabel)
-                    bigKeyLabel.run(SKAction.fadeOut(withDuration: 5))
+                if(!Level0VariableHadnler.instance.smallDoorOpen){
+                    bigKeyLabel.removeAllActions()
+                    bigKeyLabel.alpha = 0
+                    smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
+                    smallDoorOpen = true
+                    if(!Level0VariableHadnler.instance.bigKeyPick){
+                        addChild(bigKey)
+                        cameraNode.addChild(bigKeyLabel)
+                        bigKeyLabel.alpha = 1
+                        bigKeyLabel.run(SKAction.fadeOut(withDuration: 5))
+                    }
+                    bigKey.zPosition = 13
+                    if(LanguageHandler.instance.language == "English"){
+                        bigKeyLabel.text = "This looks like a very old key..."
+                    }else
+                    if(LanguageHandler.instance.language == "Italian"){
+                        bigKeyLabel.text = "Sembra una chiave molto vecchia..."
+                    }
+                    Level0VariableHadnler.instance.smallDoorOpen = true
+                } else if (Level0VariableHadnler.instance.smallDoorOpen){
+                    smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorClosed")))
+                    bigKey.removeFromParent()
+                    bigKeyLabel.removeFromParent()
+                    smallDoorOpen = false
+                    Level0VariableHadnler.instance.smallDoorOpen = false
                 }
-                bigKey.zPosition = 13
-                smalDoorClosed.run(SKAction.setTexture(SKTexture(imageNamed: "SmallDoorOpen")))
-                if(LanguageHandler.instance.language == "English"){
-                    bigKeyLabel.text = "This looks like a very old key..."
-                }else
-                if(LanguageHandler.instance.language == "Italian"){
-                    bigKeyLabel.text = "Sembra una chiave molto vecchia..."
-                }
+                
             }
         }
         
@@ -315,22 +344,22 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                 infoBigKey.text = LanguageHandler.instance.objectiveItalianBigKey1
             }
             cameraNode.addChild(infoOpacityOverlayKey)
-            cameraNode.addChild(overlayDescription1)
-            overlayDescription1.xScale = 0
-            overlayDescription1.yScale = 0
-            overlayDescription1.run(xScaleKey)
-            overlayDescription1.run(yScaleKey, completion: {
+            cameraNode.addChild(overlayDescriptionKey)
+            overlayDescriptionKey.xScale = 0
+            overlayDescriptionKey.yScale = 0
+            overlayDescriptionKey.run(xScaleKey)
+            overlayDescriptionKey.run(yScaleKey, completion: {
                 self.cameraNode.addChild(self.infoBigKey)
-                self.cameraNode.addChild(self.bigOverlay)
+//                self.cameraNode.addChild(self.bigOverlay)
             })
             Level0VariableHadnler.instance.keyOpen = true
             Level0VariableHadnler.instance.bigKeyPick = true
             bigKey.removeFromParent()
         }
-        if(touchedNode.name == "overlayDescription1"){
+        if(touchedNode.name == "overlayDescriptionKey"){
             infoOpacityOverlayKey.removeFromParent()
             infoBigKey.removeFromParent()
-            overlayDescription1.removeFromParent()
+            overlayDescriptionKey.removeFromParent()
             bigOverlay.removeFromParent()
             stopScene = false
         }
@@ -338,30 +367,30 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         
         if(touchedNode.name == "furniture" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-            if(!interaction && !dollObject){
-                dollObject = true
-                interaction = true
-                wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
-                cameraNode.addChild(dollLable)
-                dollLable.run(SKAction.fadeOut(withDuration: 5))
-                doll.zPosition = 20
-                if(musicHandler.instance.mutedSFX){
-                    run(sbattimento)
+                    print("boxes collision")
+                    if(!interaction && !dollObject){
+                        dollObject = true
+                        interaction = true
+                        run(sbattimento)
+                        wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
+                        cameraNode.addChild(dollLable)
+                        dollLable.run(SKAction.fadeOut(withDuration: 5))
+                        doll.zPosition = 20
+                        if(LanguageHandler.instance.language == "English"){
+                            dollLable.text = "What is this?"
+                        }else
+                        if(LanguageHandler.instance.language == "Italian"){
+                            dollLable.text = "Cos'è?"
+                        }
+                    } else if (interaction && dollObject){
+                        wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
+                        interaction = false
+                        dollLable.removeFromParent()
+                        dollObject = false
+                        doll.zPosition = 1
+
+                    }
                 }
-                if(LanguageHandler.instance.language == "English"){
-                    dollLable.text = "What is this?"
-                }else
-                if(LanguageHandler.instance.language == "Italian"){
-                    dollLable.text = "Cos'è?"
-                }
-            } else if (interaction && dollObject){
-                wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
-                interaction = false
-                dollLable.removeFromParent()
-                dollObject = false
-                doll.zPosition = 1
-            }
-        }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
             print("bambola interazione")
@@ -613,12 +642,21 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "boxesLeft"){
+//            print("Toccato")
            Level0VariableHadnler.instance.boxLeftTouched = true
 //            box1Left.run(SKAction.moveTo(x: 0.01, duration: 3))
             box1Left.run(SKAction.moveTo(x: size.width*0.0001, duration: 3))
+            box1LeftInteractionCollider.run(SKAction.moveTo(x: size.width*0.0001, duration: 3), completion: {
+                self.box1LeftInteractionCollider.removeFromParent()
+            })
+//            box1LeftInteractionCollider.run(SKAction.moveTo(x: size.width*0.0001, duration: 3))
             box2Collider.run(SKAction.moveTo(x: size.width*0.4, duration: 3))
+            let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
+            blurBoxes.run(fadeOutAction, completion: {
+                blurBoxes.removeFromParent()
+            })
 //            box2Collider.run(SKAction.moveTo(x: size.width*0.00000001, duration: 3))
-            smalDoorInteraction.zPosition = 11
+            smalDoorInteraction.zPosition = 12
         }
             
         
@@ -701,6 +739,17 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
+            if(characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame)){
+                blurWardrobe.alpha = 0.8
+                    }else{
+                        blurWardrobe.alpha = 0.01
+                    }
+            if(characterFeetCollider.frame.intersects(box2Collider.frame)){
+                blurBoxes.alpha = 0.8
+            }else{
+                blurBoxes.alpha = 0.01
+            }
+            
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
                     characterFeetCollider.position.x += movementSpeed
@@ -796,6 +845,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let room2 = Level00_2(size: self.size)
                         self.view?.presentScene(room2)
                     }
@@ -819,9 +870,13 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+        //Zona di interazione dietro le scatole in alto a sinistra
         if(characterFeetCollider.frame.intersects(self.box2TransparencyCollider.frame)){
             box2Collided = true
             box1Left.zPosition = 11
+            box1LeftInteractionCollider.zPosition = 14
+            blurBoxes.zPosition = 11
+            
 //            smalDoorClosed.zPosition = 10
 //            box2Single.zPosition = 11
 //            box2andShadow.zPosition = 11
@@ -830,10 +885,13 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             if(box2Collided){
                box2Collided = false
                 box1Left.zPosition = 10
+                box1LeftInteractionCollider.zPosition = 0
 //                smalDoorClosed.zPosition = 9
 //                box2Single.zPosition = 10
 //                box2andShadow.zPosition = 10
                 characterAvatar.zPosition = 11
+                blurBoxes.zPosition = 0
+                
             }
         }
         
@@ -843,6 +901,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             characterAvatar.zPosition = 10
             box1Right.zPosition = 11
             characterAvatar.zPosition = 10
+            
         } else {
             if(box1Collided){
                 box1Collided = false
@@ -940,6 +999,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         wardrobe.yScale = 0.4
         wardrobe.zPosition = 3
         
+        blurWardrobe.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        blurWardrobe.xScale = 0.4
+        blurWardrobe.yScale = 0.4
+        blurWardrobe.zPosition = 3
+        blurWardrobe.alpha = 0.01
+        
         wardrobeTransparencyCollider.position = CGPoint(x: size.width*0.905, y: size.height*0.33)
         wardrobeTransparencyCollider.xScale = 0.4
         wardrobeTransparencyCollider.yScale = 0.4
@@ -974,7 +1039,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //        box2Single.xScale = 0.4
 //        box2Single.yScale = 0.4
 //        box2Single.zPosition = 3
-        box2Collider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+//        box2Collider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         box2Collider.xScale = 0.4
         box2Collider.yScale = 0.4
         box2Collider.alpha = 0.01
@@ -990,11 +1055,29 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         box2TransparencyCollider.zPosition = 3
         box2TransparencyCollider.alpha = 0.01
         //Impostazioni riguardanti le scatole in basso
-        box1Left.position = CGPoint(x: size.width*0.09, y: size.height*0.4)
+        if(Level0VariableHadnler.instance.boxLeftTouched){
+            box1Left.position = CGPoint(x: size.width*0.0001, y: size.height*0.4)
+            box1LeftInteractionCollider.position = CGPoint(x: size.width*0.0001, y: size.height*0.4)
+            box2Collider.position = CGPoint(x: size.width*0.4, y: size.height*0.5)
+        } else {
+            box1Left.position = CGPoint(x: size.width*0.09, y: size.height*0.4)
+            box1LeftInteractionCollider.position = CGPoint(x: size.width*0.09, y: size.height*0.4)
+            box2Collider.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        }
         box1Left.xScale = 0.4
         box1Left.yScale = 0.4
         box1Left.zPosition = 3
-        box1Left.name = "boxesLeft"
+//        box1Left.name = "boxesLeft"
+        box1LeftInteractionCollider.xScale = 0.4
+        box1LeftInteractionCollider.yScale = 0.4
+        box1LeftInteractionCollider.zPosition = 3
+        box1LeftInteractionCollider.name = "boxesLeft"
+        box1LeftInteractionCollider.alpha = 0.01
+        
+        blurBoxes.position = CGPoint(x: size.width*0.48, y: size.height*0.5)
+        blurBoxes.zPosition = 0
+        blurBoxes.size = box2Collider.size
+//        blurBoxes.alpha = 0.9
         
         smalDoorClosed.position = CGPoint(x: size.width*0.35, y: size.height*0.52)
         smalDoorClosed.xScale = 0.2
@@ -1174,13 +1257,14 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         infoBigKey.zPosition = 120
         infoBigKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
         
-        overlayDescription1.zPosition = 51
-        overlayDescription1.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
-        overlayDescription1.xScale = size.width*0.0012
-        overlayDescription1.yScale = size.width*0.0012
-        overlayDescription1.name = "overlayDescription1"
+        overlayDescriptionKey.zPosition = 51
+        overlayDescriptionKey.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0)
+        overlayDescriptionKey.xScale = size.width*0.0012
+        overlayDescriptionKey.yScale = size.width*0.0012
+        overlayDescriptionKey.name = "overlayDescriptionKey"
         
         
+
     }
     
     

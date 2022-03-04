@@ -23,6 +23,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
 
     @AppStorage("language") var language: String = "English"
     
+    let blurFurniture = SKSpriteNode(imageNamed: "BlurFurnitureRoom4")
+    
     let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     var transitioning: Bool = false
     
@@ -94,7 +96,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let gameArea: CGRect
     override init(size: CGSize) {
         lampZoneInteractionCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.8, height: size.height*0.2))
-        lampZoneInteractionCollider2 = SKShapeNode(rectOf: CGSize(width: size.width*0.5, height: size.height*0.05))
+        lampZoneInteractionCollider2 = SKShapeNode(rectOf: CGSize(width: size.width*0.5, height: size.height*0.06))
         
         let playableHeight = size.width
         let playableMargin = (size.height-playableHeight)/2.0
@@ -135,6 +137,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         cameraNode.addChild(iButton)
         cameraNode.addChild(pauseButton)
         addChild(frame1)
+        addChild(blurFurniture)
                 
         addChild(cameraNode)
         camera = cameraNode
@@ -459,6 +462,12 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
+            if(characterFeetCollider.frame.intersects(lampZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(lampZoneInteractionCollider2.frame)){
+                        blurFurniture.alpha = 1
+                    }else{
+                        blurFurniture.alpha = 0.01
+                    }
+            
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
                     characterFeetCollider.position.x += movementSpeed
@@ -613,7 +622,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lampZoneInteractionCollider2.strokeColor = .red
         lampZoneInteractionCollider2.fillColor = .red
         lampZoneInteractionCollider2.zPosition = 3
-        lampZoneInteractionCollider2.position = CGPoint(x: size.width*0.03, y: size.height*0.3)
+        lampZoneInteractionCollider2.position = CGPoint(x: size.width*0.03, y: size.height*0.27)
         lampZoneInteractionCollider2.alpha = 0.01
         
         bookshelf.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
@@ -808,6 +817,12 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         infoFrame.fontColor = SKColor.white
         infoFrame.zPosition = 122
         infoFrame.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
+        
+        blurFurniture.position = CGPoint(x: size.width*0.5, y: size.height*0.51)
+        blurFurniture.xScale = 0.4
+        blurFurniture.yScale = 0.4
+        blurFurniture.zPosition = 4
+        blurFurniture.alpha = 0.01
     }
     
     
@@ -830,6 +845,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let room1 = Level00(size: self.size)
                         self.view?.presentScene(room1)
                     }
@@ -849,6 +866,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let room3 = Level00_3(size: self.size)
                         self.view?.presentScene(room3)
                     }

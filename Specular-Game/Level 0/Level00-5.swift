@@ -533,8 +533,25 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 
             } else if(contactA == "doorColliderRT" || contactB == "doorColliderRT"){
                 print("Right")
-                let room6 = TheEnd(size: size)
-                view?.presentScene(room6)
+                if(!transitioning){
+                    transitioning = true
+                    blackCover.removeFromParent()
+                    let fadeInAction = SKAction.fadeIn(withDuration: 0.5)
+                    blackCover.alpha = 0
+                    cameraNode.addChild(blackCover)
+                    blackCover.run(fadeInAction)
+                    
+                    musicHandler.instance.pauseBackgroundMusic()
+
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
+                        let theEnd = TheEnd(size: self.size)
+                        self.view?.presentScene(theEnd)
+                    }
+                }
+//                let room6 = TheEnd(size: size)
+//                view?.presentScene(room6)
 
             }
         }

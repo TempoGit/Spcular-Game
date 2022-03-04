@@ -15,6 +15,8 @@ import SwiftUI
 class Level00_4: SKScene, SKPhysicsContactDelegate {
     @AppStorage("language") var language: String = "English"
     
+    let blurFurniture = SKSpriteNode(imageNamed: "BlurFurnitureRoom4")
+
     let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     var transitioning: Bool = false
     
@@ -151,7 +153,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         addChild(furnitureZoneInteractionCollider2)
         addChild(furnitureZoneInteractionCollider)
         cameraNode.addChild(iButton)
-        
+        addChild(blurFurniture)
         
         //Aggiungo la camera di gioco
         addChild(cameraNode)
@@ -571,6 +573,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let nextRoom = Level00_3(size: self.size)
                         self.view?.presentScene(nextRoom)
                     }
@@ -592,6 +596,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let nextRoom = Level00_5(size: self.size)
                         self.view?.presentScene(nextRoom)
                         
@@ -607,6 +613,13 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
+            if(characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)){
+                        blurFurniture.alpha = 1
+                    }else{
+                        blurFurniture.alpha = 0.01
+                    }
+            
+            
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
                     characterFeetCollider.position.x += movementSpeed
@@ -943,6 +956,12 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         infoKey.zPosition = 52
         infoKey.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
         
+        
+        blurFurniture.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        blurFurniture.xScale = 0.4
+        blurFurniture.yScale = 0.4
+        blurFurniture.zPosition = 4
+        blurFurniture.alpha = 0.01
         
 //        infoKey.fontSize = size.width*0.05
 //        infoKey.fontColor = SKColor.white
