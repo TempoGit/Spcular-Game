@@ -614,7 +614,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
             if(characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(furnitureZoneInteractionCollider3.frame)){
-                        blurFurniture.alpha = 1
+                blurFurniture.alpha = 0.8
                     }else{
                         blurFurniture.alpha = 0.01
                     }

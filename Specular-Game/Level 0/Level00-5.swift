@@ -58,7 +58,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     let doorZoneInteractionCollider: SKShapeNode
     let doorZoneInteractionCollider2: SKShapeNode
     let doorLable = SKLabelNode(fontNamed: "MonoSF")
-
+    
+    let blurDoor = SKSpriteNode(imageNamed: "blurDoor1")
+    
     
     var interaction: Bool = false
   
@@ -77,8 +79,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     var stopScene: Bool = false
     
     override init(size: CGSize) {
-        doorZoneInteractionCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.7, height: size.height*0.1))
-        doorZoneInteractionCollider2 = SKShapeNode(rectOf: CGSize(width: size.width*0.7, height: size.height*0.1))
+        doorZoneInteractionCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.75, height: size.height*0.1))
+        doorZoneInteractionCollider2 = SKShapeNode(rectOf: CGSize(width: size.width*0.75, height: size.height*0.1))
         
         let playableHeight = size.width
         let playableMargin = (size.height-playableHeight)/2.0
@@ -120,6 +122,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         addChild(doorZoneInteractionCollider)
         addChild(doorZoneInteractionCollider2)
         addChild(colliderDoorClosed)
+        
+        addChild(blurDoor)
         
         let fadeOutAction = SKAction.fadeOut(withDuration: 0.5)
         blackCover.alpha = 1
@@ -255,6 +259,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 if(interaction && Level0VariableHadnler.instance.keyOpen){
                     doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
                     interaction = false
+                    doorLable.removeFromParent()
 //                    doorRTclosed.removeFromParent()
                     colliderDoorClosed.removeFromParent()
                 }
@@ -443,6 +448,13 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         if(!stopScene){
+            if(characterFeetCollider.frame.intersects(doorZoneInteractionCollider.frame) ||
+               characterFeetCollider.frame.intersects(doorZoneInteractionCollider2.frame)){
+                blurDoor.alpha = 0.8
+            }else{
+                blurDoor.alpha = 0.01
+            }
+            
             checkCollision()
             //Se almeno una delle due variabili responsabili del movimento sono impostate a "true" allora inizia il movimento
             //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
@@ -802,16 +814,22 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorZoneInteractionCollider.fillColor = .red
         doorZoneInteractionCollider.strokeColor = .red
         doorZoneInteractionCollider.alpha = 0.01
-        doorZoneInteractionCollider.position = CGPoint(x: size.width*0.7, y: -size.height*0.05)
+        doorZoneInteractionCollider.position = CGPoint(x: size.width*0.6, y: -size.height*0.05)
         doorZoneInteractionCollider2.zPosition = 21
         doorZoneInteractionCollider2.fillColor = .blue
         doorZoneInteractionCollider2.strokeColor = .blue
-        doorZoneInteractionCollider2.position = CGPoint(x: size.width*0.78, y: size.height*0)
+        doorZoneInteractionCollider2.position = CGPoint(x: size.width*0.7, y: size.height*0)
         doorZoneInteractionCollider2.alpha = 0.01
         
         doorLable.fontColor = SKColor.white
         doorLable.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
         doorLable.fontSize = size.width*0.04
         doorLable.zPosition = 150
+        
+        blurDoor.position = CGPoint(x: size.width*0.3, y: size.height*0.27)
+        blurDoor.zPosition = 20
+        blurDoor.xScale = 1.6
+        blurDoor.yScale = 1.5
+//        blurDoor.alpha = 0.9
     }
 }
