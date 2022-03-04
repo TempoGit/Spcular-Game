@@ -4,9 +4,14 @@
 //
 //  Created by Salvatore Manna on 18/02/22.
 //
+//  Aiuto
+
+
 import UIKit
 import SpriteKit
 import SwiftUI
+
+let mannagg_o_cazz: Bool = false
 
 let movementSpeed: CGFloat = 1.1
 
