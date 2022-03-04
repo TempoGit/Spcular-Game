@@ -63,19 +63,12 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     let barrieraPortaDx = SKSpriteNode(imageNamed: "Level0-Room2-RightDoorCollider")
     
     var interaction: Bool = false
-    var move: Bool = false
-    var moveSingle: Bool = false
     var location = CGPoint.zero
     
     //Variabili per gestire la trasparenza e livelli degli oggetti
     var bookshelfCollided: Bool = false
     var lampCollided: Bool = false
     
-    //Variabili per gestire le animazioni
-    var walkingRight: Bool = false
-    var walkingLeft: Bool = false
-    var walkingUp: Bool = false
-    var walkingDown: Bool = false
     
     //    suoni
         var Cassetto : String = "cassetto"
@@ -431,28 +424,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         if(touchLocation != characterFeetCollider.position){
             if(touchedNode.name != "closePause" && touchedNode.name != "closeInfo" && !(touchedNode.name == "interaction" && (characterFeetCollider.frame.intersects(lampZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(lampZoneInteractionCollider2.frame)))){
                 if(!stopScene){
-                    location = touchLocation
-                    moveSingle = true
-                    //Così faccio iniziare l'animazione della camminata che si ripete per sempre e viene interrotta solamente quando finisce il movimento, cioè quando alzo il dito dallo schermo
-                    if(location.x > characterFeetCollider.position.x){
-                        walkingRight = true
-                        if (location.y > characterFeetCollider.position.y) {
-                            walkingUp = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-                        } else if (location.y < characterFeetCollider.position.y){
-                            walkingDown = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-                        }
-                    } else if (location.x < characterFeetCollider.position.x){
-                        walkingLeft = true
-                        if (location.y > characterFeetCollider.position.y) {
-                            walkingUp = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                        } else if (location.y < characterFeetCollider.position.y){
-                            walkingDown = true
-                            characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
-                        }
-                    }
+                    
+                    CharacterMovementHandler.instance.characterMovementSingle(touchLocation: touchLocation, characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
                 }
             }
         }
@@ -471,67 +444,9 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                         blurFurniture.alpha = 0.01
                     }
             
-            if(move || moveSingle){
-                if(location.x > characterFeetCollider.position.x) {
-                    characterFeetCollider.position.x += movementSpeed
-                    if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += movementSpeed
-                        if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
-                            if(!walkingRight || !walkingUp){
-                                walkingLeft = false
-                                walkingDown = false
-                                walkingRight = true
-                                walkingUp = true
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-                            }
-                        }
-                    } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= movementSpeed
-                        if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
-                            if(!walkingRight || !walkingDown){
-                                walkingRight = true
-                                walkingDown = true
-                                walkingLeft = false
-                                walkingUp = false
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-                            }
-                        }
-                    }
-                } else if (location.x < characterFeetCollider.position.x){
-                    characterFeetCollider.position.x -= movementSpeed
-                    if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += movementSpeed
-                        if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
-                            if(!walkingLeft || !walkingUp){
-                                walkingLeft = true
-                                walkingUp = true
-                                walkingRight = false
-                                walkingDown = false
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                            }
-                        }
-                    } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= movementSpeed
-                        if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
-                            if(!walkingLeft || !walkingDown){
-                                walkingLeft = true
-                                walkingDown = true
-                                walkingRight = false
-                                walkingUp = false
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
-                            }
-                        }
-                    }
-                } else if (location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += movementSpeed
-                } else if (location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= movementSpeed
-                }
-            }
+            CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
+            
+
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
             characterAvatar.position = characterFeetCollider.position
             characterAvatar.position.y = characterAvatar.position.y - 8
@@ -548,33 +463,18 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        moveSingle = false
-        move = true
+        CharacterMovementHandler.instance.moveAndMoveSingleToggle()
         for touch in touches {
-            location = touch.location(in: self)
+            CharacterMovementHandler.instance.location = touch.location(in: self)
         }
+
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        //Quando smetto di toccare lo schermo interrompo entrambi i tipi di movimento
-        move = false
-        moveSingle = false
-        //Se alzo il dito dallo schermo, ovvero interrompo il movimento, blocco le azioni del personaggio, cioè quello che mi interessa bloccare sono le animazioni e resetto la posizione statica del personaggio con il setTexture
-        characterAvatar.removeAllActions()
-        if(walkingLeft && walkingDown){
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "Stop")))
-        } else if (walkingRight && walkingDown){
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopRight")))
-        } else if (walkingRight && walkingUp){
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackRight")))
-        } else if (walkingLeft && walkingUp) {
-            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackLeft")))
-        }
-        //Reimposto tutte le variabili che si occupano di gestire le animazioni della camminata a false
-        walkingUp = false
-        walkingDown = false
-        walkingLeft = false
-        walkingRight = false
+
+        CharacterMovementHandler.instance.checkStoppingFrame(characterAvatar: characterAvatar)
+        CharacterMovementHandler.instance.resetWalkingVariables()
+        
     }
     
     
