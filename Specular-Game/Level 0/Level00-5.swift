@@ -57,6 +57,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     
     let doorZoneInteractionCollider: SKShapeNode
     let doorZoneInteractionCollider2: SKShapeNode
+    let doorLable = SKLabelNode(fontNamed: "MonoSF")
+
     
     var interaction: Bool = false
   
@@ -241,6 +243,14 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
             if(!interaction){
                 interaction = true
                 doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 closed")))
+                cameraNode.addChild(doorLable)
+                doorLable.run(SKAction.fadeOut(withDuration: 5))
+                if(LanguageHandler.instance.language == "English"){
+                    doorLable.text = "I can't open it! I need a key..."
+                }else
+                if(LanguageHandler.instance.language == "Italian"){
+                    doorLable.text = "Non riesco ad aprirla! Ho bisogno di una chiave..."
+                }
             } else {
                 if(interaction && Level0VariableHadnler.instance.keyOpen){
                     doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
@@ -798,5 +808,10 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorZoneInteractionCollider2.strokeColor = .blue
         doorZoneInteractionCollider2.position = CGPoint(x: size.width*0.78, y: size.height*0)
         doorZoneInteractionCollider2.alpha = 0.01
+        
+        doorLable.fontColor = SKColor.white
+        doorLable.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        doorLable.fontSize = size.width*0.04
+        doorLable.zPosition = 150
     }
 }
