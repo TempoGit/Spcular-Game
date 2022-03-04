@@ -96,7 +96,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let smallDoorLabel = SKLabelNode(fontNamed: "MonoSF")
     //Macronodo che contiene tutti gli oggetti del mondo di gioco
     var worldGroup = SKSpriteNode()
-    var interaction: Bool = false
     
     //Divido il personaggio in due parti, una è il collider per i piedi, per gestire le interazioni con gli altri collider per dove il personaggio può camminare, l'altra è l'avatar in sè
     let characterAvatar = SKSpriteNode(imageNamed: "Stop")
@@ -368,9 +367,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "furniture" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
                     print("boxes collision")
-            if(!interaction && !Level0VariableHadnler.instance.dollObject){
+            if(!Level0VariableHadnler.instance.interaction && !Level0VariableHadnler.instance.dollObject){
                 Level0VariableHadnler.instance.dollObject = true
-                        interaction = true
+                Level0VariableHadnler.instance.interaction = true
                         if(!musicHandler.instance.mutedSFX){
                             run(sbattimento)
                         }
@@ -384,12 +383,12 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         if(LanguageHandler.instance.language == "Italian"){
                             dollLable.text = "Cos'è?"
                         }
-            } else if (interaction && Level0VariableHadnler.instance.dollObject){
+            } else if (Level0VariableHadnler.instance.interaction && Level0VariableHadnler.instance.dollObject){
                         if(!musicHandler.instance.mutedSFX){
                             run(sbattimento)
                         }
                         wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
-                        interaction = false
+                Level0VariableHadnler.instance.interaction = false
                         dollLable.removeFromParent()
                 Level0VariableHadnler.instance.dollObject = false
                         doll.zPosition = 1

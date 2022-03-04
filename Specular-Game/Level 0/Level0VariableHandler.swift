@@ -32,6 +32,9 @@ class Level0VariableHadnler {
     public var frameInteractio: Bool = false
 //    doll interaction
     var dollObject: Bool = false
+//     wardrobe interactio
+    var interaction: Bool = false
+
 
 }
 
