@@ -544,6 +544,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let theEnd = TheEnd(size: self.size)
                         self.view?.presentScene(theEnd)
                     }

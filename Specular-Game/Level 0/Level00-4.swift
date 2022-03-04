@@ -573,6 +573,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let nextRoom = Level00_3(size: self.size)
                         self.view?.presentScene(nextRoom)
                     }
@@ -594,6 +596,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
 
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let nextRoom = Level00_5(size: self.size)
                         self.view?.presentScene(nextRoom)
                         

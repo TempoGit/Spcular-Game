@@ -845,6 +845,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let room1 = Level00(size: self.size)
                         self.view?.presentScene(room1)
                     }
@@ -864,6 +866,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
 
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        self.removeAllChildren()
+                        
                         let room3 = Level00_3(size: self.size)
                         self.view?.presentScene(room3)
                     }
