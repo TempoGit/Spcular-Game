@@ -438,7 +438,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     //            infoOpacityOverlayKey.removeFromParent()
     //            overlayDescription.removeFromParent()
     //            bigOverlay.removeFromParent()
-                stopScene = false
+//                stopScene = false
     //            self.isPaused = false
             }
         }
