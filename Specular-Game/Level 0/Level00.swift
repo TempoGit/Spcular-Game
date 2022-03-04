@@ -1196,11 +1196,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         blurWardrobe.zPosition = 3
         blurWardrobe.alpha = 0.01
         
-        blurBoxes.position = CGPoint(x: size.width*0.07, y: size.height*0.38)
-        blurBoxes.xScale = 0.3
-        blurBoxes.xScale = 0.3
+        blurBoxes.position = CGPoint(x: size.width*0.48, y: size.height*0.5)
         blurBoxes.zPosition = 3
-        blurBoxes.alpha = 0.9
+        blurBoxes.size = box2Collider.size
+//        blurBoxes.alpha = 0.9
     }
     
     
