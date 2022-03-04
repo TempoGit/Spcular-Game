@@ -371,7 +371,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                     if(!interaction && !dollObject){
                         dollObject = true
                         interaction = true
-                        run(sbattimento)
+                        if(!musicHandler.instance.mutedSFX){
+                            run(sbattimento)
+                        }
                         wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
                         cameraNode.addChild(dollLable)
                         dollLable.run(SKAction.fadeOut(withDuration: 5))
@@ -383,6 +385,9 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                             dollLable.text = "Cos'è?"
                         }
                     } else if (interaction && dollObject){
+                        if(!musicHandler.instance.mutedSFX){
+                            run(sbattimento)
+                        }
                         wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
                         interaction = false
                         dollLable.removeFromParent()
@@ -751,65 +756,67 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             }
             
             if(move || moveSingle){
-                if(location.x > characterFeetCollider.position.x) {
-                    characterFeetCollider.position.x += movementSpeed
-                    if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += movementSpeed
-                        if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
-                            if(!walkingRight || !walkingUp){
-                                walkingLeft = false
-                                walkingDown = false
-                                walkingRight = true
-                                walkingUp = true
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
-                            }
-                        }
-                    } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= movementSpeed
-                        if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
-                            if(!walkingRight || !walkingDown){
-                                walkingRight = true
-                                walkingDown = true
-                                walkingLeft = false
-                                walkingUp = false
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
-                            }
-                        }
-                    }
-                } else if (location.x < characterFeetCollider.position.x){
-                    characterFeetCollider.position.x -= movementSpeed
-                    if(location.y > characterFeetCollider.position.y){
-                        characterFeetCollider.position.y += movementSpeed
-                        if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
-                            if(!walkingLeft || !walkingUp){
-                                walkingLeft = true
-                                walkingUp = true
-                                walkingRight = false
-                                walkingDown = false
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
-                            }
-                        }
-                    } else if(location.y < characterFeetCollider.position.y){
-                        characterFeetCollider.position.y -= movementSpeed
-                        if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
-                            if(!walkingLeft || !walkingDown){
-                                walkingLeft = true
-                                walkingDown = true
-                                walkingRight = false
-                                walkingUp = false
-                                characterAvatar.removeAllActions()
-                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
-                            }
-                        }
-                    }
-                } else if (location.y > characterFeetCollider.position.y){
-                    characterFeetCollider.position.y += movementSpeed
-                } else if (location.y < characterFeetCollider.position.y){
-                    characterFeetCollider.position.y -= movementSpeed
-                }
+                CharacterMovementHandler.instance.characterMovement(location: location, characterFeetCollider: characterFeetCollider, walkingRight: &walkingRight, walkingLeft: &walkingLeft, walkingUp: &walkingUp, walkingDown: &walkingDown, characterAvatar: characterAvatar)
+                
+//                if(location.x > characterFeetCollider.position.x) {
+//                    characterFeetCollider.position.x += movementSpeed
+//                    if(location.y > characterFeetCollider.position.y){
+//                        characterFeetCollider.position.y += movementSpeed
+//                        if (location.y > characterFeetCollider.position.y + 10 && location.x > characterFeetCollider.position.x + 10){
+//                            if(!walkingRight || !walkingUp){
+//                                walkingLeft = false
+//                                walkingDown = false
+//                                walkingRight = true
+//                                walkingUp = true
+//                                characterAvatar.removeAllActions()
+//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightUp))
+//                            }
+//                        }
+//                    } else if(location.y < characterFeetCollider.position.y){
+//                        characterFeetCollider.position.y -= movementSpeed
+//                        if (location.y < characterFeetCollider.position.y - 10 && location.x > characterFeetCollider.position.x - 10){
+//                            if(!walkingRight || !walkingDown){
+//                                walkingRight = true
+//                                walkingDown = true
+//                                walkingLeft = false
+//                                walkingUp = false
+//                                characterAvatar.removeAllActions()
+//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationRightDown))
+//                            }
+//                        }
+//                    }
+//                } else if (location.x < characterFeetCollider.position.x){
+//                    characterFeetCollider.position.x -= movementSpeed
+//                    if(location.y > characterFeetCollider.position.y){
+//                        characterFeetCollider.position.y += movementSpeed
+//                        if(location.y > characterFeetCollider.position.y + 10 && location.x < characterFeetCollider.position.x + 10){
+//                            if(!walkingLeft || !walkingUp){
+//                                walkingLeft = true
+//                                walkingUp = true
+//                                walkingRight = false
+//                                walkingDown = false
+//                                characterAvatar.removeAllActions()
+//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftUp))
+//                            }
+//                        }
+//                    } else if(location.y < characterFeetCollider.position.y){
+//                        characterFeetCollider.position.y -= movementSpeed
+//                        if(location.y < characterFeetCollider.position.y - 10 && location.x < characterFeetCollider.position.x - 10){
+//                            if(!walkingLeft || !walkingDown){
+//                                walkingLeft = true
+//                                walkingDown = true
+//                                walkingRight = false
+//                                walkingUp = false
+//                                characterAvatar.removeAllActions()
+//                                characterAvatar.run(SKAction.repeatForever(walkingAnimationLeftDown))
+//                            }
+//                        }
+//                    }
+//                } else if (location.y > characterFeetCollider.position.y){
+//                    characterFeetCollider.position.y += movementSpeed
+//                } else if (location.y < characterFeetCollider.position.y){
+//                    characterFeetCollider.position.y -= movementSpeed
+//                }
             }
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
             characterAvatar.position = characterFeetCollider.position
@@ -1128,6 +1135,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         characterAvatar.name = "player"
         if(previousRoom == "Room2"){
             characterFeetCollider.position = CGPoint(x: size.width*0.27,y: size.height*0.15)
+            characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackRight")))
         } else {
             characterFeetCollider.position = CGPoint(x: size.width*0.5,y: size.height*0.31)
         }

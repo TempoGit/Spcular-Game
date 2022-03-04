@@ -209,13 +209,16 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             if(!interaction){
                 interaction = true
                 lamp.run(SKAction.setTexture(SKTexture(imageNamed: "FurnitureOpenRoom2")))
-                if(musicHandler.instance.mutedSFX){
+                if(!musicHandler.instance.mutedSFX){
                     run(cassettiera)
                 }
             } else {
                 if(interaction){
-                lamp.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room2-Lamp")))
-                interaction = false
+                    if(!musicHandler.instance.mutedSFX){
+                        run(cassettiera)
+                    }
+                    lamp.run(SKAction.setTexture(SKTexture(imageNamed: "Level0-Room2-Lamp")))
+                    interaction = false
                 }
             }
         } else if(touchedNode.name == "infoButton"){
