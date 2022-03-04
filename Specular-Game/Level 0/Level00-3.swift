@@ -456,6 +456,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
+            if(Level0VariableHadnler.instance.bigKeyPick && Level0VariableHadnler.instance.dollObject){
+                dollCreepy.alpha = 1
+            }else{
+                dollCreepy.alpha = 0.01
+            }
+            
             CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
             characterAvatar.position = characterFeetCollider.position
