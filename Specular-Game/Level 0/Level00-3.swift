@@ -81,6 +81,8 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     let infoOpacityOverlayDiary = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
     let overlayDescription = SKSpriteNode(imageNamed: "DropDiary")
     
+    let dollCreepy = SKSpriteNode(imageNamed: "DollCreepy")
+    
     let cameraNode = SKCameraNode()
     
     let gameArea: CGRect
@@ -131,6 +133,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         addChild(armchairsTransparencyCollider)
         addChild(diary)
         addChild(diaryZoneInteractionCollider)
+        addChild(dollCreepy)
         cameraNode.addChild(iButton)
         addChild(cameraNode)
         camera = cameraNode
@@ -498,6 +501,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         //Controllo se la posizione del tocco dello schermo è in alto, in basso, a sinistra o a destra rispetto alla posizione corrente del personaggio ed effettuo il movimento di conseguenza.
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
+            if(Level0VariableHadnler.instance.bigKeyPick && Level0VariableHadnler.instance.dollObject){
+                dollCreepy.alpha = 1
+            }else{
+                dollCreepy.alpha = 0.01
+                
+            }
             if(move || moveSingle){
                 if(location.x > characterFeetCollider.position.x) {
                     characterFeetCollider.position.x += movementSpeed
@@ -955,5 +964,12 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         tappableQuit.zPosition = 150
         tappableQuit.position = CGPoint(x: size.width*0, y: size.height*0)
         tappableQuit.name = "overlayDescription"
+        
+        dollCreepy.position = CGPoint(x: size.width*0.35, y: size.height*0.45)
+        dollCreepy.zPosition = 4
+        dollCreepy.xScale = 0.1
+        dollCreepy.yScale = 0.1
+        dollCreepy.alpha = 0.01
+        
     }
 }

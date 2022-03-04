@@ -30,6 +30,8 @@ class Level0VariableHadnler {
     public var keyOpenSmall: Bool = false
 //    var interazione frame level002
     public var frameInteractio: Bool = false
+//    doll interaction
+    var dollObject: Bool = false
 
 }
 

@@ -141,7 +141,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
     let overlayDescription = SKSpriteNode(imageNamed: "DropDoll")
     let overlayDescriptionKey = SKSpriteNode(imageNamed: "DropBigKey")
 
-    var dollObject: Bool = false
+   
     let infoDoll = SKLabelNode(text: LanguageHandler.instance.objectiveEnglishDoll)
 
     var fadeOutDoorHandler: Bool = false
@@ -368,8 +368,8 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         if(touchedNode.name == "furniture" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
                     print("boxes collision")
-                    if(!interaction && !dollObject){
-                        dollObject = true
+            if(!interaction && !Level0VariableHadnler.instance.dollObject){
+                Level0VariableHadnler.instance.dollObject = true
                         interaction = true
                         if(!musicHandler.instance.mutedSFX){
                             run(sbattimento)
@@ -384,14 +384,14 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         if(LanguageHandler.instance.language == "Italian"){
                             dollLable.text = "Cos'è?"
                         }
-                    } else if (interaction && dollObject){
+            } else if (interaction && Level0VariableHadnler.instance.dollObject){
                         if(!musicHandler.instance.mutedSFX){
                             run(sbattimento)
                         }
                         wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
                         interaction = false
                         dollLable.removeFromParent()
-                        dollObject = false
+                Level0VariableHadnler.instance.dollObject = false
                         doll.zPosition = 1
 
                     }
