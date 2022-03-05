@@ -885,7 +885,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         
         dollCreepyZoneInteraction.position = CGPoint(x: size.width*0.35, y: size.height*0.35)
         dollCreepyZoneInteraction.zPosition = 21
-        dollCreepyZoneInteraction.alpha = 0.9
+        dollCreepyZoneInteraction.alpha = 0.01
         dollCreepyZoneInteraction.fillColor = .red
         dollCreepyZoneInteraction.strokeColor = .red
         
