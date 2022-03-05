@@ -65,6 +65,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     
     var chairCollider: Bool = false
     var booksCollided: Bool = false
+    let blackEffect: SKShapeNode
     
     //Elementi dell'overlay del diario
     let diary = SKSpriteNode(imageNamed: "Diary1")
@@ -84,10 +85,11 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     var stopScene: Bool = false
     
     let tappableQuit = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
-
+    let dollCreepyZoneInteraction: SKShapeNode
     
     override init(size: CGSize) {
-        
+        blackEffect = SKShapeNode(rectOf: CGSize(width: size.width*1, height: size.width*2.1))
+        dollCreepyZoneInteraction = SKShapeNode(rectOf: CGSize(width: size.width*0.4, height: size.width*0.35))
         diaryZoneInteractionCollider = SKShapeNode(rectOf: CGSize(width: size.width*0.35, height: size.width*0.34))
         
         let playableHeight = size.width
@@ -131,6 +133,9 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         addChild(diary)
         addChild(diaryZoneInteractionCollider)
         addChild(dollCreepy)
+        addChild(dollCreepyZoneInteraction)
+        
+        cameraNode.addChild(blackEffect)
         cameraNode.addChild(iButton)
         addChild(cameraNode)
         camera = cameraNode
@@ -465,6 +470,13 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
                 dollCreepy.alpha = 0.01
             }
             
+            if(Level0VariableHadnler.instance.dollObject && Level0VariableHadnler.instance.bigKeyPick && characterFeetCollider.frame.intersects(dollCreepyZoneInteraction.frame)){
+                blackEffect.alpha = 0.7
+                
+            }else{
+                blackEffect.alpha = 0.01
+                }
+            
             CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
             characterAvatar.position = characterFeetCollider.position
@@ -647,7 +659,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
-        pauseButton.zPosition = 20
+        pauseButton.zPosition = 30
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05
         
@@ -760,7 +772,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         bookTransparencyCollider.alpha = 0.01
         
         iButton.name = "infoButton"
-        iButton.zPosition = 20
+        iButton.zPosition = 30
         iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         iButton.xScale = 0.05
         iButton.yScale = 0.05
@@ -866,10 +878,22 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         tappableQuit.name = "overlayDescription"
         
         dollCreepy.position = CGPoint(x: size.width*0.35, y: size.height*0.45)
-        dollCreepy.zPosition = 4
+        dollCreepy.zPosition = 20
         dollCreepy.xScale = 0.1
         dollCreepy.yScale = 0.1
         dollCreepy.alpha = 0.01
         
+        dollCreepyZoneInteraction.position = CGPoint(x: size.width*0.35, y: size.height*0.35)
+        dollCreepyZoneInteraction.zPosition = 21
+        dollCreepyZoneInteraction.alpha = 0.9
+        dollCreepyZoneInteraction.fillColor = .red
+        dollCreepyZoneInteraction.strokeColor = .red
+        
+        blackEffect.position = CGPoint(x: size.width*0, y: size.height*0)
+        blackEffect.zPosition = 20
+        blackEffect.alpha = 0.9
+        blackEffect.fillColor = .black
+        blackEffect.strokeColor = .black
+
     }
 }

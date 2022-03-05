@@ -522,7 +522,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
 //      setup pause button
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
-        pauseButton.zPosition = 25
+        pauseButton.zPosition = 30
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05
 //        setup room
@@ -667,7 +667,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         boxCollider.alpha = 0.01
         
         iButton.name = "infoButton"
-        iButton.zPosition = 25
+        iButton.zPosition = 35
         iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         iButton.xScale = 0.05
         iButton.yScale = 0.05

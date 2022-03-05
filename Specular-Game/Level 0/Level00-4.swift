@@ -628,7 +628,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         //Impostazioni riguardanti il bottone che apre il menu di pausa
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
-        pauseButton.zPosition = 20
+        pauseButton.zPosition = 30
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05
         //Impostazioni relative al background della stanza
@@ -775,7 +775,7 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
         rightDoor.physicsBody?.contactTestBitMask = PhysicsCategories.Player
         
         iButton.name = "infoButton"
-        iButton.zPosition = 20
+        iButton.zPosition = 30
         iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         iButton.xScale = 0.05
         iButton.yScale = 0.05

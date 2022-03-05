@@ -662,11 +662,11 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
-        pauseButton.zPosition = 20
+        pauseButton.zPosition = 30
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05
         iButton.name = "infoButton"
-        iButton.zPosition = 20
+        iButton.zPosition = 30
         iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         iButton.xScale = 0.05
         iButton.yScale = 0.05
