@@ -34,6 +34,8 @@ class Level0VariableHadnler {
     var dollObject: Bool = false
 //     wardrobe interactio
     var interaction: Bool = false
+//variabile per la luce stanza 3
+    var once: Bool = false
 
 
 }

@@ -77,6 +77,7 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
     let overlayDescription = SKSpriteNode(imageNamed: "DropDiary")
     
     let dollCreepy = SKSpriteNode(imageNamed: "DollCreepy")
+    let dollCreepyInteractionLabel = SKLabelNode(fontNamed: "MonoSF")
     
     let cameraNode = SKCameraNode()
     
@@ -471,11 +472,34 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
             }
             
             if(Level0VariableHadnler.instance.dollObject && Level0VariableHadnler.instance.bigKeyPick && characterFeetCollider.frame.intersects(dollCreepyZoneInteraction.frame)){
-                blackEffect.alpha = 0.7
-                
-            }else{
-                blackEffect.alpha = 0.01
+                if(!Level0VariableHadnler.instance.once){
+                    blackEffect.alpha = 0.7
+                    dollCreepy.zPosition = 51
+                    cameraNode.addChild(dollCreepyInteractionLabel)
+                    characterAvatar.zPosition = 52
+                    blackEffect.zPosition = 50
+                    stopScene = true
+                    dollCreepyInteractionLabel.run(SKAction.fadeOut(withDuration: 3) , completion: {
+                        self.stopScene = false
+                        self.dollCreepyInteractionLabel.removeFromParent()
+                        self.blackEffect.alpha = 0.01
+                        Level0VariableHadnler.instance.once = true
+                    })
+    //                dollCreepyInteractionLabel.run(SKAction.fadeOut(withDuration: 5))
+                    if(LanguageHandler.instance.language == "English"){
+                        dollCreepyInteractionLabel.text = "Hi Dear..."
+                    }else
+                    if(LanguageHandler.instance.language == "Italian"){
+                        dollCreepyInteractionLabel.text = "Salve a te..."
+                    }
                 }
+                    
+            }
+//            else{
+//                dollCreepyInteractionLabel.removeFromParent()
+//                blackEffect.alpha = 0.01
+//
+//                }
             
             CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
             //Alla fine della funzione di update vado ad impostare la posizione dell'avatar del personaggio in relazione a quella del collider dei piedi
@@ -884,16 +908,20 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         dollCreepy.alpha = 0.01
         
         dollCreepyZoneInteraction.position = CGPoint(x: size.width*0.35, y: size.height*0.35)
-        dollCreepyZoneInteraction.zPosition = 21
+        dollCreepyZoneInteraction.zPosition = 20
         dollCreepyZoneInteraction.alpha = 0.01
         dollCreepyZoneInteraction.fillColor = .red
         dollCreepyZoneInteraction.strokeColor = .red
         
         blackEffect.position = CGPoint(x: size.width*0, y: size.height*0)
-        blackEffect.zPosition = 20
-        blackEffect.alpha = 0.9
+        blackEffect.zPosition = 10
+        blackEffect.alpha = 0.01
         blackEffect.fillColor = .black
         blackEffect.strokeColor = .black
 
+        dollCreepyInteractionLabel.fontColor = SKColor.white
+        dollCreepyInteractionLabel.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.9)
+        dollCreepyInteractionLabel.fontSize = size.width*0.04
+        dollCreepyInteractionLabel.zPosition = 150
     }
 }

@@ -246,6 +246,7 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
                 doorRTclosed.run(SKAction.setTexture(SKTexture(imageNamed: "Door2 open")))
 //                interaction = false
                 doorLable.removeFromParent()
+                blurDoor.removeFromParent()
 //                    doorRTclosed.removeFromParent()
                 colliderDoorClosed.removeFromParent()
             } else {

@@ -35,11 +35,12 @@ class LanguageHandler {
     public let objectiveItalian6 = "...oppure incotrare una morte orribile! :)"
     
     //Crediti
-    public let creditsTextEnglish = "AYO!\n\nYou finished the demo, congrats!\n\nNow you can go back to whatever you were doing before."
+    public let creditsTextEnglish = "AYO!\n\nYou finished the demo, congrats!\n\nNow you can go back to whatever you were doing before.\n\n©The ParroTeam"
     public let creditsTextEnglish1 = "You finished the demo, congrats!"
     public let creditsTextEnglish2 = "Now you can go back to whatever you were doing before."
-    public let creditsTextItalian = "YOO!\n\nHai finito la demo, congratulazioni!\n\nAdesso puoi tornare a fare qulasiasi cosa tu stessi facendo prima."
-    
+    public let creditsTextItalian = "YOO!\n\nHai finito la demo, congratulazioni!\n\nAdesso puoi tornare a fare qulasiasi cosa tu stessi facendo prima.\n\n©The ParroTeam"
+
+
     
 //    chiave
     public let objectiveEnglish11 = "It's a very small key,\nit could open a \nvery small door "
@@ -57,9 +58,9 @@ class LanguageHandler {
     public let objectiveItalianDiary2 = ""
     
 //    doll
-    public let objectiveEnglishDoll = "Such a creepy looking doll! \nWill it be safe to pick it?"
+    public let objectiveEnglishDoll = "Such a creepy looking doll! \nWill it be safe to leave it there?"
   
-    public let objectiveItalianDoll = "Una bambola dall'aspetto \nraccapricciante! \nSarà sicuro prenderla?"
+    public let objectiveItalianDoll = "Una bambola dall'aspetto \nraccapricciante! \nSarà sicuro lasciarla li?"
 
 //    frame
     public let objectiveEnglishFrame = "Who is this person!?! \nMaybe the previous owner \nof the house...\nLooks so strange!"
@@ -72,10 +73,10 @@ class LanguageHandler {
     public let objectiveItalianBigKey1 = "È una chiave molto vecchia,\npotrebbe aprire una \nporta bloccata. \nCerchiamola!"
     
 //    info
-    public let infoTextOneEnglish = "Hello there! \n\nYou are a kid that has to reach the closet at the end of the level. \n\nInteract with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a gruesome death! :)"
-    public let infoTextTwoEnglish = "You can move by tapping and holding on the screen. \n\nTo interact with the objects simply click on them."
+    public let infoTextOneEnglish = "Hello there! \n\nYou have to reach the closet at the end of the level. \n\nExplore the house and interact with the objects and furniture in the scene, you might find something useful... \n\n...or you might encounter a terrible surprise!"
+    public let infoTextTwoEnglish = "You can move by tapping and holding on the screen. \n\nTo interact with the objects simply go closer and click on them."
  
-    public let infoTextOneItalian = "Ciao! \n\nSei un fanciullo che deve raggiungere lo sgabuzzino alla fine del livello. \n\nInteragisci con gli oggetti e i mobili nella scena, potresti trovare qualcosa di utile... \n\n...oppure incotrare una morte orribile! :)"
-    public let infoTextTwoItalian = "Per muoverti clicca sullo schermo e tieni premuto. \n\nPer interagire con gli oggetti cliccaci sopra."
+    public let infoTextOneItalian = "Ciao! \n\nDevi raggiungere lo sgabuzzino alla fine del livello. \n\nEsplora la casa e interagisci con gli oggetti e i mobili, potresti trovare qualcosa di utile... \n\n...oppure andare incotro ad una teribile sorpresa!"
+    public let infoTextTwoItalian = "Per muoverti clicca sullo schermo e tieni premuto. \n\nPer interagire con gli oggetti avvicinati e cliccaci sopra."
 
 }

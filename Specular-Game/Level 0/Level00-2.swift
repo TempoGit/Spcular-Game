@@ -724,7 +724,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         infoFrame.zPosition = 122
         infoFrame.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.4)
         
-        blurFurniture.position = CGPoint(x: size.width*0.5, y: size.height*0.51)
+        blurFurniture.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         blurFurniture.xScale = 0.4
         blurFurniture.yScale = 0.4
         blurFurniture.zPosition = 4
