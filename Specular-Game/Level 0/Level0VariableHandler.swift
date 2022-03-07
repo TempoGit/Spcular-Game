@@ -32,6 +32,8 @@ class Level0VariableHadnler {
     public var frameInteractio: Bool = false
 //    doll interaction
     var dollObject: Bool = false
+    //Variabile per far comparire o meno il bordo di interazioni sotto l'armadio della stanza 1
+    var wardrobeRoom1CanOpen: Bool = true
 //     wardrobe interactio
     var interaction: Bool = false
 //variabile per la luce stanza 3

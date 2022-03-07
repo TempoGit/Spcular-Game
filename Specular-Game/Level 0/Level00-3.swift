@@ -371,43 +371,57 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         }
         
         if(touchedNode.name == "diary" && characterFeetCollider.frame.intersects(diaryZoneInteractionCollider.frame)){
-            stopScene = true
-//            cameraNode.addChild(keyLabel1)
-            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
-            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
-            if(LanguageHandler.instance.language == "English"){
-//                self.isPaused = true
-                infoDiary.text = LanguageHandler.instance.objectiveEnglishDiary
-                infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
-                infoDiaryy2.text = LanguageHandler.instance.objectiveEnglishDiary2
-            }else
-            if(LanguageHandler.instance.language == "Italian"){
-                infoDiary.text = LanguageHandler.instance.objectiveItalianDiary
-                infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
-                infoDiaryy2.text = LanguageHandler.instance.objectiveItalianDiary2
+            if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
+                stopScene = true
+                if(LanguageHandler.instance.language == "English"){
+                    infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
+                }else if(LanguageHandler.instance.language == "Italian"){
+                    infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
+                }
+                UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescription, infoText: infoDiary1, infoOpacityOverlay: infoOpacityOverlayDiary)
             }
-            overlayDescription.xScale = 0
-            overlayDescription.yScale = 0
-            cameraNode.addChild(infoOpacityOverlayDiary)
-            cameraNode.addChild(overlayDescription)
-            overlayDescription.run(xScaleInfo)
-            overlayDescription.run(yScaleInfo, completion: {
-                self.cameraNode.addChild(self.infoDiary)
-                self.cameraNode.addChild(self.infoDiary1)
-                self.cameraNode.addChild(self.infoDiaryy2)
-            })
-            cameraNode.addChild(tappableQuit)
+            
+//            stopScene = true
+//            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+//            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
+//            if(LanguageHandler.instance.language == "English"){
+//                infoDiary.text = LanguageHandler.instance.objectiveEnglishDiary
+//                infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
+//                infoDiaryy2.text = LanguageHandler.instance.objectiveEnglishDiary2
+//            }else
+//            if(LanguageHandler.instance.language == "Italian"){
+//                infoDiary.text = LanguageHandler.instance.objectiveItalianDiary
+//                infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
+//                infoDiaryy2.text = LanguageHandler.instance.objectiveItalianDiary2
+//            }
+//            overlayDescription.xScale = 0
+//            overlayDescription.yScale = 0
+//            cameraNode.addChild(infoOpacityOverlayDiary)
+//            cameraNode.addChild(overlayDescription)
+//            overlayDescription.run(xScaleInfo)
+//            overlayDescription.run(yScaleInfo, completion: {
+//                self.cameraNode.addChild(self.infoDiary)
+//                self.cameraNode.addChild(self.infoDiary1)
+//                self.cameraNode.addChild(self.infoDiaryy2)
+//            })
+//            cameraNode.addChild(tappableQuit)
         }
         
         if(touchedNode.name == "overlayDescription"){
-            stopScene = false
+            if(UIAnimationsHandler.instance.fullOpen && UIAnimationsHandler.instance.itemInteractible){
+                UIAnimationsHandler.instance.removePopUpAnimation(overlayNode: overlayDescription, infoText: infoDiary1, infoOpacityOverlay: infoOpacityOverlayDiary)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                    self.stopScene = false
+                })
+            }
+//            stopScene = false
 //            self.isPaused = false
-            infoOpacityOverlayDiary.removeFromParent()
-            infoDiary.removeFromParent()
-            infoDiary1.removeFromParent()
-            infoDiaryy2.removeFromParent()
-            overlayDescription.removeFromParent()
-            tappableQuit.removeFromParent()
+//            infoOpacityOverlayDiary.removeFromParent()
+//            infoDiary.removeFromParent()
+//            infoDiary1.removeFromParent()
+//            infoDiaryy2.removeFromParent()
+//            overlayDescription.removeFromParent()
+//            tappableQuit.removeFromParent()
         }
         
         

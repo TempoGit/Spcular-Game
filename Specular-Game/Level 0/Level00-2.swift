@@ -172,33 +172,25 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             view?.presentScene(gameScene)
         }
         
-        if(touchedNode.name == "frame"){
-            print("cornice")
-            stopScene = true
-            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
-            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
-            if(LanguageHandler.instance.language == "English"){
-                infoFrame.text = LanguageHandler.instance.objectiveEnglishFrame
-            }else
-            if(LanguageHandler.instance.language == "Italian"){
-                infoFrame.text = LanguageHandler.instance.objectiveItalianFrame
+        if(touchedNode.name == "frame" && (characterFeetCollider.frame.intersects(lampZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(lampZoneInteractionCollider2.frame))){
+            if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
+                stopScene = true
+                if(LanguageHandler.instance.language == "English"){
+                    infoFrame.text = LanguageHandler.instance.objectiveEnglishFrame
+                }else if(LanguageHandler.instance.language == "Italian"){
+                    infoFrame.text = LanguageHandler.instance.objectiveItalianFrame
+                }
+                UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescription, infoText: infoFrame, infoOpacityOverlay: infoOpacityOverlayDiary)
             }
-            overlayDescription.xScale = 0
-            overlayDescription.yScale = 0
-            cameraNode.addChild(infoOpacityOverlayDiary)
-            cameraNode.addChild(overlayDescription)
-            overlayDescription.run(xScaleInfo)
-            overlayDescription.run(yScaleInfo, completion: {
-                self.cameraNode.addChild(self.infoFrame)
-            })
         }
         
         if(touchedNode.name == "overlayDescription"){
-            stopScene = false
-            infoOpacityOverlayDiary.removeFromParent()
-            overlayDescription.removeFromParent()
-            infoFrame.removeFromParent()
-//            tappableQuit.removeFromParent()
+            if(UIAnimationsHandler.instance.fullOpen && UIAnimationsHandler.instance.itemInteractible){
+                UIAnimationsHandler.instance.removePopUpAnimation(overlayNode: overlayDescription, infoText: infoFrame, infoOpacityOverlay: infoOpacityOverlayDiary)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                    self.stopScene = false
+                })
+            }
         }
         
         if(touchedNode.name == "interaction" && (characterFeetCollider.frame.intersects(lampZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(lampZoneInteractionCollider2.frame))){
@@ -494,6 +486,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         frame1.position = CGPoint(x: size.width*0.01, y: size.height*0.45)
         frame1.xScale = 0.07
         frame1.yScale = 0.07
+//        frame1.zPosition = 6
         frame1.zPosition = 13
         frame1.name = "frame"
         
@@ -517,6 +510,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         lampInteractionCollider.xScale = 0.4
         lampInteractionCollider.yScale = 0.4
         lampInteractionCollider.zPosition = 12
+//        lampInteractionCollider.zPosition = 5
         lampInteractionCollider.alpha = 0.01
         lampInteractionCollider.name = "interaction"
         
@@ -561,7 +555,8 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
         characterAvatar.name = "player"
         characterAvatar.xScale = 0.14
         characterAvatar.yScale = 0.14
-        characterAvatar.zPosition = 8
+//        characterAvatar.zPosition = 10
+        characterAvatar.zPosition = 14
         
         if(previousRoom == "Room1"){
             characterFeetCollider.position = CGPoint(x: size.width*1.1,y: size.height*0.25)
@@ -788,10 +783,11 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             bookshelfCollided = true
             characterAvatar.zPosition = 10
             bookshelf.zPosition = 11
+            
         } else {
             if(bookshelfCollided){
                 bookshelfCollided = false
-                characterAvatar.zPosition = 11
+                characterAvatar.zPosition = 14
                 bookshelf.zPosition = 10
             }
         }
@@ -800,10 +796,12 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             lampCollided = true
             characterAvatar.zPosition = 10
             lamp.zPosition = 11
+            frame1.zPosition = 12
         } else {
             if(lampCollided){
                 lampCollided = false
-                characterAvatar.zPosition = 11
+                characterAvatar.zPosition = 14
+                frame1.zPosition = 13
                 lamp.zPosition = 10
             }
         }
