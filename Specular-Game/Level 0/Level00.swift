@@ -396,7 +396,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         doll.zPosition = 1
 
                     }
-                }
+            if(Level0VariableHadnler.instance.dollObject ){
+                blurWardrobe.removeFromParent()
+            }
+        }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
             if(!UIAnimationsHandler.instance.dollInteractible){
@@ -671,8 +674,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
 //            box2Collider.run(SKAction.moveTo(x: size.width*0.00000001, duration: 3))
             smalDoorInteraction.zPosition = 12
         }
-            
-        
+
         //Se clicco in un punto qulasiasi dello schermo la cui posizione è diversa da quella del personaggio allora inizio il movimento del personaggio impostando la variabile moveSingle a true. Questo movimento del personaggio sul tap singolo dello schermo mi serve per fare una transizione fluida dal "non tocco" (quando il personaggio è fermo) dello schermo al "tocco continuo dello schermo" (quando il personaggio è in movimento e posso direzionare il suo spostamento muovendo il dito sullo schermo)
         //Assegno il valore della posizione del tocco alla variabile "location" così posso usare questo valore anche fuori da questa funzione, lo uso in particolare nella funzione di "update"
         if(touchLocation != characterFeetCollider.position){

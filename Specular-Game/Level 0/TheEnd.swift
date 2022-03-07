@@ -21,8 +21,7 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
     let blackScreenBackground: SKShapeNode
     let mainMenuButton: SKSpriteNode = SKSpriteNode(imageNamed: "MainMenu")
     let creditsText: SKLabelNode = SKLabelNode(text: LanguageHandler.instance.creditsTextEnglish)
-    
-    
+
     override init(size: CGSize) {
         blackScreenBackground = SKShapeNode(rectOf: CGSize(width: size.width, height: size.height))
         
@@ -63,10 +62,12 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
         self.blackCover.removeFromParent()
         creditsText.xScale = 0
         creditsText.yScale = 0
+    
         let scaleX = SKAction.scaleX(to: size.width*0.0025, duration: 1)
         let scaleY = SKAction.scaleY(to: size.width*0.0025, duration: 1)
         creditsText.run(scaleX)
         creditsText.run(scaleY)
+       
         let moveFromRight = SKAction.moveTo(x: size.width*0.45, duration: 1.5)
         let moveToLeft = SKAction.moveTo(x: size.width*0.5, duration: 0.7)
         let moveToRight = SKAction.moveTo(x: size.width*0.52, duration: 0.5)
@@ -113,8 +114,7 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
         creditsText.fontSize = size.width*0.085
 //        creditsText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
         
-        
-        
+
         
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
