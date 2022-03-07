@@ -396,9 +396,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         doll.zPosition = 1
 
                     }
-            if(Level0VariableHadnler.instance.dollObject ){
-                blurWardrobe.removeFromParent()
-            }
         }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
@@ -728,6 +725,10 @@ class Level00: SKScene, SKPhysicsContactDelegate {
             }else{
                 blurBoxes.alpha = 0.01
             }
+            if(Level0VariableHadnler.instance.dollObject ){
+                blurWardrobe.removeFromParent()
+           }
+
             
             CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
                 
