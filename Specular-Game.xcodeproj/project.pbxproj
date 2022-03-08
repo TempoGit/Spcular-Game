@@ -27,6 +27,8 @@
 		4A959B8027D0FFAE001FF748 /* Level00.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A959B7F27D0FFAE001FF748 /* Level00.swift */; };
 		4A959B8227D10393001FF748 /* open-door.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 4A959B8127D10393001FF748 /* open-door.mp3 */; };
 		4ABFF95D27CE59EA00620C8B /* Level0VariableHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ABFF95C27CE59EA00620C8B /* Level0VariableHandler.swift */; };
+		4AEF692E27D78ED4006C5D5B /* SplashScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4AEF692D27D78ED4006C5D5B /* SplashScreen.swift */; };
+		4AEF693027D78F8D006C5D5B /* Specular_Level0.wav in Resources */ = {isa = PBXBuildFile; fileRef = 4AEF692F27D78F8D006C5D5B /* Specular_Level0.wav */; };
 		528D100C27C5282700BC4BB7 /* frame.atlas in Resources */ = {isa = PBXBuildFile; fileRef = 528D100B27C5282700BC4BB7 /* frame.atlas */; };
 		528D100E27C541F100BC4BB7 /* TheEnd.swift in Sources */ = {isa = PBXBuildFile; fileRef = 528D100D27C541F100BC4BB7 /* TheEnd.swift */; };
 		52FF066F27C3D57D0041C232 /* Level00-3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52FF066E27C3D57D0041C232 /* Level00-3.swift */; };
@@ -56,6 +58,8 @@
 		4A959B7F27D0FFAE001FF748 /* Level00.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level00.swift; sourceTree = "<group>"; };
 		4A959B8127D10393001FF748 /* open-door.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = "open-door.mp3"; sourceTree = "<group>"; };
 		4ABFF95C27CE59EA00620C8B /* Level0VariableHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Level0VariableHandler.swift; sourceTree = "<group>"; };
+		4AEF692D27D78ED4006C5D5B /* SplashScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreen.swift; sourceTree = "<group>"; };
+		4AEF692F27D78F8D006C5D5B /* Specular_Level0.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = Specular_Level0.wav; sourceTree = "<group>"; };
 		528D100B27C5282700BC4BB7 /* frame.atlas */ = {isa = PBXFileReference; lastKnownFileType = folder.skatlas; path = frame.atlas; sourceTree = "<group>"; };
 		528D100D27C541F100BC4BB7 /* TheEnd.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TheEnd.swift; sourceTree = "<group>"; };
 		52FF066E27C3D57D0041C232 /* Level00-3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Level00-3.swift"; sourceTree = "<group>"; };
@@ -102,6 +106,7 @@
 				4A87769827C3A3BB002B966F /* PauseMenuHandler.swift */,
 				4A6E625127C56AE800FAC06C /* LanguageHandler.swift */,
 				4A2A3BD227BFEC330061788A /* Music.swift */,
+				4AEF692D27D78ED4006C5D5B /* SplashScreen.swift */,
 				4A7B1D3D27C4EE9B0084F509 /* Level 0 */,
 				4A87769627C3A38B002B966F /* LevelSelectionScreen.swift */,
 				4A2A3BC127BFEBDA0061788A /* Main.storyboard */,
@@ -110,6 +115,7 @@
 				4A2A3BD427BFEC5F0061788A /* academy.wav */,
 				4A959B8127D10393001FF748 /* open-door.mp3 */,
 				A607285E27D103FC008E7910 /* cassetto.mp3 */,
+				4AEF692F27D78F8D006C5D5B /* Specular_Level0.wav */,
 			);
 			path = "Specular-Game";
 			sourceTree = "<group>";
@@ -191,6 +197,7 @@
 				4A2A3BC327BFEBDA0061788A /* Main.storyboard in Resources */,
 				4A2A3BBA27BFEBDA0061788A /* GameScene.sks in Resources */,
 				4A2A3BC527BFEBDB0061788A /* Assets.xcassets in Resources */,
+				4AEF693027D78F8D006C5D5B /* Specular_Level0.wav in Resources */,
 				4A2A3BD527BFEC5F0061788A /* academy.wav in Resources */,
 				4A2A3BC827BFEBDB0061788A /* LaunchScreen.storyboard in Resources */,
 				A607285F27D103FC008E7910 /* cassetto.mp3 in Resources */,
@@ -216,6 +223,7 @@
 				4A87769727C3A38B002B966F /* LevelSelectionScreen.swift in Sources */,
 				4A2A3BD127BFEC2B0061788A /* Level00-2.swift in Sources */,
 				528D100E27C541F100BC4BB7 /* TheEnd.swift in Sources */,
+				4AEF692E27D78ED4006C5D5B /* SplashScreen.swift in Sources */,
 				52FF066F27C3D57D0041C232 /* Level00-3.swift in Sources */,
 				4A6E625227C56AE800FAC06C /* LanguageHandler.swift in Sources */,
 				4A2A3BB827BFEBDA0061788A /* AppDelegate.swift in Sources */,
