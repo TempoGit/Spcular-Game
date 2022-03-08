@@ -79,4 +79,9 @@ class LanguageHandler {
     public let infoTextOneItalian = "Ciao! \n\nDevi raggiungere lo sgabuzzino alla fine del livello. \n\nEsplora la casa e interagisci con gli oggetti e i mobili, potresti trovare qualcosa di utile... \n\n...oppure andare incotro ad una teribile sorpresa!"
     public let infoTextTwoItalian = "Per muoverti clicca sullo schermo e tieni premuto. \n\nPer interagire con gli oggetti avvicinati e cliccaci sopra."
 
+//    prologue text
+    public let prologueTextEnglish = "You and your parents just moved in the new house.\n\n<<I go inside, can’t wait!>> \n<<Fine, we will come soon.>>\n\nYou are so happy for this new experience. \nYou open the door, but suddenly it locks behind you, completely blocked.\n\nYou have to find a way out."
+    
+
+    public let prologueTextItalian = "Tu e la tua famiglia vi siete appena trasferiti nelle nuova casa.\n\n<<Io inizio ad entrare, non resisto!>> \n<Va bene, ti raggiungiamo subito.>>\n\nSei così felice per questa nuova esperienza. \nApri la porta, ma questa improvvisamente si chiude alla tue spalle, completamente bloccata.\n\nDevi trovare un modo per uscire."
 }

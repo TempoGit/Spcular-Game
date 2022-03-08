@@ -113,9 +113,7 @@ class TheEnd: SKScene, SKPhysicsContactDelegate{
         creditsText.zPosition = 3
         creditsText.fontSize = size.width*0.085
 //        creditsText.verticalAlignmentMode = SKLabelVerticalAlignmentMode.baseline
-        
 
-        
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width/3 + CGFloat(10), y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 20
