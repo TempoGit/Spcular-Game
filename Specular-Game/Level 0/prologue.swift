@@ -102,6 +102,15 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
                 closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
                 impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
             }
+            
+            addChild(settingsBackground)
+            addChild(backgroundSettings)
+            addChild(impostazioniLabel)
+            addChild(musicIcon)
+            addChild(sfxButton)
+            addChild(languageButton)
+            addChild(closeSettingsButton)
+            
         }
             
             if(touchedNode.name == "musicButton"){
@@ -154,13 +163,13 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
            
 
             
-            addChild(settingsBackground)
-            addChild(backgroundSettings)
-            addChild(impostazioniLabel)
-            addChild(musicIcon)
-            addChild(sfxButton)
-            addChild(languageButton)
-            addChild(closeSettingsButton)
+//            addChild(settingsBackground)
+//            addChild(backgroundSettings)
+//            addChild(impostazioniLabel)
+//            addChild(musicIcon)
+//            addChild(sfxButton)
+//            addChild(languageButton)
+//            addChild(closeSettingsButton)
         }
 
         
@@ -188,11 +197,11 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
         tapToContinue.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         tapToContinue.name = "tapToContinue"
         tapToContinue.alpha = 0.01
-        tapToContinue.zPosition = 10
+        tapToContinue.zPosition = 5
         
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: size.width*0.1, y: size.height*0.94)
-        pauseButton.zPosition = 20
+        pauseButton.zPosition = 6
         pauseButton.xScale = 0.05
         pauseButton.yScale = 0.05
         
@@ -245,7 +254,6 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
         closeSettingsButton.yScale = size.width*0.0007
         closeSettingsButton.position = CGPoint(x: size.width*0.51, y: size.height*0.31)
         closeSettingsButton.name = "closeSettings"
-        
         
         
     }
