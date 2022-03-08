@@ -16,8 +16,10 @@ final class musicHandler {
     
     @AppStorage ("mutedMusic") var mutedMusic: Bool = false
     @AppStorage ("mutedSFX") var mutedSFX: Bool = false
-    let menuBackgroundMusicName: String = "academy.wav"
-    let backgroundMusicName: String = "academy.wav"
+//    let menuBackgroundMusicName: String = "academy.wav"
+    let menuBackgroundMusicName: String = "Specular_Level0.wav"
+//    let backgroundMusicName: String = "academy.wav"
+    let backgroundMusicName: String = "Specular_Level0.wav"
     var backgroundMusicPlayerMenu: AVAudioPlayer = AVAudioPlayer()
     var backgroundMusicPlayer: AVAudioPlayer = AVAudioPlayer()
     var playingMusic: Bool = false
