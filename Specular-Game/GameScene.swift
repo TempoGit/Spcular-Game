@@ -53,97 +53,185 @@ class GameScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+        blackCover.alpha = 1
+        blackCover.strokeColor = .black
+        blackCover.fillColor = .black
+        blackCover.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
+        blackCover.zPosition = 150
+        addChild(blackCover)
+//        blackCover.run(SKAction.fadeOut(withDuration: 1), completion: {
+//            self.backgroundScreen.size.width = self.size.width
+//            self.backgroundScreen.size.height = self.size.height
+//            self.backgroundScreen.position = CGPoint(x: self.size.width*0.5,y: self.size.height*0.5)
+//            self.addChild(self.backgroundScreen)
+//
+//            self.backgroundScreenBottomPart.position = CGPoint(x: self.size.width*0.5,y: self.size.height*0.15)
+//            self.backgroundScreenBottomPart.fillColor = .black
+//            self.backgroundScreenBottomPart.strokeColor = .black
+//            self.addChild(self.backgroundScreenBottomPart)
+//
+//            self.door.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+//            self.door.xScale = 0.3
+//            self.door.yScale = 0.3
+//
+//            self.playButton.position = CGPoint(x: self.size.width*0.5,y: self.size.height*0.1)
+//            self.playButton.size = CGSize(width: self.size.width*0.25, height: self.size.width*0.25)
+//            self.playButton.name = "playGameName"
+//
+//            self.gameTitleWithReflection.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.85)
+//            self.gameTitleWithReflection.xScale = 0.3
+//            self.gameTitleWithReflection.yScale = 0.3
+//
+//            //Impostazioni relative al menu di opzioni
+//            self.settingsButton.position = CGPoint(x: self.size.width*0.89, y: self.size.height*0.92)
+//            self.settingsButton.xScale = self.size.width*0.0002
+//            self.settingsButton.yScale = self.size.width*0.0002
+//            self.settingsButton.name = "settingsButton"
+//
+//            self.backgroundSettings.fillColor = .black
+//            self.backgroundSettings.strokeColor = .black
+//            self.backgroundSettings.alpha = 0.45
+//            self.backgroundSettings.zPosition = 7
+//            self.backgroundSettings.name = "closeSettings"
+//            self.backgroundSettings.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+//
+//            self.settingsBackground.zPosition = 8
+//            self.settingsBackground.position = CGPoint(x: self.size.width*0.5, y: self.size.height*0.5)
+//            self.settingsBackground.xScale = self.size.width*0.0011
+//            self.settingsBackground.yScale = self.size.width*0.0011
+//
+//            self.impostazioniLabel.zPosition = 9
+//            self.impostazioniLabel.position = CGPoint(x: self.size.width*0.51, y: self.size.height*0.64)
+//            self.impostazioniLabel.xScale = self.size.width*0.0005
+//            self.impostazioniLabel.yScale = self.size.width*0.0005
+//            self.impostazioniLabel.name = "impostazioniLabel"
+//
+//            self.musicIcon.position = CGPoint(x: self.size.width*0.675, y: self.size.height*0.55)
+//            self.musicIcon.zPosition = 9
+//            self.musicIcon.xScale = self.size.width*0.0005
+//            self.musicIcon.yScale = self.size.width*0.0005
+//            self.musicIcon.name = "musicButton"
+//
+//            self.sfxButton.position = CGPoint(x: self.size.width*0.38, y: self.size.height*0.55)
+//            self.sfxButton.zPosition = 9
+//            self.sfxButton.xScale = self.size.width*0.0005
+//            self.sfxButton.yScale = self.size.width*0.0005
+//            self.sfxButton.name = "sfxButton"
+//
+//            self.languageButton.position = CGPoint(x: self.size.width*0.51, y: self.size.height*0.43)
+//            self.languageButton.zPosition = 9
+//            self.languageButton.xScale = self.size.width*0.00035
+//            self.languageButton.yScale = self.size.width*0.00035
+//            self.languageButton.name = "languageButton"
+//
+//
+//            self.closeSettingsButton.zPosition = 9
+//            self.closeSettingsButton.xScale = self.size.width*0.0007
+//            self.closeSettingsButton.yScale = self.size.width*0.0007
+//            self.closeSettingsButton.position = CGPoint(x: self.size.width*0.51, y: self.size.height*0.31)
+//            self.closeSettingsButton.name = "closeSettings"
+//
+//
+//            //Aggiungo gli elementi alla scena
+//            self.addChild(self.door)
+//            self.addChild(self.gameTitleWithReflection)
+//            self.addChild(self.playButton)
+//            self.addChild(self.settingsButton)
+//
+//
+//
+//            //Avvio la musica
+//            musicHandler.instance.playBackgroundMusicMenu()
+//
+//            self.blackCover.removeFromParent()
+//        })
+        
         backgroundScreen.size.width = size.width
         backgroundScreen.size.height = size.height
         backgroundScreen.position = CGPoint(x: size.width*0.5,y: size.height*0.5)
         addChild(backgroundScreen)
-        
+
         backgroundScreenBottomPart.position = CGPoint(x: size.width*0.5,y: size.height*0.15)
         backgroundScreenBottomPart.fillColor = .black
         backgroundScreenBottomPart.strokeColor = .black
         addChild(backgroundScreenBottomPart)
-        
+
         door.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
         door.xScale = 0.3
         door.yScale = 0.3
-        
-//        houseSpriteMenuMirrored.position = CGPoint(x: size.width*0.5, y: size.height*0.055)
-//        houseSpriteMenuMirrored.alpha = 0.2
-//        houseSpriteMenuMirrored.zRotation = 3.14
-//        houseSpriteMenuMirrored.xScale = -1
-//
+
         playButton.position = CGPoint(x: size.width*0.5,y: size.height*0.1)
         playButton.size = CGSize(width: size.width*0.25, height: size.width*0.25)
         playButton.name = "playGameName"
-        
+
         gameTitleWithReflection.position = CGPoint(x: size.width*0.5, y: size.height*0.85)
         gameTitleWithReflection.xScale = 0.3
         gameTitleWithReflection.yScale = 0.3
 
-        
+
         //Impostazioni relative al menu di opzioni
         settingsButton.position = CGPoint(x: size.width*0.89, y: size.height*0.92)
         settingsButton.xScale = size.width*0.0002
         settingsButton.yScale = size.width*0.0002
         settingsButton.name = "settingsButton"
-        
+
         backgroundSettings.fillColor = .black
         backgroundSettings.strokeColor = .black
         backgroundSettings.alpha = 0.45
         backgroundSettings.zPosition = 7
         backgroundSettings.name = "closeSettings"
         backgroundSettings.position = CGPoint(x: size.width*0.5, y: size.height*0.5)
-        
+
         settingsBackground.zPosition = 8
         settingsBackground.position = CGPoint(x: size.width*0.5, y:size.height*0.5)
         settingsBackground.xScale = size.width*0.0011
         settingsBackground.yScale = size.width*0.0011
 
-        
-        
         impostazioniLabel.zPosition = 9
         impostazioniLabel.position = CGPoint(x: size.width*0.51, y: size.height*0.64)
         impostazioniLabel.xScale = size.width*0.0005
         impostazioniLabel.yScale = size.width*0.0005
         impostazioniLabel.name = "impostazioniLabel"
-        
+
         musicIcon.position = CGPoint(x: size.width*0.675, y: size.height*0.55)
         musicIcon.zPosition = 9
         musicIcon.xScale = size.width*0.0005
         musicIcon.yScale = size.width*0.0005
         musicIcon.name = "musicButton"
-        
+
         sfxButton.position = CGPoint(x: size.width*0.38, y: size.height*0.55)
         sfxButton.zPosition = 9
         sfxButton.xScale = size.width*0.0005
         sfxButton.yScale = size.width*0.0005
         sfxButton.name = "sfxButton"
-        
+
         languageButton.position = CGPoint(x: size.width*0.51, y: size.height*0.43)
         languageButton.zPosition = 9
         languageButton.xScale = size.width*0.00035
         languageButton.yScale = size.width*0.00035
         languageButton.name = "languageButton"
-        
-        
+
+
         closeSettingsButton.zPosition = 9
         closeSettingsButton.xScale = size.width*0.0007
         closeSettingsButton.yScale = size.width*0.0007
         closeSettingsButton.position = CGPoint(x: size.width*0.51, y: size.height*0.31)
         closeSettingsButton.name = "closeSettings"
-        
-        
+
+
         //Aggiungo gli elementi alla scena
         addChild(door)
-//        addChild(houseSpriteMenuMirrored)
-       addChild(gameTitleWithReflection)
+        addChild(gameTitleWithReflection)
         addChild(playButton)
         addChild(settingsButton)
-   
         
-        
+        blackCover.run(SKAction.fadeOut(withDuration: 1), completion: {
+            musicHandler.instance.playBackgroundMusicMenu()
+            self.blackCover.removeFromParent()
+        })
+
         //Avvio la musica
-        musicHandler.instance.playBackgroundMusicMenu()
+//        musicHandler.instance.playBackgroundMusicMenu()
     }
     
     
