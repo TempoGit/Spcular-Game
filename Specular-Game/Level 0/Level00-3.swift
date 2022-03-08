@@ -284,58 +284,34 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         }
         
         if(touchedNode.name == "infoButton"){
-            stopScene = true
-            let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.3)
-            let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.3)
-//            self.isPaused = true
-            if (LanguageHandler.instance.language == "English"){
-                infoText.text = LanguageHandler.instance.infoTextOneEnglish
-                infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
-            } else if (LanguageHandler.instance.language == "Italian"){
-                infoText.text = LanguageHandler.instance.infoTextOneItalian
-                infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+            if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
+                stopScene = true
+                let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.3)
+                let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.3)
+                if (LanguageHandler.instance.language == "English"){
+                    infoText.text = LanguageHandler.instance.infoTextOneEnglish
+                    infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
+                } else if (LanguageHandler.instance.language == "Italian"){
+                    infoText.text = LanguageHandler.instance.infoTextOneItalian
+                    infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+                }
+                infoText.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.32)
+                UIAnimationsHandler.instance.infoOverlayPopUpAnimation(size: size, cameraNode: cameraNode, infoBackground: infoBackground, infoText: infoText, infoOpacityOverlay: infoOpacityOverlay)
             }
-            cameraNode.addChild(infoOpacityOverlay)
-            cameraNode.addChild(infoBackground)
-            infoBackground.xScale = 0
-            infoBackground.yScale = 0
-            self.infoBackground.run(xScaleAction)
-            self.infoBackground.run(yScaleAction, completion: {
-                self.cameraNode.addChild(self.infoText)
-            })
-
         }
         if(touchedNode.name == "closeInfo"){
-            let xScaleClose = SKAction.scaleX(to: 0, duration: 0.5)
-            let yScaleClose = SKAction.scaleY(to: 0, duration: 0.5)
-            let rotation = SKAction.rotate(byAngle: 3.14*360/180, duration: 0.5)
-            
             if(infoNavigation){
-                infoText.removeFromParent()
-                cameraNode.addChild(infoText2)
+                infoText.text = infoText2.text
+                infoText.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
                 infoNavigation = false
             } else {
-                self.infoOpacityOverlay.removeFromParent()
-                self.infoBackground.removeFromParent()
-                self.infoText.removeFromParent()
-                self.infoText2.removeFromParent()
-                self.infoNavigation = true
-                self.stopScene = false
-//                infoText2.run(xScaleClose)
-//                infoText2.run(yScaleClose)
-//                infoText2.run(rotation)
-//                infoBackground.run(xScaleClose)
-//                infoBackground.run(yScaleClose)
-//                infoBackground.run(rotation, completion: {
-//                    self.infoOpacityOverlay.removeFromParent()
-//                    self.infoBackground.removeFromParent()
-//                    self.infoText.removeFromParent()
-//                    self.infoText2.removeFromParent()
-//                    self.infoNavigation = true
-//    //                self.isPaused = false
-//                    self.stopScene = false
-//                })
-                
+                if(UIAnimationsHandler.instance.fullOpen && UIAnimationsHandler.instance.itemInteractible){
+                    UIAnimationsHandler.instance.infoOverlayRemoveAnimation(infoBackground: infoBackground, infoText: infoText, infoOpacityOverlay: infoOpacityOverlay)
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                        self.stopScene = false
+                        self.infoNavigation = true
+                    })
+                }
             }
         }
         
@@ -371,43 +347,57 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         }
         
         if(touchedNode.name == "diary" && characterFeetCollider.frame.intersects(diaryZoneInteractionCollider.frame)){
-            stopScene = true
-//            cameraNode.addChild(keyLabel1)
-            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
-            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
-            if(LanguageHandler.instance.language == "English"){
-//                self.isPaused = true
-                infoDiary.text = LanguageHandler.instance.objectiveEnglishDiary
-                infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
-                infoDiaryy2.text = LanguageHandler.instance.objectiveEnglishDiary2
-            }else
-            if(LanguageHandler.instance.language == "Italian"){
-                infoDiary.text = LanguageHandler.instance.objectiveItalianDiary
-                infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
-                infoDiaryy2.text = LanguageHandler.instance.objectiveItalianDiary2
+            if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
+                stopScene = true
+                if(LanguageHandler.instance.language == "English"){
+                    infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
+                }else if(LanguageHandler.instance.language == "Italian"){
+                    infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
+                }
+                UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescription, infoText: infoDiary1, infoOpacityOverlay: infoOpacityOverlayDiary)
             }
-            overlayDescription.xScale = 0
-            overlayDescription.yScale = 0
-            cameraNode.addChild(infoOpacityOverlayDiary)
-            cameraNode.addChild(overlayDescription)
-            overlayDescription.run(xScaleInfo)
-            overlayDescription.run(yScaleInfo, completion: {
-                self.cameraNode.addChild(self.infoDiary)
-                self.cameraNode.addChild(self.infoDiary1)
-                self.cameraNode.addChild(self.infoDiaryy2)
-            })
-            cameraNode.addChild(tappableQuit)
+            
+//            stopScene = true
+//            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
+//            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
+//            if(LanguageHandler.instance.language == "English"){
+//                infoDiary.text = LanguageHandler.instance.objectiveEnglishDiary
+//                infoDiary1.text = LanguageHandler.instance.objectiveEnglishDiary1
+//                infoDiaryy2.text = LanguageHandler.instance.objectiveEnglishDiary2
+//            }else
+//            if(LanguageHandler.instance.language == "Italian"){
+//                infoDiary.text = LanguageHandler.instance.objectiveItalianDiary
+//                infoDiary1.text = LanguageHandler.instance.objectiveItalianDiary1
+//                infoDiaryy2.text = LanguageHandler.instance.objectiveItalianDiary2
+//            }
+//            overlayDescription.xScale = 0
+//            overlayDescription.yScale = 0
+//            cameraNode.addChild(infoOpacityOverlayDiary)
+//            cameraNode.addChild(overlayDescription)
+//            overlayDescription.run(xScaleInfo)
+//            overlayDescription.run(yScaleInfo, completion: {
+//                self.cameraNode.addChild(self.infoDiary)
+//                self.cameraNode.addChild(self.infoDiary1)
+//                self.cameraNode.addChild(self.infoDiaryy2)
+//            })
+//            cameraNode.addChild(tappableQuit)
         }
         
         if(touchedNode.name == "overlayDescription"){
-            stopScene = false
+            if(UIAnimationsHandler.instance.fullOpen && UIAnimationsHandler.instance.itemInteractible){
+                UIAnimationsHandler.instance.removePopUpAnimation(overlayNode: overlayDescription, infoText: infoDiary1, infoOpacityOverlay: infoOpacityOverlayDiary)
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                    self.stopScene = false
+                })
+            }
+//            stopScene = false
 //            self.isPaused = false
-            infoOpacityOverlayDiary.removeFromParent()
-            infoDiary.removeFromParent()
-            infoDiary1.removeFromParent()
-            infoDiaryy2.removeFromParent()
-            overlayDescription.removeFromParent()
-            tappableQuit.removeFromParent()
+//            infoOpacityOverlayDiary.removeFromParent()
+//            infoDiary.removeFromParent()
+//            infoDiary1.removeFromParent()
+//            infoDiaryy2.removeFromParent()
+//            overlayDescription.removeFromParent()
+//            tappableQuit.removeFromParent()
         }
         
         

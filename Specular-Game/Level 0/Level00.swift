@@ -368,7 +368,6 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         
         if(touchedNode.name == "furniture" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-                    print("boxes collision")
             if(!Level0VariableHadnler.instance.interaction && !Level0VariableHadnler.instance.dollObject){
                 Level0VariableHadnler.instance.dollObject = true
                 Level0VariableHadnler.instance.interaction = true
@@ -391,6 +390,7 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                         }
                         wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
                 Level0VariableHadnler.instance.interaction = false
+                Level0VariableHadnler.instance.wardrobeRoom1CanOpen = false
                         dollLable.removeFromParent()
                 Level0VariableHadnler.instance.dollObject = true
                         doll.zPosition = 1
@@ -399,50 +399,24 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-            if(!UIAnimationsHandler.instance.dollInteractible){
-                print("bambola interazione")
+            if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
                 stopScene = true
-    //            self.isPaused = true
-    //            let xScaleInfo = SKAction.scaleX(to: size.width*0.0012, duration: 0.3)
-    //            let yScaleInfo = SKAction.scaleY(to: size.width*0.0012, duration: 0.3)
                 if(LanguageHandler.instance.language == "English"){
                     infoDoll.text = LanguageHandler.instance.objectiveEnglishDoll
-    //                infoDoll1.text = LanguageHandler.instance.objectiveEnglishDoll1
-    //                infoDoll2.text = LanguageHandler.instance.objectiveEnglishDoll2
-                }else
-                if(LanguageHandler.instance.language == "Italian"){
+                }else if(LanguageHandler.instance.language == "Italian"){
                     infoDoll.text = LanguageHandler.instance.objectiveItalianDoll
-    //                infoDoll1.text = LanguageHandler.instance.objectiveItalianDoll1
-    //                infoDoll2.text = LanguageHandler.instance.objectiveItalianDoll2
                 }
-    //            overlayDescription.xScale = 0
-    //            overlayDescription.yScale = 0
-    //            cameraNode.addChild(infoDoll)
-    //            cameraNode.addChild(infoDoll1)
-    //            cameraNode.addChild(infoDoll2)
-    //            cameraNode.addChild(infoOpacityOverlayKey)
-    //            cameraNode.addChild(overlayDescription)
-    //            overlayDescription.run(xScaleInfo)
-    //            overlayDescription.run(yScaleInfo, completion: {
-    //                self.cameraNode.addChild(self.infoDoll)
-    //            })
-//                dollInteractible = true
                 UIAnimationsHandler.instance.itemPopUpAnimation(size: size, cameraNode: cameraNode, overlayNode: overlayDescription, infoText: infoDoll, infoOpacityOverlay: infoOpacityOverlayKey)
             }
         }
         if(touchedNode.name == "overlayDescription"){
-            if(UIAnimationsHandler.instance.dollInteractible){
-                stopScene = false
+            if(UIAnimationsHandler.instance.fullOpen && UIAnimationsHandler.instance.itemInteractible){
                 UIAnimationsHandler.instance.removePopUpAnimation(overlayNode: overlayDescription, infoText: infoDoll, infoOpacityOverlay: infoOpacityOverlayKey)
-    //            infoDoll.removeFromParent()
-    //            infoDoll1.removeFromParent()
-    //            infoDoll2.removeFromParent()
-    //            infoOpacityOverlayKey.removeFromParent()
-    //            overlayDescription.removeFromParent()
-    //            bigOverlay.removeFromParent()
-//                stopScene = false
-    //            self.isPaused = false
+                DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                    self.stopScene = false
+                })
             }
+
         }
         //Se premo sul bottone di pausa vado a mettere la scena in pausa, dopodichè faccio un controllo: nel caso in cui la variabile firstSet sia impostata a falsa significa che da quando ho aperto l'applicazione ancora non ho impostato nessuna volta la posizione degli elementi del menu di pausa, quindi procedo a farlo e dopodichè richiamo la funzione initializeNodeSettings() che nel caso in cui sia la prima volta che è richiamata fa tutte le impostazioni del caso del menu di pausa e poi mette la variabile firstSet a true, altrimenti si occupa solamente di impostare la trasparenza dei bottoni dell'attivazione e disattivazione della musica.
         //Fatto questo quello che faccio è caricare il menu di pausa nella scena aggiungengo i nodi al cameraNode
@@ -614,43 +588,37 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         
         if(touchedNode.name == "infoButton"){
-//            self.isPaused = true
-            stopScene = true
-            let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.3)
-            let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.3)
-            if (LanguageHandler.instance.language == "English"){
-                infoText.text = LanguageHandler.instance.infoTextOneEnglish
-                infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
-            } else if (LanguageHandler.instance.language == "Italian"){
-                infoText.text = LanguageHandler.instance.infoTextOneItalian
-                infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+            if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
+                stopScene = true
+                let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.3)
+                let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.3)
+                if (LanguageHandler.instance.language == "English"){
+                    infoText.text = LanguageHandler.instance.infoTextOneEnglish
+                    infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
+                } else if (LanguageHandler.instance.language == "Italian"){
+                    infoText.text = LanguageHandler.instance.infoTextOneItalian
+                    infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+                }
+                infoText.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.32)
+                UIAnimationsHandler.instance.infoOverlayPopUpAnimation(size: size, cameraNode: cameraNode, infoBackground: infoBackground, infoText: infoText, infoOpacityOverlay: infoOpacityOverlay)
             }
-            cameraNode.addChild(infoOpacityOverlay)
-            cameraNode.addChild(infoBackground)
-            infoBackground.xScale = 0
-            infoBackground.yScale = 0
-            self.infoBackground.run(xScaleAction)
-            self.infoBackground.run(yScaleAction, completion: {
-                self.cameraNode.addChild(self.infoText)
-            })
-
         }
         if(touchedNode.name == "closeInfo"){
             if(infoNavigation){
-                infoText.removeFromParent()
-                cameraNode.addChild(infoText2)
+                infoText.text = infoText2.text
+                infoText.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
                 infoNavigation = false
             } else {
-                infoOpacityOverlay.removeFromParent()
-                infoBackground.removeFromParent()
-                infoText.removeFromParent()
-                infoText2.removeFromParent()
-                infoNavigation = true
-                if(firstOpening){
-                    firstOpening = false
+                if(UIAnimationsHandler.instance.fullOpen && UIAnimationsHandler.instance.itemInteractible){
+                    UIAnimationsHandler.instance.infoOverlayRemoveAnimation(infoBackground: infoBackground, infoText: infoText, infoOpacityOverlay: infoOpacityOverlay)
+                    DispatchQueue.main.asyncAfter(deadline: .now()+0.3, execute: {
+                        self.stopScene = false
+                        self.infoNavigation = true
+                        if(self.firstOpening){
+                            self.firstOpening = false
+                        }
+                    })
                 }
-                stopScene = false
-//                self.isPaused = false
             }
         }
         
@@ -716,18 +684,22 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         //N.B.: Per cambiare la velocità di movimento basta cambiare il valore dopo i +=
         if(!stopScene){
             if(characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame)){
-                blurWardrobe.alpha = 0.8
-                    }else{
+//                print("Furniture \(Level0VariableHadnler.instance.interaction)")
+                if(!Level0VariableHadnler.instance.dollObject || Level0VariableHadnler.instance.wardrobeRoom1CanOpen){
+                    blurWardrobe.alpha = 0.8
+                }else {
+                    blurWardrobe.alpha = 0.01
+                }}else{
                         blurWardrobe.alpha = 0.01
-                    }
+                }
             if(characterFeetCollider.frame.intersects(box2Collider.frame)){
                 blurBoxes.alpha = 0.8
             }else{
                 blurBoxes.alpha = 0.01
             }
-            if(Level0VariableHadnler.instance.dollObject ){
-                blurWardrobe.removeFromParent()
-           }
+//            if(Level0VariableHadnler.instance.dollObject ){
+//                blurWardrobe.removeFromParent()
+//            }
 
             
             CharacterMovementHandler.instance.characterMovement(characterFeetCollider: characterFeetCollider, characterAvatar: characterAvatar)
@@ -1089,11 +1061,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         infoText.zPosition = 102
         infoText.name = "closeInfo"
         infoText.fontSize = size.width*0.05
-        infoText.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.2)
+//        infoText.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.2)
         infoText2.zPosition = 102
         infoText2.name = "closeInfo"
         infoText2.fontSize = size.width*0.05
-        infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
+//        infoText2.position = CGPoint(x: -gameArea.size.width*0, y: gameArea.size.height*0.1)
 
         
         
