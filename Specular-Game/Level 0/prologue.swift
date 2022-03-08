@@ -52,13 +52,13 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
     
     override func didMove(to view: SKView) {
         
-        addChild(settingsBackground)
-        addChild(backgroundSettings)
-        addChild(impostazioniLabel)
-        addChild(musicIcon)
-        addChild(sfxButton)
-        addChild(languageButton)
-        addChild(closeSettingsButton)
+//        addChild(settingsBackground)
+//        addChild(backgroundSettings)
+//        addChild(impostazioniLabel)
+//        addChild(musicIcon)
+//        addChild(sfxButton)
+//        addChild(languageButton)
+//        addChild(closeSettingsButton)
     
         addChild(pauseButton)
         setUp()
