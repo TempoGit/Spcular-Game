@@ -142,6 +142,7 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
             
             if (touchedNode.name == "languageButton"){
                 if(LanguageHandler.instance.language == "English"){
+                    prologueText.text = LanguageHandler.instance.prologueTextItalian
                     LanguageHandler.instance.language = "Italian"
                     languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
                     closeSettingsButton.removeFromParent()
@@ -149,6 +150,7 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
                     impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
                     addChild(closeSettingsButton)
                 } else if(LanguageHandler.instance.language == "Italian"){
+                    prologueText.text = LanguageHandler.instance.prologueTextEnglish
                     LanguageHandler.instance.language = "English"
                     closeSettingsButton.removeFromParent()
                     closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
