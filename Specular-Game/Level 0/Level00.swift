@@ -235,17 +235,31 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         blackCover.run(fadeOutAction, completion: {
             musicHandler.instance.playBackgroundMusic()
             if(self.firstOpening){
-                self.stopScene = true
-                let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.5)
-                let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.5)
-                self.infoBackground.xScale = 0
-                self.infoBackground.yScale = 0
-                self.cameraNode.addChild(self.infoOpacityOverlay)
-                self.cameraNode.addChild(self.infoBackground)
-                self.infoBackground.run(xScaleAction)
-                self.infoBackground.run(yScaleAction, completion: {
-                    self.cameraNode.addChild(self.infoText)
-                })
+                if(!UIAnimationsHandler.instance.itemInteractible && !UIAnimationsHandler.instance.fullOpen){
+                    self.stopScene = true
+                    let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.3)
+                    let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.3)
+                    if (LanguageHandler.instance.language == "English"){
+                        self.infoText.text = LanguageHandler.instance.infoTextOneEnglish
+                        self.infoText2.text = LanguageHandler.instance.infoTextTwoEnglish
+                    } else if (LanguageHandler.instance.language == "Italian"){
+                        self.infoText.text = LanguageHandler.instance.infoTextOneItalian
+                        self.infoText2.text = LanguageHandler.instance.infoTextTwoItalian
+                    }
+                    self.infoText.position = CGPoint(x: -self.gameArea.size.width*0, y: -self.gameArea.size.height*0.32)
+                    UIAnimationsHandler.instance.infoOverlayPopUpAnimation(size: self.size, cameraNode: self.cameraNode, infoBackground: self.infoBackground, infoText: self.infoText, infoOpacityOverlay: self.infoOpacityOverlay)
+                }
+//                self.stopScene = true
+//                let xScaleAction = SKAction.scaleX(to: self.size.width*0.0017, duration: 0.5)
+//                let yScaleAction = SKAction.scaleY(to: self.size.width*0.0008, duration: 0.5)
+//                self.infoBackground.xScale = 0
+//                self.infoBackground.yScale = 0
+//                self.cameraNode.addChild(self.infoOpacityOverlay)
+//                self.cameraNode.addChild(self.infoBackground)
+//                self.infoBackground.run(xScaleAction)
+//                self.infoBackground.run(yScaleAction, completion: {
+//                    self.cameraNode.addChild(self.infoText)
+//                })
             }
         })
         
