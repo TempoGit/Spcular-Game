@@ -11,7 +11,7 @@ import SwiftUI
 
 
 class Prologue: SKScene, SKPhysicsContactDelegate{
-    let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
+//    let pauseButton = SKSpriteNode(imageNamed: "PauseButton")
     
     let gameArea: CGRect
     let blackCover = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))
@@ -60,7 +60,7 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
 //        addChild(languageButton)
 //        addChild(closeSettingsButton)
     
-        addChild(pauseButton)
+//        addChild(pauseButton)
         setUp()
 
         self.addChild(self.blackScreenBackground)
@@ -86,89 +86,89 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
             self.view?.presentScene(startGameScene)
         }
         
-        if(touchedNode.name == "pause"){
+//        if(touchedNode.name == "pause"){
+//
+//            if(musicHandler.instance.mutedMusic == true){
+//                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
+//            } else if (musicHandler.instance.mutedMusic == false){
+//                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
+//            }
+//
+//            if(musicHandler.instance.mutedSFX == true){
+//                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOff")))
+//            } else if (musicHandler.instance.mutedSFX == false){
+//                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
+//            }
+//
+//            if(LanguageHandler.instance.language == "Italian"){
+//                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
+//                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
+//                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
+//            } else if(LanguageHandler.instance.language == "English") {
+//                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
+//                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
+//                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
+//            }
+//
+//            addChild(settingsBackground)
+//            addChild(backgroundSettings)
+//            addChild(impostazioniLabel)
+//            addChild(musicIcon)
+//            addChild(sfxButton)
+//            addChild(languageButton)
+//            addChild(closeSettingsButton)
+//
+//        }
             
-            if(musicHandler.instance.mutedMusic == true){
-                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
-            } else if (musicHandler.instance.mutedMusic == false){
-                musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
-            }
+//            if(touchedNode.name == "musicButton"){
+//                if(musicHandler.instance.mutedMusic == true){
+//                    musicHandler.instance.unmuteBackgroundMusic()
+//                    musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
+//                } else if (!musicHandler.instance.mutedMusic){
+//                    musicHandler.instance.muteBackgroundMusic()
+//                    musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
+//                }
+//            }
             
-            if(musicHandler.instance.mutedSFX == true){
-                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOff")))
-            } else if (musicHandler.instance.mutedSFX == false){
-                sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
-            }
+//            if(touchedNode.name == "sfxButton"){
+//                if(musicHandler.instance.mutedSFX == true){
+//                    musicHandler.instance.unmuteSfx()
+//                    sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
+//                } else if (!musicHandler.instance.mutedSFX){
+//                    musicHandler.instance.muteSfx()
+//                    sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOff")))
+//                }
+//            }
             
-            if(LanguageHandler.instance.language == "Italian"){
-                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
-                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
-                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
-            } else if(LanguageHandler.instance.language == "English") {
-                languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
-                closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
-                impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
-            }
+//            if (touchedNode.name == "languageButton"){
+//                if(LanguageHandler.instance.language == "English"){
+//                    prologueText.text = LanguageHandler.instance.prologueTextItalian
+//                    LanguageHandler.instance.language = "Italian"
+//                    languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
+//                    closeSettingsButton.removeFromParent()
+//                    closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
+//                    impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
+//                    addChild(closeSettingsButton)
+//                } else if(LanguageHandler.instance.language == "Italian"){
+//                    prologueText.text = LanguageHandler.instance.prologueTextEnglish
+//                    LanguageHandler.instance.language = "English"
+//                    closeSettingsButton.removeFromParent()
+//                    closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
+//                    addChild(closeSettingsButton)
+//                    languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
+//                    impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
+//                }
+//            }
             
-            addChild(settingsBackground)
-            addChild(backgroundSettings)
-            addChild(impostazioniLabel)
-            addChild(musicIcon)
-            addChild(sfxButton)
-            addChild(languageButton)
-            addChild(closeSettingsButton)
-            
-        }
-            
-            if(touchedNode.name == "musicButton"){
-                if(musicHandler.instance.mutedMusic == true){
-                    musicHandler.instance.unmuteBackgroundMusic()
-                    musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOn")))
-                } else if (!musicHandler.instance.mutedMusic){
-                    musicHandler.instance.muteBackgroundMusic()
-                    musicIcon.run(SKAction.setTexture(SKTexture(imageNamed: "MusicOff")))
-                }
-            }
-            
-            if(touchedNode.name == "sfxButton"){
-                if(musicHandler.instance.mutedSFX == true){
-                    musicHandler.instance.unmuteSfx()
-                    sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOn")))
-                } else if (!musicHandler.instance.mutedSFX){
-                    musicHandler.instance.muteSfx()
-                    sfxButton.run(SKAction.setTexture(SKTexture(imageNamed: "SfxOff")))
-                }
-            }
-            
-            if (touchedNode.name == "languageButton"){
-                if(LanguageHandler.instance.language == "English"){
-                    prologueText.text = LanguageHandler.instance.prologueTextItalian
-                    LanguageHandler.instance.language = "Italian"
-                    languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "ItalianFlag")))
-                    closeSettingsButton.removeFromParent()
-                    closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Chiudi")))
-                    impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "ImpostazioniITA")))
-                    addChild(closeSettingsButton)
-                } else if(LanguageHandler.instance.language == "Italian"){
-                    prologueText.text = LanguageHandler.instance.prologueTextEnglish
-                    LanguageHandler.instance.language = "English"
-                    closeSettingsButton.removeFromParent()
-                    closeSettingsButton.run(SKAction.setTexture(SKTexture(imageNamed: "Close")))
-                    addChild(closeSettingsButton)
-                    languageButton.run(SKAction.setTexture(SKTexture(imageNamed: "EnglishFlag")))
-                    impostazioniLabel.run(SKAction.setTexture(SKTexture(imageNamed: "Settings")))
-                }
-            }
-            
-            if(touchedNode.name == "closeSettings"){
-                backgroundSettings.removeFromParent()
-                settingsBackground.removeFromParent()
-                impostazioniLabel.removeFromParent()
-                musicIcon.removeFromParent()
-                sfxButton.removeFromParent()
-                languageButton.removeFromParent()
-                closeSettingsButton.removeFromParent()
-            }
+//            if(touchedNode.name == "closeSettings"){
+//                backgroundSettings.removeFromParent()
+//                settingsBackground.removeFromParent()
+//                impostazioniLabel.removeFromParent()
+//                musicIcon.removeFromParent()
+//                sfxButton.removeFromParent()
+//                languageButton.removeFromParent()
+//                closeSettingsButton.removeFromParent()
+//            }
            
 
             
@@ -208,11 +208,11 @@ class Prologue: SKScene, SKPhysicsContactDelegate{
         tapToContinue.alpha = 0.01
         tapToContinue.zPosition = 5
         
-        pauseButton.name = "pause"
-        pauseButton.position = CGPoint(x: size.width*0.1, y: size.height*0.94)
-        pauseButton.zPosition = 6
-        pauseButton.xScale = 0.05
-        pauseButton.yScale = 0.05
+//        pauseButton.name = "pause"
+//        pauseButton.position = CGPoint(x: size.width*0.1, y: size.height*0.94)
+//        pauseButton.zPosition = 6
+//        pauseButton.xScale = size.width*0.0001
+//        pauseButton.yScale = size.width*0.0001
         
         settingsButton.position = CGPoint(x: size.width*0.89, y: size.height*0.92)
         settingsButton.xScale = size.width*0.0002

@@ -797,6 +797,7 @@ class Level00_2: SKScene, SKPhysicsContactDelegate {
             characterAvatar.zPosition = 10
             lamp.zPosition = 11
             frame1.zPosition = 12
+            blurFurniture.zPosition = 11
         } else {
             if(lampCollided){
                 lampCollided = false
