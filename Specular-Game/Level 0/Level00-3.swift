@@ -666,10 +666,10 @@ class Level00_3: SKScene, SKPhysicsContactDelegate{
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
         if(previousRoom == "Room2"){
-            characterFeetCollider.position = CGPoint(x: size.width*0,y: size.height*0.4)
+            characterFeetCollider.position = CGPoint(x: size.width*0,y: size.height*0.3)
             characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopRight")))
         }else {
-            characterFeetCollider.position = CGPoint(x: size.width*1.18,y: size.height*0.3)
+            characterFeetCollider.position = CGPoint(x: size.width*1.18,y: size.height*0.2)
         }
         characterFeetCollider.xScale = size.width*0.001
         characterFeetCollider.yScale = size.width*0.001

@@ -504,16 +504,16 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
     func roomSetUp(){
 //        setup character
         characterAvatar.anchorPoint = CGPoint(x: 0.5,y: 0)
-        characterAvatar.xScale = 0.14
-        characterAvatar.yScale = 0.14
+        characterAvatar.xScale = size.width*0.0004
+        characterAvatar.yScale = size.width*0.0004
         characterAvatar.zPosition = 5
         characterAvatar.name = "player"
         if(previousRoom == "Room4"){
-            characterFeetCollider.position = CGPoint(x: -size.width*0.2,y: size.height*0.2)
+            characterFeetCollider.position = CGPoint(x: -size.width*0.2,y: size.height*0.1)
             characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopRight")))
         }
-        characterFeetCollider.xScale = 0.5
-        characterFeetCollider.yScale = 0.5
+        characterFeetCollider.xScale = size.width*0.002
+        characterFeetCollider.yScale = size.width*0.002
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
         characterFeetCollider.physicsBody?.affectedByGravity = false
         characterFeetCollider.physicsBody?.restitution = 0
@@ -527,17 +527,17 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         pauseButton.name = "pause"
         pauseButton.position = CGPoint(x: -gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
         pauseButton.zPosition = 30
-        pauseButton.xScale = 0.05
-        pauseButton.yScale = 0.05
+        pauseButton.xScale = size.width*0.0001
+        pauseButton.yScale = size.width*0.0001
 //        setup room
         room.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        room.xScale = 0.4
-        room.yScale = 0.4
+        room.xScale = size.width*0.001
+        room.yScale = size.width*0.001
         room.zPosition = 1
 //        setup barrier
         barrierTopRT.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        barrierTopRT.xScale = 0.4
-        barrierTopRT.yScale = 0.4
+        barrierTopRT.xScale = size.width*0.001
+        barrierTopRT.yScale = size.width*0.001
         barrierTopRT.physicsBody = SKPhysicsBody(texture: barrierTopRT.texture!, size: barrierTopRT.size)
         barrierTopRT.physicsBody?.affectedByGravity = false
         barrierTopRT.physicsBody?.restitution = 0
@@ -548,8 +548,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierTopRT.alpha = 0.01
         barrierTopRT.name = "outerBarrier"
         barrierTopLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        barrierTopLF.xScale = 0.4
-        barrierTopLF.yScale = 0.4
+        barrierTopLF.xScale = size.width*0.001
+        barrierTopLF.yScale = size.width*0.001
         barrierTopLF.physicsBody = SKPhysicsBody(texture: barrierTopLF.texture!, size: barrierTopLF.size)
         barrierTopLF.physicsBody?.affectedByGravity = false
         barrierTopLF.physicsBody?.restitution = 0
@@ -560,8 +560,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierTopLF.alpha = 0.01
         barrierTopLF.name = "outerBarrier"
         barrierDownRT.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        barrierDownRT.xScale = 0.4
-        barrierDownRT.yScale = 0.4
+        barrierDownRT.xScale = size.width*0.001
+        barrierDownRT.yScale = size.width*0.001
         barrierDownRT.physicsBody = SKPhysicsBody(texture: barrierDownRT.texture!, size: barrierDownRT.size)
         barrierDownRT.physicsBody?.affectedByGravity = false
         barrierDownRT.physicsBody?.restitution = 0
@@ -572,8 +572,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierDownRT.alpha = 0.01
         barrierDownRT.name = "outerBarrier"
         barrierDownLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        barrierDownLF.xScale = 0.4
-        barrierDownLF.yScale = 0.4
+        barrierDownLF.xScale = size.width*0.001
+        barrierDownLF.yScale = size.width*0.001
         barrierDownLF.physicsBody = SKPhysicsBody(texture: barrierDownLF.texture!, size: barrierDownLF.size)
         barrierDownLF.physicsBody?.affectedByGravity = false
         barrierDownLF.physicsBody?.restitution = 0
@@ -585,8 +585,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         barrierDownLF.name = "outerBarrier"
 //        setup collider
         doorColliderLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        doorColliderLF.xScale = 0.4
-        doorColliderLF.yScale = 0.4
+        doorColliderLF.xScale = size.width*0.001
+        doorColliderLF.yScale = size.width*0.001
         doorColliderLF.physicsBody = SKPhysicsBody(texture: doorColliderLF.texture!, size: doorColliderLF.size)
         doorColliderLF.physicsBody?.affectedByGravity = false
         doorColliderLF.physicsBody?.restitution = 0
@@ -597,9 +597,9 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorColliderLF.alpha = 0.01
         doorColliderLF.name = "doorColliderLF"
         
-        colliderDoorClosed.position = CGPoint(x: size.width*0.1, y: size.height*0.4)
-        colliderDoorClosed.xScale = 0.6
-        colliderDoorClosed.yScale = 0.5
+        colliderDoorClosed.position = CGPoint(x: size.width*0.30, y: size.height*0.3)
+        colliderDoorClosed.xScale = size.width*0.001
+        colliderDoorClosed.yScale = size.width*0.001
         colliderDoorClosed.physicsBody = SKPhysicsBody(texture: colliderDoorClosed.texture!, size: colliderDoorClosed.size)
         colliderDoorClosed.physicsBody?.affectedByGravity = false
         colliderDoorClosed.physicsBody?.restitution = 0
@@ -607,12 +607,12 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         colliderDoorClosed.physicsBody?.isDynamic = false
         colliderDoorClosed.physicsBody?.categoryBitMask = PhysicsCategories.MapEdge
         colliderDoorClosed.physicsBody?.contactTestBitMask = PhysicsCategories.Player
-        colliderDoorClosed.alpha = 0.01
+        colliderDoorClosed.alpha = 0.0
        
         
         doorColliderRT.position = CGPoint(x: size.width*0.35, y: size.height*0.27)
-        doorColliderRT.xScale = 0.5
-        doorColliderRT.yScale = 0.4
+        doorColliderRT.xScale = size.width*0.001
+        doorColliderRT.yScale = size.width*0.001
         doorColliderRT.physicsBody = SKPhysicsBody(texture: doorColliderRT.texture!, size: doorColliderRT.size)
         doorColliderRT.physicsBody?.affectedByGravity = false
         doorColliderRT.physicsBody?.restitution = 0
@@ -624,13 +624,13 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorColliderRT.name = "doorColliderRT"
 //        setup boxes
         boxes.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        boxes.xScale = 0.4
-        boxes.yScale = 0.4
+        boxes.xScale = size.width*0.001
+        boxes.yScale = size.width*0.001
         boxes.zPosition = 3
 //        setup door left
         doorLF.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        doorLF.xScale = 0.4
-        doorLF.yScale = 0.4
+        doorLF.xScale = size.width*0.001
+        doorLF.yScale = size.width*0.001
         doorLF.zPosition = 3
         doorLF.name = "doorLF"
 //        setup door right
@@ -638,29 +638,29 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
 //        doorRTopen.xScale = 0.4
 //        doorRTopen.yScale = 0.4
         doorRTclosed.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        doorRTclosed.xScale = 0.4
-        doorRTclosed.yScale = 0.4
+        doorRTclosed.xScale = size.width*0.001
+        doorRTclosed.yScale = size.width*0.001
         doorRTclosed.alpha = 0.95
         
         halfWallBackground.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        halfWallBackground.xScale = 0.4
-        halfWallBackground.yScale = 0.4
+        halfWallBackground.xScale = size.width*0.001
+        halfWallBackground.yScale = size.width*0.001
         halfWallBackground.alpha = 0.8
         halfWallBackground.zPosition = 10
 //        setup lamp
         lamp.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        lamp.xScale = 0.4
-        lamp.yScale = 0.4
+        lamp.xScale = size.width*0.001
+        lamp.yScale = size.width*0.001
         lamp.zPosition = 3
 
         halfWallCollider.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        halfWallCollider.xScale = 0.4
-        halfWallCollider.yScale = 0.4
+        halfWallCollider.xScale = size.width*0.001
+        halfWallCollider.yScale = size.width*0.001
         halfWallCollider.alpha = 0.01
         
         boxCollider.position = CGPoint(x: size.width*0.3, y: size.height*0.3)
-        boxCollider.xScale = 0.4
-        boxCollider.yScale = 0.4
+        boxCollider.xScale = size.width*0.001
+        boxCollider.yScale = size.width*0.001
         boxCollider.physicsBody = SKPhysicsBody(texture: boxCollider.texture!, size: boxCollider.size)
         boxCollider.physicsBody?.affectedByGravity = false
         boxCollider.physicsBody?.restitution = 0
@@ -673,8 +673,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         iButton.name = "infoButton"
         iButton.zPosition = 35
         iButton.position = CGPoint(x: gameArea.size.width*0.4, y: gameArea.size.height*0.9 + CGFloat(10))
-        iButton.xScale = 0.05
-        iButton.yScale = 0.05
+        iButton.xScale = size.width*0.0001
+        iButton.yScale = size.width*0.0001
         
         infoOpacityOverlay.zPosition = 100
         infoOpacityOverlay.name = "closeInfo"
@@ -711,8 +711,8 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         infoText2.position = CGPoint(x: -gameArea.size.width*0, y: -gameArea.size.height*0.2)
         
         doorInteractionCollider.zPosition = 22
-        doorInteractionCollider.xScale = 0.5
-        doorInteractionCollider.yScale = 0.5
+        doorInteractionCollider.xScale = size.width*0.002
+        doorInteractionCollider.yScale = size.width*0.002
         doorInteractionCollider.position = CGPoint(x: size.width*0.9, y: size.height*0.05)
         doorInteractionCollider.alpha = 0.01
         doorInteractionCollider.name = "doorInteractionCollider"
@@ -733,10 +733,10 @@ class Level00_5: SKScene, SKPhysicsContactDelegate {
         doorLable.fontSize = size.width*0.04
         doorLable.zPosition = 150
         
-        blurDoor.position = CGPoint(x: size.width*0.3, y: size.height*0.27)
+        blurDoor.position = CGPoint(x: size.width*0.32, y: size.height*0.29)
         blurDoor.zPosition = 20
-        blurDoor.xScale = 1.6
-        blurDoor.yScale = 1.5
+        blurDoor.xScale = size.width*0.0039
+        blurDoor.yScale = size.width*0.0039
 //        blurDoor.alpha = 0.9
     }
 }

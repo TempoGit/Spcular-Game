@@ -617,8 +617,8 @@ class Level00_4: SKScene, SKPhysicsContactDelegate {
             characterFeetCollider.position = CGPoint(x: size.width*0.89,y: size.height*0.15)
             characterAvatar.run(SKAction.setTexture(SKTexture(imageNamed: "StopBackLeft")))
         }
-        characterFeetCollider.xScale = size.width*0.002
-        characterFeetCollider.yScale = size.width*0.002
+        characterFeetCollider.xScale = size.width*0.001
+        characterFeetCollider.yScale = size.width*0.001
         characterFeetCollider.physicsBody = SKPhysicsBody(texture: characterFeetCollider.texture!, size: characterFeetCollider.size)
         characterFeetCollider.physicsBody?.affectedByGravity = false
         characterFeetCollider.physicsBody?.restitution = 0
