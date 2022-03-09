@@ -368,34 +368,36 @@ class Level00: SKScene, SKPhysicsContactDelegate {
         
         
         if(touchedNode.name == "furniture" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
-            if(!Level0VariableHadnler.instance.interaction && !Level0VariableHadnler.instance.dollObject){
-                Level0VariableHadnler.instance.dollObject = true
-                Level0VariableHadnler.instance.interaction = true
-                        if(!musicHandler.instance.mutedSFX){
-                            run(sbattimento)
+            if(Level0VariableHadnler.instance.wardrobeRoom1CanOpen == true ){
+                if(!Level0VariableHadnler.instance.interaction && !Level0VariableHadnler.instance.dollObject){
+                    Level0VariableHadnler.instance.dollObject = true
+                    Level0VariableHadnler.instance.interaction = true
+                            if(!musicHandler.instance.mutedSFX){
+                                run(sbattimento)
+                            }
+                            wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
+                            cameraNode.addChild(dollLable)
+                            dollLable.run(SKAction.fadeOut(withDuration: 5))
+                            doll.zPosition = 20
+                            if(LanguageHandler.instance.language == "English"){
+                                dollLable.text = "What is this?"
+                            }else
+                            if(LanguageHandler.instance.language == "Italian"){
+                                dollLable.text = "Cos'è?"
+                            }
+                } else if (Level0VariableHadnler.instance.interaction && Level0VariableHadnler.instance.dollObject){
+                            if(!musicHandler.instance.mutedSFX){
+                                run(sbattimento)
+                            }
+                            wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
+                    Level0VariableHadnler.instance.interaction = false
+                    Level0VariableHadnler.instance.wardrobeRoom1CanOpen = false
+                            dollLable.removeFromParent()
+                    Level0VariableHadnler.instance.dollObject = true
+//                            doll.zPosition = 1
+                    doll.removeFromParent()
                         }
-                        wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeOpenRoom1")))
-                        cameraNode.addChild(dollLable)
-                        dollLable.run(SKAction.fadeOut(withDuration: 5))
-                        doll.zPosition = 20
-                        if(LanguageHandler.instance.language == "English"){
-                            dollLable.text = "What is this?"
-                        }else
-                        if(LanguageHandler.instance.language == "Italian"){
-                            dollLable.text = "Cos'è?"
-                        }
-            } else if (Level0VariableHadnler.instance.interaction && Level0VariableHadnler.instance.dollObject){
-                        if(!musicHandler.instance.mutedSFX){
-                            run(sbattimento)
-                        }
-                        wardrobe.run(SKAction.setTexture(SKTexture(imageNamed: "WardrobeClosedRoom1")))
-                Level0VariableHadnler.instance.interaction = false
-                Level0VariableHadnler.instance.wardrobeRoom1CanOpen = false
-                        dollLable.removeFromParent()
-                Level0VariableHadnler.instance.dollObject = true
-                        doll.zPosition = 1
-
-                    }
+            }
         }
         
         if(touchedNode.name == "bambola" && (characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider.frame) || characterFeetCollider.frame.intersects(wardrobeZoneInteractionCollider2.frame) || characterFeetCollider.frame.intersects(wardrobeTransparencyCollider.frame))){
@@ -745,6 +747,11 @@ class Level00: SKScene, SKPhysicsContactDelegate {
                     musicHandler.instance.pauseBackgroundMusic()
                     
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        
+                        if(Level0VariableHadnler.instance.dollObject == true){
+                            Level0VariableHadnler.instance.wardrobeRoom1CanOpen = false
+                        }
+                        
                         self.removeAllChildren()
                         
                         let room2 = Level00_2(size: self.size)
